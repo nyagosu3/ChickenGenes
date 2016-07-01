@@ -1,12 +1,12 @@
 package com.nyagosu.chickengenes;
 
-import cpw.mods.fml.common.IFuelHandler;
+import com.nyagosu.chickengenes.proxy.ServerProxy;
+
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 
 @Mod(
 		modid = "chickengenes",
@@ -17,6 +17,22 @@ import net.minecraft.item.ItemStack;
 	)
 
 public class ChickenGenesCore {
+	
+	@Mod.Instance("ChickenGenes")
+    public static ChickenGenesCore INSTANCE;
+	
+	@SidedProxy(clientSide="com.nyagosu.chickengenes.proxy.ClientProxy", serverSide="com.nyagosu.chickengenes.proxy.ServerProxy")
+	public static ServerProxy proxy;
+	
+	@EventHandler
+    public void preInit(FMLPostInitializationEvent event) {
+		
+    }
+	
+	@EventHandler
+    public void init(FMLInitializationEvent event) {
+		
+    }
 	
 	@EventHandler
     public void postInit(FMLPostInitializationEvent event) {
