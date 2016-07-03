@@ -44,7 +44,7 @@ public class GuiScreenChickenLoupe extends GuiScreen {
         separate_offset_x = offset_x + 114;
         value_offset_x = offset_x + 120;
         value_offset_base_y = 32;
-        value_line_height = 14;
+        value_line_height = 12;
         
         this.buttonList.add(this.buttonDone = new GuiButton(0, this.width / 2 - 100, 4 + this.bookImageHeight, 200, 20, I18n.format("gui.done", new Object[0])));
     }
@@ -58,12 +58,10 @@ public class GuiScreenChickenLoupe extends GuiScreen {
         return false;
     }
     
-    public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_)
-    {
+    public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_){
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-        TextureManager tm = this.mc.getTextureManager();
-        if(tm != null)tm.bindTexture(bookGuiTextures);
+        
+        if(this.mc != null)this.mc.getTextureManager().bindTexture(bookGuiTextures);
         this.drawTexturedModalRect(offset_x, 2, 0, 0, this.bookImageWidth, this.bookImageHeight);
         
         String str_title = "Chicken GeneData";
@@ -90,8 +88,7 @@ public class GuiScreenChickenLoupe extends GuiScreen {
         this.fontRendererObj.drawString(value,value_offset_x,y,0);
     }
     
-    protected void keyTyped(char p_73869_1_, int p_73869_2_)
-    {
+    protected void keyTyped(char p_73869_1_, int p_73869_2_){
         super.keyTyped(p_73869_1_, p_73869_2_);
         if(p_73869_2_ == 18){
         	this.mc.thePlayer.closeScreen();

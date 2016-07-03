@@ -11,6 +11,7 @@ import net.minecraft.block.BlockColored;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityTameable;
@@ -51,7 +52,7 @@ public class EntityGeneChicken extends EntityTameable {
 //		this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
 //		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
 //		this.tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-//		this.tasks.addTask(6, new EntityAIMate(this, 1.0D));
+		this.tasks.addTask(6, new EntityAIMate(this, 1.0D));
 //		this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
 //		this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 //		this.tasks.addTask(9, new EntityAILookIdle(this));
@@ -249,12 +250,16 @@ public class EntityGeneChicken extends EntityTameable {
     
     public boolean canMateWith(EntityAnimal p_70878_1_)
     {
-        if(p_70878_1_ == this ? false : (p_70878_1_.getClass() != this.getClass() ? false : this.isInLove() && p_70878_1_.isInLove())){
+        if(p_70878_1_ == this ? false : (p_70878_1_.getClass() != this.getClass() ? false : this.isInLove() && p_70878_1_.isInLove()))
+        {
+        	GeneData my_gene = this.getGeneData();
+        	EntityGeneChicken target = (EntityGeneChicken)p_70878_1_;
+        	GeneData target_gene = target.getGeneData();
         	
-        	
-        	
-        	return true;
-        }else{
+        	return (my_gene.sex != target_gene.sex);
+        }
+        else
+        {
         	return false;
         }
     }
