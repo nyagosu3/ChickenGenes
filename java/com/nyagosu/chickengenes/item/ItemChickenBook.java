@@ -1,5 +1,13 @@
 package com.nyagosu.chickengenes.item;
 
-public class ItemChickenBook {
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 
+public class ItemChickenBook extends Item {
+	public ItemChickenBook(){
+		this.setHasSubtypes(true);
+		this.setUnlocalizedName("ItemChickenBook");
+		this.setTextureName("chickengenes:chickenbook");
+        this.setCreativeTab(CreativeTabs.tabMisc);
+	}
 }

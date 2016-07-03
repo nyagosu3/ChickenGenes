@@ -1,6 +1,8 @@
 package com.nyagosu.chickengenes;
 
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
+import com.nyagosu.chickengenes.item.ItemChickenBook;
+import com.nyagosu.chickengenes.item.ItemChickenLoupe;
 import com.nyagosu.chickengenes.item.ItemSpawnEgg;
 import com.nyagosu.chickengenes.proxy.ServerProxy;
 
@@ -31,7 +33,12 @@ public class ChickenGenesCore {
 	
 	public static ResourceLocation ChickenGenesTexture = new ResourceLocation("chickengenes","textures/entity/genechicken.png");
 	
+	public static final int CHICKENLOUPE_GUI_ID = 0;
+	
 	public static ItemSpawnEgg itemSpawnEgg;
+	public static ItemChickenBook itemChickenBook;
+	public static ItemChickenLoupe itemChickenLoupe;
+	
 	
 	@EventHandler
     public void preInit(FMLPostInitializationEvent event) {
@@ -42,6 +49,12 @@ public class ChickenGenesCore {
     public void init(FMLInitializationEvent event) {
 		itemSpawnEgg = new ItemSpawnEgg(0x00FF0000,0x00FF0000);
 		GameRegistry.registerItem(itemSpawnEgg, "itemSpawnEgg");
+		
+		itemChickenBook = new ItemChickenBook();
+		GameRegistry.registerItem(itemChickenBook, "itemChickenBook");
+		
+		itemChickenLoupe = new ItemChickenLoupe();
+		GameRegistry.registerItem(itemChickenLoupe, "itemChickenLoupe");
     }
 	
 	@EventHandler

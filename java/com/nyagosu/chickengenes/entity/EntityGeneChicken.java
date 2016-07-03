@@ -1,10 +1,18 @@
 package com.nyagosu.chickengenes.entity;
 
+
+import java.util.HashMap;
+
+import com.nyagosu.chickengenes.util.DebugTool;
+import com.nyagosu.chickengenes.util.Randory;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAITempt;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -27,12 +35,30 @@ public class EntityGeneChicken extends EntityTameable {
     public boolean field_152118_bv;
     private static final String __OBFID = "CL_00001639";
     
+    public static final int DW_GENEDATA = 25;
+    public static final String NBT_GENEDATA = "GENE_DATA";
+    
     public EntityGeneChicken(World p_i1682_1_){
     	
         super(p_i1682_1_);
         this.setSize(0.3F, 0.7F);
         this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
         this.setTamed(false);
+        this.tasks.addTask(3, new EntityAITempt(this, 1.0D, Items.wheat_seeds, false));
+//		this.getNavigator().setAvoidsWater(true);
+//		this.tasks.addTask(1, new EntityAISwimming(this));
+//		this.tasks.addTask(2, this.aiSit);
+//		this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
+//		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
+//		this.tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
+//		this.tasks.addTask(6, new EntityAIMate(this, 1.0D));
+//		this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
+//		this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+//		this.tasks.addTask(9, new EntityAILookIdle(this));
+//		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
+//		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
+//		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
+//		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntitySheep.class, 200, false));
     }
     
     public boolean isAIEnabled(){
@@ -50,16 +76,40 @@ public class EntityGeneChicken extends EntityTameable {
         this.dataWatcher.addObject(18, new Float(this.getHealth()));
         this.dataWatcher.addObject(19, new Byte((byte)0));
         this.dataWatcher.addObject(20, new Byte((byte)BlockColored.func_150032_b(1)));
+        
+        GeneData gene = new GeneData();
+        this.dataWatcher.addObject(DW_GENEDATA,gene.getDataString());
     }
     
     public void writeEntityToNBT(NBTTagCompound p_70014_1_){
         super.writeEntityToNBT(p_70014_1_);
         p_70014_1_.setBoolean("IsChickenJockey", this.field_152118_bv);
+        p_70014_1_.setString(NBT_GENEDATA, this.dataWatcher.getWatchableObjectString(DW_GENEDATA));
     }
     
     public void readEntityFromNBT(NBTTagCompound p_70037_1_){
         super.readEntityFromNBT(p_70037_1_);
         this.field_152118_bv = p_70037_1_.getBoolean("IsChickenJockey");
+        this.dataWatcher.updateObject(DW_GENEDATA, p_70037_1_.getString(NBT_GENEDATA));
+    }
+    
+    public GeneData getGeneData(){
+    	GeneData gene = new GeneData(this.dataWatcher.getWatchableObjectString(DW_GENEDATA));
+    	return gene;
+    }
+    
+    public boolean interact(EntityPlayer p_70085_1_){
+    	
+    	ItemStack itemstack = p_70085_1_.inventory.getCurrentItem();
+    	
+    	if(itemstack != null && itemstack.getItem() == Items.apple){
+    		if(!p_70085_1_.worldObj.isRemote){
+    			GeneData gene = getGeneData();
+    			DebugTool.print(gene.getDataString4Debug());
+    		}
+    	}
+        
+        return super.interact(p_70085_1_);
     }
     
     public boolean isAngry()
@@ -67,10 +117,6 @@ public class EntityGeneChicken extends EntityTameable {
         return (this.dataWatcher.getWatchableObjectByte(16) & 2) != 0;
     }
     
-    /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
     public void onLivingUpdate()
     {
         super.onLivingUpdate();
@@ -109,31 +155,19 @@ public class EntityGeneChicken extends EntityTameable {
             this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
         }
     }
-
-    /**
-     * Called when the mob is falling. Calculates and applies fall damage.
-     */
+    
     protected void fall(float p_70069_1_) {}
-
-    /**
-     * Returns the sound this mob makes while it's alive.
-     */
+    
     protected String getLivingSound()
     {
         return "mob.chicken.say";
     }
-
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
+    
     protected String getHurtSound()
     {
         return "mob.chicken.hurt";
     }
-
-    /**
-     * Returns the sound this mob makes on death.
-     */
+    
     protected String getDeathSound()
     {
         return "mob.chicken.hurt";
@@ -148,11 +182,7 @@ public class EntityGeneChicken extends EntityTameable {
     {
         return Items.feather;
     }
-
-    /**
-     * Drop 0-2 items of this living's type. @param par1 - Whether this entity has recently been hit by a player. @param
-     * par2 - Level of Looting used to kill this mob.
-     */
+    
     protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
     {
         int j = this.rand.nextInt(3) + this.rand.nextInt(1 + p_70628_2_);
@@ -176,31 +206,17 @@ public class EntityGeneChicken extends EntityTameable {
     {
         return new EntityGeneChicken(this.worldObj);
     }
-
-    /**
-     * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
-     * the animal type)
-     */
+    
     public boolean isBreedingItem(ItemStack p_70877_1_)
     {
         return p_70877_1_ != null && p_70877_1_.getItem() instanceof ItemSeeds;
     }
-
     
-
-    /**
-     * Get the experience points the entity currently has.
-     */
     protected int getExperiencePoints(EntityPlayer p_70693_1_)
     {
         return this.func_152116_bZ() ? 10 : super.getExperiencePoints(p_70693_1_);
     }
-
     
-
-    /**
-     * Determines if an entity can be despawned, used on idle far away entities
-     */
     protected boolean canDespawn()
     {
         return this.func_152116_bZ() && this.riddenByEntity == null;
@@ -231,5 +247,16 @@ public class EntityGeneChicken extends EntityTameable {
         this.field_152118_bv = p_152117_1_;
     }
     
+    public boolean canMateWith(EntityAnimal p_70878_1_)
+    {
+        if(p_70878_1_ == this ? false : (p_70878_1_.getClass() != this.getClass() ? false : this.isInLove() && p_70878_1_.isInLove())){
+        	
+        	
+        	
+        	return true;
+        }else{
+        	return false;
+        }
+    }
     
 }
