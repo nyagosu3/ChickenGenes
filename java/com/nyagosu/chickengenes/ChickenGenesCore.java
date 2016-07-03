@@ -1,6 +1,7 @@
 package com.nyagosu.chickengenes;
 
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
+import com.nyagosu.chickengenes.item.ItemChickenBell;
 import com.nyagosu.chickengenes.item.ItemChickenBook;
 import com.nyagosu.chickengenes.item.ItemChickenLoupe;
 import com.nyagosu.chickengenes.item.ItemSpawnEgg;
@@ -38,6 +39,7 @@ public class ChickenGenesCore {
 	public static ItemSpawnEgg itemSpawnEgg;
 	public static ItemChickenBook itemChickenBook;
 	public static ItemChickenLoupe itemChickenLoupe;
+	public static ItemChickenBell itemChickenBell;
 	
 	
 	@EventHandler
@@ -55,6 +57,10 @@ public class ChickenGenesCore {
 		
 		itemChickenLoupe = new ItemChickenLoupe();
 		GameRegistry.registerItem(itemChickenLoupe, "itemChickenLoupe");
+		
+		itemChickenBell = new ItemChickenBell();
+		GameRegistry.registerItem(itemChickenBell, "itemChickenBell");
+		
     }
 	
 	@EventHandler

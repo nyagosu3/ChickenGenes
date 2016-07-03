@@ -3,12 +3,14 @@ package com.nyagosu.chickengenes.model;
 import org.lwjgl.opengl.GL11;
 
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
+import com.nyagosu.chickengenes.util.DebugTool;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
 
 @SideOnly(Side.CLIENT)
@@ -171,5 +173,32 @@ public class ModelGeneChicken extends ModelBase
         this.leftLeg.rotateAngleX = MathHelper.cos(p_78087_1_ * 0.6662F + (float)Math.PI) * 1.4F * p_78087_2_;
         this.rightWing.rotateAngleZ = p_78087_3_;
         this.leftWing.rotateAngleZ = -p_78087_3_;
+    }
+    
+    public void setLivingAnimations(EntityLivingBase p_78086_1_, float p_78086_2_, float p_78086_3_, float p_78086_4_)
+    {
+        EntityGeneChicken chicken = (EntityGeneChicken)p_78086_1_;
+        if (chicken.isSitting()){
+        	this.head.offsetY = 0.3F;
+        	this.bill.offsetY = 0.3F;
+        	this.chin.offsetY = 0.3F;
+        	this.crest.offsetY = 0.3F;
+        	this.body.offsetY = 0.3F;
+        	this.rightLeg.showModel = false;
+        	this.leftLeg.showModel = false;
+        	this.rightWing.offsetY = 0.3F;
+            this.leftWing.offsetY = 0.3F;
+        	
+        }else{
+        	this.head.offsetY = 0.0F;
+        	this.bill.offsetY = 0.0F;
+        	this.chin.offsetY = 0.0F;
+        	this.crest.offsetY = 0.0F;
+        	this.body.offsetY = 0.0F;
+        	this.rightLeg.showModel = true;
+        	this.leftLeg.showModel = true;
+        	this.rightWing.offsetY = 0.0F;
+            this.leftWing.offsetY =  0.0F;
+        }
     }
 }
