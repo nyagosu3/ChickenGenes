@@ -60,12 +60,13 @@ public class GuiScreenChickenLoupe extends GuiScreen {
         return false;
     }
     
-    @SideOnly(Side.CLIENT)
     public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_){
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         
         if(this.mc != null)this.mc.getTextureManager().bindTexture(bookGuiTextures);
         this.drawTexturedModalRect(offset_x, 2, 0, 0, this.bookImageWidth, this.bookImageHeight);
+        
+        if(this.fontRendererObj == null)return;
         
         String str_title = "Chicken GeneData";
         int ss = this.fontRendererObj.getStringWidth(str_title);
@@ -73,13 +74,17 @@ public class GuiScreenChickenLoupe extends GuiScreen {
         
         String sex_str = gene.sex == 0 ? "ZZ" : "ZW";
         this.drawDataValue("Sex", sex_str, 0);
-        this.drawDataValue("MaxHealth",String.valueOf(gene.maxhealth),1);
-        this.drawDataValue("Attack", String.valueOf(gene.attack),2);
-        this.drawDataValue("Defense", String.valueOf(gene.defense),3);
-        this.drawDataValue("EggSpeed", String.valueOf(gene.eggspeed),4);
-        this.drawDataValue("Efficiency", String.valueOf(gene.efficiency),5);
-        this.drawDataValue("GrowSpeed", String.valueOf(gene.growspeed),6);
-        this.drawDataValue("MoveSpeed", String.valueOf(gene.movespeed),7);
+        
+        String mate_flag_str = gene.mate_flag == 0 ? "Still" : "Done";
+        this.drawDataValue("Mate", mate_flag_str, 1);
+        
+        this.drawDataValue("MaxHealth",gene.maxhealth,2);
+        this.drawDataValue("Attack", gene.attack,3);
+        this.drawDataValue("Defense", gene.defense,4);
+        this.drawDataValue("EggSpeed", gene.eggspeed,5);
+        this.drawDataValue("Efficiency", gene.efficiency,6);
+        this.drawDataValue("GrowSpeed", gene.growspeed,7);
+        this.drawDataValue("MoveSpeed", gene.movespeed,8);
         
         super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
     }
@@ -89,6 +94,15 @@ public class GuiScreenChickenLoupe extends GuiScreen {
     	this.fontRendererObj.drawString(name,offset_x + 14,y,0);
         this.fontRendererObj.drawString("|",separate_offset_x,y,0);
         this.fontRendererObj.drawString(value,value_offset_x,y,0);
+    }
+    
+    private void drawDataValue(String name, int value, int line_num){
+    	int color_code = (value == 0)?0x000000:(value > 0)?0x00FF00:0xFF0000;
+    	String value_string = ((value > 0)?"+":"") + String.valueOf(value);
+    	int y = value_offset_base_y + value_line_height * line_num;
+    	this.fontRendererObj.drawString(name,offset_x + 14,y,0);
+        this.fontRendererObj.drawString("|",separate_offset_x,y,0);
+        this.fontRendererObj.drawString(value_string,value_offset_x,y,color_code);
     }
     
     protected void keyTyped(char p_73869_1_, int p_73869_2_){

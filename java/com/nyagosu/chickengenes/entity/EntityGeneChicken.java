@@ -243,21 +243,27 @@ public class EntityGeneChicken extends EntityTameable {
     	int p_seed_damage = (p.lastSeed != null)?p.lastSeed.getItemDamage():0;
     	int m_seed_damage = (this.lastSeed != null)?this.lastSeed.getItemDamage():0;
     	int c = getArrangeRate(p_seed_damage,m_seed_damage);
+    	
     	DebugTool.print("成功率 : " + String.valueOf(c * 10) + "%");
     	
     	GeneData new_gene = null;
+    	GeneData p_gene = p.getGeneData();
+    	GeneData m_gene = this.getGeneData();
+    	p_gene.mate_flag = 1;
+    	m_gene.mate_flag = 1;
     	if(this.isGeneSuccess(c)){
     		//success
     		DebugTool.print("success");
-    		GeneData p_gene = ((EntityGeneChicken)p_90011_1_).getGeneData();
-        	GeneData m_gene = this.getGeneData();
-        	new_gene = m_gene.mix(p_gene);
+    		new_gene = m_gene.mix(p_gene);
     	}else{
     		//failure
     		DebugTool.print("sippai");
     		new_gene = new GeneData();
     	}
-        return new EntityGeneChicken(this.worldObj,new_gene);
+    	p.setGeneData(p_gene);
+    	this.setGeneData(m_gene);
+    	
+    	return new EntityGeneChicken(this.worldObj,new_gene);
     }
     
     public boolean isGeneSuccess(int c){

@@ -12,6 +12,11 @@ public class Randory {
 		
 	}
 	
+	public void addRate(int val,int count){
+		int[] i = {val,val,count};
+		rates.add(i);
+	}
+	
 	public void addRate(int min, int max, int count){
 		int[] i = {min,max,count};
 		rates.add(i);
@@ -23,9 +28,13 @@ public class Randory {
 			int max = rate[1];
 			int cnt = rate[2];
 			
-			for (int i = min; i < max; i++)
-				this.values.add((int)(Math.random()*(max-min))+min);
-		   
+			if(min == max){
+				for (int i = 0; i < cnt; i++)
+					this.values.add(min);
+			}else{
+				for (int i = 0; i < cnt; i++)
+					this.values.add((int)(Math.random()*(max-min))+min);
+			}
 		}
 		return this.values.get((int) (Math.random()*this.values.size()));
 	}
