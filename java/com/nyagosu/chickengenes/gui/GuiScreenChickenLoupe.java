@@ -9,6 +9,8 @@ import com.nyagosu.chickengenes.entity.EntityGeneChicken;
 import com.nyagosu.chickengenes.entity.GeneData;
 import com.nyagosu.chickengenes.util.DebugTool;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -58,6 +60,7 @@ public class GuiScreenChickenLoupe extends GuiScreen {
         return false;
     }
     
+    @SideOnly(Side.CLIENT)
     public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_){
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         

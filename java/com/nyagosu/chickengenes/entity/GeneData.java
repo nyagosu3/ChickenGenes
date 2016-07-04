@@ -2,6 +2,7 @@ package com.nyagosu.chickengenes.entity;
 
 import java.util.Random;
 
+import com.nyagosu.chickengenes.util.DebugTool;
 import com.nyagosu.chickengenes.util.Randory;
 
 public class GeneData {
@@ -105,6 +106,33 @@ public class GeneData {
 		str += " growspeed:" + String.valueOf(this.growspeed);
 		str += " movespeed:" + String.valueOf(this.movespeed);
 		return str;
+	}
+	
+	public GeneData mix(GeneData gene){
+		Random r = new Random();
+		int sex = r.nextInt(2);
+		
+		int max = 50;
+		int min = 10;
+		
+		int up = (int)(Math.random()*(max-min))+min;
+		
+		DebugTool.print("UP Value" + String.valueOf(up));
+		
+		return new GeneData(
+					sex,
+					this.mixValue(this.maxhealth, gene.maxhealth,up),
+					this.mixValue(this.attack, gene.attack,up),
+					this.mixValue(this.defense, gene.defense,up),
+					this.mixValue(this.eggspeed, gene.eggspeed,up),
+					this.mixValue(this.efficiency, gene.efficiency,up),
+					this.mixValue(this.growspeed, gene.growspeed,up),
+					this.mixValue(this.movespeed, gene.movespeed,up)
+					);
+	}
+	
+	public int mixValue(int a,int b,int up){
+		return (int) ((a+b)/2 + up);
 	}
 	
 }

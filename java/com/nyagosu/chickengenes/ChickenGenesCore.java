@@ -5,6 +5,7 @@ import com.nyagosu.chickengenes.item.ItemChickenBell;
 import com.nyagosu.chickengenes.item.ItemChickenBook;
 import com.nyagosu.chickengenes.item.ItemChickenLoupe;
 import com.nyagosu.chickengenes.item.ItemSpawnEgg;
+import com.nyagosu.chickengenes.item.ItemSweetSeed;
 import com.nyagosu.chickengenes.proxy.ServerProxy;
 
 import cpw.mods.fml.common.Mod;
@@ -40,6 +41,7 @@ public class ChickenGenesCore {
 	public static ItemChickenBook itemChickenBook;
 	public static ItemChickenLoupe itemChickenLoupe;
 	public static ItemChickenBell itemChickenBell;
+	public static ItemSweetSeed itemSweetSeed;
 	
 	
 	@EventHandler
@@ -61,11 +63,15 @@ public class ChickenGenesCore {
 		itemChickenBell = new ItemChickenBell();
 		GameRegistry.registerItem(itemChickenBell, "itemChickenBell");
 		
+		itemSweetSeed = new ItemSweetSeed();
+		GameRegistry.registerItem(itemSweetSeed, "itemSweetSeed");
+		
     }
 	
 	@EventHandler
     public void postInit(FMLPostInitializationEvent event) {
 		proxy.registerRenderThings();
+		ChickenGenesRecipes.regist();
     }
 	
 }
