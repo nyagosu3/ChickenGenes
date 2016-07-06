@@ -95,7 +95,7 @@ public class EntityGeneChicken extends EntityGeneChickenRoot {
         }
 
         this.field_70889_i = (float)((double)this.field_70889_i * 0.9D);
-
+        
         if (!this.onGround && this.motionY < 0.0D)
         {
             this.motionY *= 0.6D;
