@@ -128,6 +128,9 @@ public class ItemSpawnEgg extends ItemMonsterPlacer {
         Class c = spawnableEntities[par1];
         Entity entity = null;
         try {
+        	
+        	
+        	
             entity = (Entity)c.getConstructor(new Class[] {World.class}).newInstance(new Object[] {par0World});
  
             EntityLiving entityliving = (EntityLiving)entity;

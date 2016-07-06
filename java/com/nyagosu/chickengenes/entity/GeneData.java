@@ -18,7 +18,10 @@ public class GeneData {
 	public int movespeed 	= 0;//7
 	
 	public GeneData(){
-		
+		this.setRandomValue();
+	}
+	
+	public void setRandomValue(){
 		Random r = new Random();
 		this.sex = r.nextInt(2);
 		
@@ -61,7 +64,6 @@ public class GeneData {
 			};
 		}
 		rand.resetValues();
-		
 	}
 	
 	public GeneData(
@@ -88,15 +90,20 @@ public class GeneData {
 	
 	public GeneData(String gene_data_string){
 		String[] datas = gene_data_string.split(",");
-		this.sex = Integer.parseInt(datas[0]);
-		this.mate_flag = Integer.parseInt(datas[1]);
-		this.maxhealth = Integer.parseInt(datas[2]);
-		this.attack = Integer.parseInt(datas[3]);
-		this.defense = Integer.parseInt(datas[4]);
-		this.eggspeed = Integer.parseInt(datas[5]);
-		this.efficiency = Integer.parseInt(datas[6]);
-		this.growspeed = Integer.parseInt(datas[7]);
-		this.movespeed = Integer.parseInt(datas[8]);
+		if(datas.length == 9){
+			this.sex = Integer.parseInt(datas[0]);
+			this.mate_flag = Integer.parseInt(datas[1]);
+			this.maxhealth = Integer.parseInt(datas[2]);
+			this.attack = Integer.parseInt(datas[3]);
+			this.defense = Integer.parseInt(datas[4]);
+			this.eggspeed = Integer.parseInt(datas[5]);
+			this.efficiency = Integer.parseInt(datas[6]);
+			this.growspeed = Integer.parseInt(datas[7]);
+			this.movespeed = Integer.parseInt(datas[8]);
+		}else{
+			DebugTool.print("random value");
+			this.setRandomValue();
+		}
 	}
 	
 	public String getDataString(){
@@ -130,16 +137,16 @@ public class GeneData {
 	public GeneData mix(GeneData gene){
 		Random r = new Random();
 		return new GeneData(
-						r.nextInt(2),
-						0,
-						this.maxhealth + gene.maxhealth,
-						this.attack + gene.attack,
-						this.defense + gene.defense,
-						this.eggspeed + gene.eggspeed,
-						this.efficiency + gene.efficiency,
-						this.growspeed + gene.growspeed,
-						this.movespeed + gene.movespeed
-					);
+					r.nextInt(2),
+					0,
+					this.maxhealth + gene.maxhealth,
+					this.attack + gene.attack,
+					this.defense + gene.defense,
+					this.eggspeed + gene.eggspeed,
+					this.efficiency + gene.efficiency,
+					this.growspeed + gene.growspeed,
+					this.movespeed + gene.movespeed
+				);
 	}
 	
 }
