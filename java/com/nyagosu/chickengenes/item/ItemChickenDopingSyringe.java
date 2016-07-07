@@ -44,16 +44,15 @@ public class ItemChickenDopingSyringe extends Item {
     		case 0:gene.maxhealth += 1;		break;
     		case 1:gene.attack += 1;		break;
     		case 2:gene.defense += 1;		break;
-    		case 3:gene.eggspeed += 100;		break;
-    		case 4:gene.efficiency += 1;	break;
+    		case 3:gene.eggspeed += 10;		break;
+    		case 4:gene.efficiency += 10;	break;
     		case 5:gene.growspeed += 1;		break;
     		case 6:gene.movespeed += 1;		break;
     		};
     		entity.setGeneData(gene);
     		
     	}
-    	p_111207_3_.worldObj.spawnParticle("heart", p_111207_3_.posX, p_111207_3_.posY, p_111207_3_.posZ, 0.0D, 0.0D, 0.0D);
-        return false;
+    	return false;
     }
 
     public String getItemStackDisplayName(ItemStack par1ItemStack){

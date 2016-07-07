@@ -4,6 +4,7 @@ import com.nyagosu.chickengenes.entity.EntityGeneChicken;
 import com.nyagosu.chickengenes.item.ItemChickenBell;
 import com.nyagosu.chickengenes.item.ItemChickenBook;
 import com.nyagosu.chickengenes.item.ItemChickenCell;
+import com.nyagosu.chickengenes.item.ItemChickenContainer;
 import com.nyagosu.chickengenes.item.ItemChickenDopingSyringe;
 import com.nyagosu.chickengenes.item.ItemChickenKnife;
 import com.nyagosu.chickengenes.item.ItemChickenLoupe;
@@ -48,6 +49,7 @@ public class ChickenGenesCore {
 	public static ItemChickenKnife itemChickenKnife;
 	public static ItemChickenCell itemChickenCell;
 	public static ItemChickenDopingSyringe itemChickenDopingSyringe;
+	public static ItemChickenContainer itemChickenContainer;
 	
 	
 	@EventHandler
@@ -80,6 +82,10 @@ public class ChickenGenesCore {
 		
 		itemChickenDopingSyringe = new ItemChickenDopingSyringe();
 		GameRegistry.registerItem(itemChickenDopingSyringe, "itemChickenDopingSyringe");
+		
+		itemChickenContainer = new ItemChickenContainer();
+		GameRegistry.registerItem(itemChickenContainer, "itemChickenContainer");
+		
     }
 	
 	@EventHandler

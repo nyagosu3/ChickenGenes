@@ -9,7 +9,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 public class ClientProxy extends ServerProxy {
 	@Override
 	public void registerRenderThings() {
-		RenderingRegistry.registerEntityRenderingHandler(EntityGeneChicken.class, new RenderGeneChicken(new ModelGeneChicken(1)));
+		RenderingRegistry.registerEntityRenderingHandler(EntityGeneChicken.class, new RenderGeneChicken(new ModelGeneChicken(3)));
 	}
 	
 }

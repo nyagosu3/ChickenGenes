@@ -140,7 +140,7 @@ public class EntityAIMateCustom extends EntityAIBase {
             this.targetMate.setGrowingAge(6000);
             this.theAnimal.resetInLove();
             this.targetMate.resetInLove();
-            entityageable.setGrowingAge(-24000/100);
+            entityageable.setGrowingAge(-24000);
             entityageable.setLocationAndAngles(this.theAnimal.posX, this.theAnimal.posY, this.theAnimal.posZ, 0.0F, 0.0F);
             this.theWorld.spawnEntityInWorld(entityageable);
             Random random = this.theAnimal.getRNG();

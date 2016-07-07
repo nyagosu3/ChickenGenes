@@ -24,6 +24,7 @@ public class GuiScreenChickenLoupe extends GuiScreen {
     private int bookImageHeight = 167;
     private GuiButton buttonDone;
     private static final String __OBFID = "CL_00000744";
+    private EntityGeneChicken chicken;
     private GeneData gene;
     
     private int offset_x;
@@ -32,10 +33,9 @@ public class GuiScreenChickenLoupe extends GuiScreen {
     private int value_offset_base_y;
     private int value_line_height;
 	
-	public GuiScreenChickenLoupe(EntityPlayer p_i1080_1_,EntityGeneChicken chicken)
-    {
+	public GuiScreenChickenLoupe(EntityPlayer p_i1080_1_,EntityGeneChicken chicken){
+		this.chicken = chicken;
         this.gene = chicken.getGeneData();
-        
     }
 	
     public void initGui()
@@ -85,6 +85,8 @@ public class GuiScreenChickenLoupe extends GuiScreen {
         this.drawDataValue("Efficiency", gene.efficiency,6);
         this.drawDataValue("GrowSpeed", gene.growspeed,7);
         this.drawDataValue("MoveSpeed", gene.movespeed,8);
+        this.drawDataValue("Stamina", this.chicken.getStamina(),9);
+        this.drawDataValue("Time", this.chicken.timeUntilNextEgg,10);
         
         super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
     }
@@ -103,6 +105,15 @@ public class GuiScreenChickenLoupe extends GuiScreen {
     	this.fontRendererObj.drawString(name,offset_x + 14,y,0);
         this.fontRendererObj.drawString("|",separate_offset_x,y,0);
         this.fontRendererObj.drawString(value_string,value_offset_x,y,color_code);
+    }
+    
+    private void drawDataValue(String name, float value, int line_num){
+    	//int color_code = (value == 0)?0x000000:(value > 0)?0x00FF00:0xFF0000;
+    	String value_string = ((value > 0)?"+":"") + String.valueOf(value) + "%";
+    	int y = value_offset_base_y + value_line_height * line_num;
+    	this.fontRendererObj.drawString(name,offset_x + 14,y,0);
+        this.fontRendererObj.drawString("|",separate_offset_x,y,0);
+        this.fontRendererObj.drawString(value_string,value_offset_x,y,0);
     }
     
     protected void keyTyped(char p_73869_1_, int p_73869_2_){
