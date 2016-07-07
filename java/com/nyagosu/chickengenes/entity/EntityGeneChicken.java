@@ -7,17 +7,15 @@ import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.ai.EntityAIMateCustom;
 import com.nyagosu.chickengenes.item.ItemSweetSeed;
 
-import net.minecraft.block.BlockColored;
+import net.minecraft.world.World;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIFollowOwner;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
 import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -31,14 +29,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
-import net.minecraft.world.World;
 
-public class EntityGeneChicken extends EntityGeneChickenRoot {
+public class EntityGeneChicken extends EntityGeneChickenRoot{
 	
-    
-    
     public EntityGeneChicken(World p_i1682_1_){
     	super(p_i1682_1_);
     	this.setGeneDataInit(new GeneData());
@@ -72,65 +66,27 @@ public class EntityGeneChicken extends EntityGeneChickenRoot {
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntitySheep.class, 200, false));
     }
     
-    public void onLivingUpdate()
-    {
-        super.onLivingUpdate();
-        this.field_70888_h = this.field_70886_e;
-        this.field_70884_g = this.destPos;
-        this.destPos = (float)((double)this.destPos + (double)(this.onGround ? -1 : 4) * 0.3D);
-        
-        if (this.destPos < 0.0F)
-        {
-            this.destPos = 0.0F;
-        }
-
-        if (this.destPos > 1.0F)
-        {
-            this.destPos = 1.0F;
-        }
-
-        if (!this.onGround && this.field_70889_i < 1.0F)
-        {
-            this.field_70889_i = 1.0F;
-        }
-
-        this.field_70889_i = (float)((double)this.field_70889_i * 0.9D);
-        
-        if (!this.onGround && this.motionY < 0.0D)
-        {
-            this.motionY *= 0.6D;
-        }
-
-        this.field_70886_e += this.field_70889_i * 2.0F;
-
-        if (!this.worldObj.isRemote && !this.isChild() && !this.func_152116_bZ() && --this.timeUntilNextEgg <= 0)
-        {
-            this.playSound("mob.chicken.plop", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-            this.dropItem(Items.egg, 1);
-            this.timeUntilNextEgg = this.getEggTime();
-        }
-    }
-
-    public EntityGeneChicken createChild(EntityAgeable p_90011_1_)
-    {
+    public EntityGeneChicken createChild(EntityAgeable p_90011_1_){
+    	
     	EntityGeneChicken p = (EntityGeneChicken)p_90011_1_;
     	
-    	int p_seed_damage = (p.lastSeed != null)?p.lastSeed.getItemDamage():0;
-    	int m_seed_damage = (this.lastSeed != null)?this.lastSeed.getItemDamage():0;
-    	int c = getArrangeRate(p_seed_damage,m_seed_damage);
+    	int p_seed = (p.lastSeed != null)?p.lastSeed.getItemDamage():0;
+    	int m_seed = (this.lastSeed != null)?this.lastSeed.getItemDamage():0;
     	
     	GeneData new_gene = null;
     	GeneData p_gene = p.getGeneData();
     	GeneData m_gene = this.getGeneData();
-    	p_gene.mate_flag = 1;
-    	m_gene.mate_flag = 1;
     	
-    	if(this.isGeneSuccess(c)){
+    	int c = getUniteSuccessRate(p_seed,m_seed);
+    	if(this.isUniteSuccessGene(c)){
     		new_gene = m_gene.mix(p_gene);
     	}else{
     		Random r = new Random();
     		new_gene = (r.nextInt(2) == 0)?m_gene:p_gene;
     	}
+    	
+    	p_gene.mate_flag = 1;
+    	m_gene.mate_flag = 1;
     	p.setGeneData(p_gene);
     	this.setGeneData(m_gene);
     	
@@ -140,60 +96,29 @@ public class EntityGeneChicken extends EntityGeneChickenRoot {
     	return chicken;
     }
     
-    public int getEggTime(){
-    	int base = this.rand.nextInt(6000) + 6000;
-    	int value = this.getGeneData().eggspeed * 20;
-    	int time = base - value;
-    	if(time < 20)time = 20;
-    	return time;
-    }
-    
-    /**
-     * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
-     */
-    public boolean interact(EntityPlayer p_70085_1_)
-    {
+    public boolean interact(EntityPlayer p_70085_1_){
         ItemStack itemstack = p_70085_1_.inventory.getCurrentItem();
         
-        if (this.isTamed())
-        {
-            if (itemstack != null)
-            {
-                if (itemstack.getItem() instanceof ItemFood)
-                {
+        if (this.isTamed()){
+            if (itemstack != null){
+                if (itemstack.getItem() instanceof ItemFood){
+                	
                     ItemFood itemfood = (ItemFood)itemstack.getItem();
 
-                    if (itemfood.isWolfsFavoriteMeat() && this.dataWatcher.getWatchableObjectFloat(18) < 20.0F)
-                    {
-                        if (!p_70085_1_.capabilities.isCreativeMode)
-                        {
+                    if (itemfood.isWolfsFavoriteMeat() && this.dataWatcher.getWatchableObjectFloat(18) < 20.0F){
+                        if (!p_70085_1_.capabilities.isCreativeMode){
                             --itemstack.stackSize;
                         }
-
                         this.heal((float)itemfood.func_150905_g(itemstack));
-
-                        if (itemstack.stackSize <= 0)
-                        {
+                        if (itemstack.stackSize <= 0){
                             p_70085_1_.inventory.setInventorySlotContents(p_70085_1_.inventory.currentItem, (ItemStack)null);
                         }
-
                         return true;
                     }
                 }
-                else if (itemstack.getItem() == Items.dye)
-                {
-                    int i = BlockColored.func_150032_b(itemstack.getItemDamage());
-                    if (!p_70085_1_.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
-                    {
-                        p_70085_1_.inventory.setInventorySlotContents(p_70085_1_.inventory.currentItem, (ItemStack)null);
-                    }
-
-                    return true;
-                }
             }
             
-            if (this.func_152114_e(p_70085_1_) && !this.worldObj.isRemote && !this.isBreedingItem(itemstack))
-            {
+            if (this.func_152114_e(p_70085_1_) && !this.worldObj.isRemote && !this.isBreedingItem(itemstack)){
             	if(!(itemstack != null && itemstack.getItem() == ChickenGenesCore.itemChickenLoupe)){
             		this.aiSit.setSitting(!this.isSitting());
                     this.isJumping = false;
@@ -202,11 +127,12 @@ public class EntityGeneChicken extends EntityGeneChickenRoot {
                     this.setAttackTarget((EntityLivingBase)null);
             	}
             }
-        }
-        else if (itemstack != null && itemstack.getItem() == ChickenGenesCore.itemChickenBell && !this.isAngry())
-        {
-        	if (!this.worldObj.isRemote)
-            {
+        }else if (
+        		itemstack != null && 
+        		itemstack.getItem() == ChickenGenesCore.itemChickenBell && 
+        		!this.isAngry()
+        		){
+        	if (!this.worldObj.isRemote){
             	this.setTamed(true);
                 this.setPathToEntity((PathEntity)null);
                 this.setAttackTarget((EntityLivingBase)null);
@@ -216,32 +142,22 @@ public class EntityGeneChicken extends EntityGeneChickenRoot {
                 this.worldObj.setEntityState(this, (byte)7);                
             }
             return true;
-        }
-        else if (itemstack != null && itemstack.getItem() instanceof ItemSweetSeed && !this.isAngry()){
+        }else if (itemstack != null && itemstack.getItem() instanceof ItemSweetSeed && !this.isAngry()){
         	this.lastSeed = itemstack;
-        }
-        else if (itemstack != null && itemstack.getItem() == Items.apple ){
+        }else if (itemstack != null && itemstack.getItem() == Items.apple ){
         	this.setGrowingAge(100);
         }
-        
         return super.interact(p_70085_1_);
     }
     
-    public boolean canMateWith(EntityAnimal p_70878_1_)
-    {
-        if(p_70878_1_ == this ? false : (p_70878_1_.getClass() != this.getClass() ? false : this.isInLove() && p_70878_1_.isInLove()))
-        {
+    public boolean canMateWith(EntityAnimal p_70878_1_){
+        if(p_70878_1_ == this ? false : (p_70878_1_.getClass() != this.getClass() ? false : this.isInLove() && p_70878_1_.isInLove())){
         	GeneData my_gene = this.getGeneData();
         	EntityGeneChicken target = (EntityGeneChicken)p_70878_1_;
         	GeneData target_gene = target.getGeneData();
-        	
         	return (my_gene.sex != target_gene.sex);
-        }
-        else
-        {
+        }else{
         	return false;
         }
     }
-    
-    
 }
