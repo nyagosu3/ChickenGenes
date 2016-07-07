@@ -111,6 +111,8 @@ public class EntityGeneChickenRoot extends EntityTameable {
     	this.setStamina(stamina);
     }
     
+    
+    
     public boolean interact(EntityPlayer p_70085_1_){
         ItemStack itemstack = p_70085_1_.inventory.getCurrentItem();
         
@@ -132,50 +134,81 @@ public class EntityGeneChickenRoot extends EntityTameable {
 //                }
 //            }
             
-            if (this.func_152114_e(p_70085_1_) && !this.worldObj.isRemote && !this.isBreedingItem(itemstack)){
-            	if(!(itemstack != null && itemstack.getItem() == ChickenGenesCore.itemChickenLoupe)){
-            		this.aiSit.setSitting(!this.isSitting());
-                    this.isJumping = false;
-                    this.setPathToEntity((PathEntity)null);
-                    this.setTarget((Entity)null);
-                    this.setAttackTarget((EntityLivingBase)null);
-            	}
-            }
+        	if(
+        			itemstack != null && 
+        			this.func_152114_e(p_70085_1_) && 
+        			!this.worldObj.isRemote && 
+        			itemstack.getItem() == ChickenGenesCore.itemChickenBell
+        			){
+        		
+        		this.aiSit.setSitting(!this.isSitting());
+                this.isJumping = false;
+                this.setPathToEntity((PathEntity)null);
+                this.setTarget((Entity)null);
+                this.setAttackTarget((EntityLivingBase)null);
+                
+        	}
             
         }else if (
         		itemstack != null && 
+				!this.worldObj.isRemote &&
         		itemstack.getItem() == ChickenGenesCore.itemChickenBell && 
         		!this.isAngry()
         		){
-        	if (!this.worldObj.isRemote){
-            	this.setTamed(true);
-                this.setPathToEntity((PathEntity)null);
-                this.setAttackTarget((EntityLivingBase)null);
-                this.setHealth(20.0F);
-                this.func_152115_b(p_70085_1_.getUniqueID().toString());
-                this.playTameEffect(true);
-                this.worldObj.setEntityState(this, (byte)7);                
-            }
+        	
+        	this.setTamed(true);
+            this.setPathToEntity((PathEntity)null);
+            this.setAttackTarget((EntityLivingBase)null);
+            this.setHealth(20.0F);
+            this.func_152115_b(p_70085_1_.getUniqueID().toString());
+            this.playTameEffect(true);
+            this.worldObj.setEntityState(this, (byte)7);
             return true;
-        }else if (itemstack != null && itemstack.getItem() instanceof ItemSweetSeed && !this.isAngry()){
+            
+        }
+        
+        if (
+        		itemstack != null && 
+        		itemstack.getItem() instanceof ItemSweetSeed && 
+        		!this.isAngry()
+        		){
+        	
         	if (!p_70085_1_.capabilities.isCreativeMode){
                 --itemstack.stackSize;
             }
         	this.lastSeed = itemstack;
-        }else if (itemstack != null && itemstack.getItem() == Items.apple ){
-        	this.setGrowingAge(100);
-        }else if (itemstack != null && itemstack.getItem() == Items.wheat_seeds){
+        	
+        }
+        
+        if (
+        		itemstack != null && 
+        		itemstack.getItem() == Items.wheat_seeds
+        		){
+        	
         	if (!p_70085_1_.capabilities.isCreativeMode){
                 --itemstack.stackSize;
             }
         	this.addStamina(20.0F);
+        	this.heal(2.0F);
         	this.worldObj.spawnParticle("largesmoke", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-        }else if(itemstack != null && itemstack.getItem() == ChickenGenesCore.itemChickenContainer){
+        	
+        	if (itemstack.stackSize <= 0){
+        		p_70085_1_.inventory.setInventorySlotContents(p_70085_1_.inventory.currentItem, (ItemStack)null);
+			}
+        	
+        }
+        
+        if (
+        		itemstack != null && 
+        		itemstack.getItem() == ChickenGenesCore.itemChickenContainer
+        		){
+        	
     		NBTTagCompound nbt = itemstack.getTagCompound();
         	if(nbt == null){
         		itemstack.setTagCompound(new NBTTagCompound());
         		nbt = itemstack.getTagCompound();	
         	}
+        	
         	if(!nbt.hasKey("ChickenContainerState") || nbt.getInteger("ChickenContainerState") == 0){
         		this.writeEntityToNBT(nbt);
     			nbt.setString("ChickenData", EntityList.getEntityString(this));
@@ -184,6 +217,7 @@ public class EntityGeneChickenRoot extends EntityTameable {
     			itemstack.setTagCompound(nbt);
     			this.setDead();
         	}
+        	
         }
         return super.interact(p_70085_1_);
     }

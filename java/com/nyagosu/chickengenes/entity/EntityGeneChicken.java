@@ -60,7 +60,7 @@ public class EntityGeneChicken extends EntityGeneChickenRoot{
 		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
 		this.tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
 		this.tasks.addTask(6, new EntityAIMateCustom(this, 1.0D));
-//		this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
+		this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
 		this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		this.tasks.addTask(9, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
