@@ -31,7 +31,6 @@ public class EntityGeneChickenRoot extends EntityTameable {
     public float field_70884_g;
     public float field_70888_h;
     public float field_70889_i = 1.0F;
-    public boolean field_152118_bv;
 	public int timeUntilNextEgg;
 	public ItemStack lastSeed;
     
@@ -98,8 +97,7 @@ public class EntityGeneChickenRoot extends EntityTameable {
         
         if (
         		!this.worldObj.isRemote && 
-        		!this.isChild() && 
-        		!this.func_152116_bZ() && 
+        		!this.isChild() &&
         		--this.timeUntilNextEgg <= 0
         		){
         	this.playSound("mob.chicken.plop", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
@@ -118,13 +116,11 @@ public class EntityGeneChickenRoot extends EntityTameable {
 	public void writeEntityToNBT(NBTTagCompound p_70014_1_){
         super.writeEntityToNBT(p_70014_1_);
         p_70014_1_.setBoolean("Angry", this.isAngry());
-        p_70014_1_.setBoolean("IsChickenJockey", this.field_152118_bv);
         p_70014_1_.setString(NBT_GENEDATA, this.dataWatcher.getWatchableObjectString(DW_GENEDATA));
     }
     
     public void readEntityFromNBT(NBTTagCompound p_70037_1_){
         super.readEntityFromNBT(p_70037_1_);
-        this.field_152118_bv = p_70037_1_.getBoolean("IsChickenJockey");
         this.setAngry(p_70037_1_.getBoolean("Angry"));
         this.dataWatcher.updateObject(DW_GENEDATA, p_70037_1_.getString(NBT_GENEDATA));
     }
@@ -159,19 +155,11 @@ public class EntityGeneChickenRoot extends EntityTameable {
     }
     
     protected int getExperiencePoints(EntityPlayer p_70693_1_){
-        return this.func_152116_bZ() ? 10 : super.getExperiencePoints(p_70693_1_);
+        return super.getExperiencePoints(p_70693_1_);
     }
 
     protected boolean canDespawn(){
         return !this.isTamed() && this.ticksExisted > 2400;
-    }
-
-    public boolean func_152116_bZ(){
-        return this.field_152118_bv;
-    }
-    
-    public void func_152117_i(boolean p_152117_1_){
-        this.field_152118_bv = p_152117_1_;
     }
 	
 	public void setAttackTarget(EntityLivingBase p_70624_1_){
