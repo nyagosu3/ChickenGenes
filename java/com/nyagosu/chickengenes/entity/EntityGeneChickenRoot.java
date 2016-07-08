@@ -3,6 +3,7 @@ package com.nyagosu.chickengenes.entity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.item.ItemSweetSeed;
@@ -189,14 +190,24 @@ public class EntityGeneChickenRoot extends EntityTameable {
         	if (!p_70085_1_.capabilities.isCreativeMode){
                 --itemstack.stackSize;
             }
-        	this.addStamina(20.0F);
-        	this.heal(2.0F);
-        	this.worldObj.spawnParticle("largesmoke", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
         	
-        	if (itemstack.stackSize <= 0){
-        		p_70085_1_.inventory.setInventorySlotContents(p_70085_1_.inventory.currentItem, (ItemStack)null);
-			}
-        	
+        	if(this.getStamina() < 100.0F){
+        		this.addStamina(20.0F);
+            	this.heal(2.0F);
+                
+                float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
+                float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
+                this.worldObj.spawnParticle(
+                		"note",
+                		this.posX + (double)f1,
+                		this.posY + 0.8D,
+                		this.posZ + (double)f1,
+                		this.motionX,this.motionY,this.motionZ);
+            	
+            	if (itemstack.stackSize <= 0){
+            		p_70085_1_.inventory.setInventorySlotContents(p_70085_1_.inventory.currentItem, (ItemStack)null);
+    			}
+        	}
         }
         
         if (
@@ -222,6 +233,22 @@ public class EntityGeneChickenRoot extends EntityTameable {
         	}
         	
         }
+        
+        if (
+        		itemstack != null && 
+        		itemstack.getItem() == ChickenGenesCore.itemChickenDopingSyringe
+        		){
+        	for (int i = 0; i < 7; i++)
+        	{
+        		float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
+        		float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
+        		this.worldObj.spawnParticle("happyVillager",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f1,this.motionX,this.motionY,this.motionZ);
+        	}
+        	if (!p_70085_1_.capabilities.isCreativeMode){
+                --itemstack.stackSize;
+            }
+        }
+        
         return super.interact(p_70085_1_);
     }
     

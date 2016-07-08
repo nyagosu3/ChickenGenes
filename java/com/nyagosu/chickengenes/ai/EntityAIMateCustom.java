@@ -145,7 +145,7 @@ public class EntityAIMateCustom extends EntityAIBase {
             this.theWorld.spawnEntityInWorld(entityageable);
             Random random = this.theAnimal.getRNG();
 
-            for (int i = 0; i < 457; ++i)
+            for (int i = 0; i < 7; ++i)
             {
                 double d0 = random.nextGaussian() * 0.02D;
                 double d1 = random.nextGaussian() * 0.02D;
