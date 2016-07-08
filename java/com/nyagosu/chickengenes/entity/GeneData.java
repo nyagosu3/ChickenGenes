@@ -101,7 +101,6 @@ public class GeneData {
 			this.growspeed = Integer.parseInt(datas[7]);
 			this.movespeed = Integer.parseInt(datas[8]);
 		}else{
-			DebugTool.print("random value");
 			this.setRandomValue();
 		}
 	}

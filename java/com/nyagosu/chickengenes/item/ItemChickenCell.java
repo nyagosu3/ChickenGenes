@@ -73,8 +73,7 @@ public class ItemChickenCell extends Item {
         list.add(this.getToolChipValue("MoveSpeed",gene.movespeed));
     }
 	
-	private String getToolChipValue(String code,int value)
-	{
+	private String getToolChipValue(String code,int value){
 		String str = code + " | ";
 		String value_str;
 		if(value == 0)

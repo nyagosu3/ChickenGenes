@@ -21,18 +21,14 @@ import net.minecraft.util.StatCollector;
 
 public class ItemChickenDopingSyringe extends Item {
 	
-	public ItemChickenDopingSyringe()
-	{
+	public ItemChickenDopingSyringe(){
 		this.setHasSubtypes(true);
 		this.setUnlocalizedName("ItemChickenDopingSyringe");
 		this.setTextureName("chickengenes:chickendopingsyringe");
         this.setCreativeTab(CreativeTabs.tabMisc);
-        this.maxStackSize = 1;
+        this.maxStackSize = 64;
 	}
 	
-	/**
-     * Returns true if the item can be used on the given entity, e.g. shears on sheep.
-     */
     public boolean itemInteractionForEntity(ItemStack p_111207_1_, EntityPlayer p_111207_2_, EntityLivingBase p_111207_3_)
     {
     	if(!p_111207_3_.worldObj.isRemote && p_111207_3_ instanceof EntityGeneChicken)
@@ -44,8 +40,8 @@ public class ItemChickenDopingSyringe extends Item {
     		case 0:gene.maxhealth += 1;		break;
     		case 1:gene.attack += 1;		break;
     		case 2:gene.defense += 1;		break;
-    		case 3:gene.eggspeed += 10;		break;
-    		case 4:gene.efficiency += 10;	break;
+    		case 3:gene.eggspeed += 1;		break;
+    		case 4:gene.efficiency += 1;	break;
     		case 5:gene.growspeed += 1;		break;
     		case 6:gene.movespeed += 1;		break;
     		};

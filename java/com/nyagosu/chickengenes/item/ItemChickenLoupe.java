@@ -16,6 +16,7 @@ public class ItemChickenLoupe extends Item{
 		this.setUnlocalizedName("ItemChickenLoupe");
 		this.setTextureName("chickengenes:chickenloupe");
         this.setCreativeTab(CreativeTabs.tabMisc);
+        this.maxStackSize = 1;
 	}
 	
 	/**

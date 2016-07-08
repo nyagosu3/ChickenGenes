@@ -3,6 +3,8 @@ package com.nyagosu.chickengenes.item;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
+import com.nyagosu.chickengenes.util.DebugTool;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -94,6 +96,10 @@ public class ItemSpawnEgg extends ItemMonsterPlacer {
                     int i = movingobjectposition.blockX;
                     int j = movingobjectposition.blockY;
                     int k = movingobjectposition.blockZ;
+                    
+                    DebugTool.print("i : "+ String.valueOf(i));
+                    DebugTool.print("j : "+ String.valueOf(j));
+                    DebugTool.print("k : "+ String.valueOf(k));
  
                     if (!par2World.canMineBlock(par3EntityPlayer, i, j, k)){
                         return par1ItemStack;

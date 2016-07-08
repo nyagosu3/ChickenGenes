@@ -7,6 +7,7 @@ import java.util.Collections;
 import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.item.ItemSweetSeed;
 import com.nyagosu.chickengenes.util.DebugTool;
+import com.nyagosu.chickengenes.util.TooCon;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
@@ -213,6 +214,8 @@ public class EntityGeneChickenRoot extends EntityTameable {
         		this.writeEntityToNBT(nbt);
     			nbt.setString("ChickenData", EntityList.getEntityString(this));
     			nbt.setString("GeneData", this.getGeneData().getDataString());
+    			if(this.hasCustomNameTag())
+    				nbt.setString("ChickenName",this.getCustomNameTag());
     			nbt.setInteger("ChickenContainerState", 1);
     			itemstack.setTagCompound(nbt);
     			this.setDead();

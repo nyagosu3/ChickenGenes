@@ -9,5 +9,6 @@ public class ItemChickenBell extends Item {
 		this.setUnlocalizedName("ItemChickenBell");
 		this.setTextureName("chickengenes:chickenbell");
         this.setCreativeTab(CreativeTabs.tabMisc);
+        this.maxStackSize = 1;
 	}
 }
