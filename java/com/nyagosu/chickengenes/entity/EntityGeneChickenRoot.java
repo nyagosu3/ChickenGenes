@@ -361,10 +361,7 @@ public class EntityGeneChickenRoot extends EntityTameable {
         this.playSound("mob.chicken.step", 0.15F, 1.0F);
     }
 
-//  protected boolean canDespawn()
-//  {
-//      return this.func_152116_bZ() && this.riddenByEntity == null;
-//  }
+
 //  public void updateRiderPosition()
 //  {
 //      super.updateRiderPosition();
