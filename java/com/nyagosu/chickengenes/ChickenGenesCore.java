@@ -9,8 +9,10 @@ import com.nyagosu.chickengenes.item.ItemChickenCell;
 import com.nyagosu.chickengenes.item.ItemChickenContainer;
 import com.nyagosu.chickengenes.item.ItemChickenDopingSyringe;
 import com.nyagosu.chickengenes.item.ItemChickenEgg;
+import com.nyagosu.chickengenes.item.ItemChickenGene;
 import com.nyagosu.chickengenes.item.ItemChickenKnife;
 import com.nyagosu.chickengenes.item.ItemChickenLoupe;
+import com.nyagosu.chickengenes.item.ItemChickenSyringe;
 import com.nyagosu.chickengenes.item.ItemSpawnEgg;
 import com.nyagosu.chickengenes.item.ItemSweetSeed;
 import com.nyagosu.chickengenes.proxy.ServerProxy;
@@ -58,6 +60,8 @@ public class ChickenGenesCore {
 	public static ItemChickenDopingSyringe itemChickenDopingSyringe;
 	public static ItemChickenContainer itemChickenContainer;
 	public static ItemChickenEgg itemChickenEgg;
+	public static ItemChickenGene itemChickenGene;
+	public static ItemChickenSyringe itemChickenSyringe;
 	
 	public static BlockGeneProcessor blockGeneProcessor;
 	public static BlockGeneProcessor lit_blockGeneProcessor;
@@ -77,8 +81,6 @@ public class ChickenGenesCore {
 	
 	@Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-		
-		
 		
 		itemSpawnEgg = new ItemSpawnEgg(0x00FF0000,0x00FF0000);
 		GameRegistry.registerItem(itemSpawnEgg, "itemSpawnEgg");
@@ -110,8 +112,13 @@ public class ChickenGenesCore {
 		itemChickenEgg = new ItemChickenEgg();
 		GameRegistry.registerItem(itemChickenEgg, "itemChickenEgg");
 		
-		GameRegistry.registerTileEntity(TileEntityGeneProcessor.class, "TileEntityGeneProcessor");
+		itemChickenGene = new ItemChickenGene();
+		GameRegistry.registerItem(itemChickenGene, "itemChickenGene");
 		
+		itemChickenSyringe = new ItemChickenSyringe();
+		GameRegistry.registerItem(itemChickenSyringe, "itemChickenSyringe");
+		
+		GameRegistry.registerTileEntity(TileEntityGeneProcessor.class, "TileEntityGeneProcessor");
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
     }
 	

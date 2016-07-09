@@ -1,5 +1,6 @@
 package com.nyagosu.chickengenes.container;
 
+import com.nyagosu.chickengenes.item.ItemChickenCell;
 import com.nyagosu.chickengenes.tileentity.TileEntityGeneProcessor;
 
 import cpw.mods.fml.relauncher.Side;
@@ -26,27 +27,24 @@ public class ContainerGeneProcessor extends Container {
 		// InventorySampleで追加するインベントリ
 		this.addSlotToContainer(new Slot(this.tileentity, 0, 56, 17));
 		this.addSlotToContainer(new Slot(this.tileentity, 1, 56, 53));
-		this.addSlotToContainer(new SlotFurnace(player, this.tileentity, 2, 116, 35));
+		this.addSlotToContainer(new Slot(this.tileentity, 2, 116, 35));
+		//this.addSlotToContainer(new SlotFurnace(player, this.tileentity, 2, 116, 35));
 		int i;
  
 		// 1 ～ 3段目のインベントリ
-		for (i = 0; i < 3; ++i)
-		{
-			for (int j = 0; j < 9; ++j)
-			{
+		for (i = 0; i < 3; ++i){
+			for (int j = 0; j < 9; ++j){
 				this.addSlotToContainer(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
  
 		// 4段目のインベントリ
-		for (i = 0; i < 9; ++i)
-		{
+		for (i = 0; i < 9; ++i){
 			this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 142));
 		}
 	}
 	
-	public void addCraftingToCrafters(ICrafting par1ICrafting)
-	{
+	public void addCraftingToCrafters(ICrafting par1ICrafting){
 		super.addCraftingToCrafters(par1ICrafting);
 		par1ICrafting.sendProgressBarUpdate(this, 0, this.tileentity.cookTime);
 		par1ICrafting.sendProgressBarUpdate(this, 1, this.tileentity.burnTime);
@@ -84,11 +82,9 @@ public class ContainerGeneProcessor extends Container {
 		if (par1 == 0){
 			this.tileentity.cookTime = par2;
 		}
- 
 		if (par1 == 1){
 			this.tileentity.burnTime = par2;
 		}
- 
 		if (par1 == 2){
 			this.tileentity.currentItemBurnTime = par2;
 		}
@@ -97,8 +93,8 @@ public class ContainerGeneProcessor extends Container {
 	// InventorySample内のisUseableByPlayerメソッドを参照
 	@Override
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
-		return true;
-		//return this.tileentity.isUseableByPlayer(par1EntityPlayer);
+//		return true;
+		return this.tileentity.isUseableByPlayer(par1EntityPlayer);
 	}
 	
 	// Shiftクリック
@@ -126,8 +122,7 @@ public class ContainerGeneProcessor extends Container {
 			//スロット番号が0、1でない時
 			else if (par2 != 1 && par2 != 0)
 			{
-				if (FurnaceRecipes.smelting().getSmeltingResult(itemstack1) != null)
-				{
+				if ((itemstack.getItem() instanceof ItemChickenCell)){
 					//アイテムの移動(スロット0～1へ)
 					if (!this.mergeItemStack(itemstack1, 0, 1, false))
 					{

@@ -47,7 +47,13 @@ public class GuiContainerGeneProcessor extends GuiContainer {
 		if (this.tileentity.isBurning())
 		{
 			i1 = this.tileentity.getBurnTimeRemainingScaled(12);
-			this.drawTexturedModalRect(k + 56, l + 36 + 12 - i1, 176, 12 - i1, 14, i1 + 2);
+			this.drawTexturedModalRect(
+					k + 56, 
+					l + 36 + 12 - i1,
+					176, 
+					12 - i1, 
+					14, 
+					i1 + 2);
 		}
  
 		i1 = this.tileentity.getCookProgressScaled(24);

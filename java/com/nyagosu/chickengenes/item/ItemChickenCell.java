@@ -25,7 +25,6 @@ public class ItemChickenCell extends Item {
 	}
 	
 	public void setGeneData(ItemStack itemstack ,GeneData gene){
-		
 		NBTTagCompound nbt = itemstack.getTagCompound();
 		if(nbt == null)
 		{
@@ -36,17 +35,13 @@ public class ItemChickenCell extends Item {
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
-	{
-		if(!world.isRemote)
-		{
+	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer){
+		if(!world.isRemote){
 			NBTTagCompound nbt = itemstack.getTagCompound();
 			if(nbt == null)
 				return itemstack;
-			
 			String gene_data_string = nbt.getString("GeneData");
 			GeneData gene = new GeneData(gene_data_string);
-			DebugTool.print(gene.getDataString4Debug());
 		}
 		return itemstack;
 	}
