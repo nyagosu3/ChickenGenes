@@ -38,7 +38,7 @@ public class ItemChickenContainer extends Item {
 	
 	public ItemChickenContainer(){
 		this.setUnlocalizedName("ItemChickenContainer");
-		this.setTextureName("chickengenes:chickencontainer");
+		this.setTextureName("ChickenGenes:chickencontainer");
         this.setCreativeTab(CreativeTabs.tabMisc);
         this.maxStackSize = 1;
 	}

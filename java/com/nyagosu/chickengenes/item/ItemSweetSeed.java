@@ -19,7 +19,7 @@ public class ItemSweetSeed extends Item {
 		this.setUnlocalizedName("ItemSweetSeed");
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
-		this.setTextureName("chickengenes:sweetseed");
+		this.setTextureName("ChickenGenes:sweetseed");
         this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 	

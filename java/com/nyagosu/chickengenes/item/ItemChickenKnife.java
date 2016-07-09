@@ -17,7 +17,7 @@ public class ItemChickenKnife extends Item {
 	public ItemChickenKnife(){
 		this.setHasSubtypes(true);
 		this.setUnlocalizedName("ItemChickenKnife");
-		this.setTextureName("chickengenes:chickenknife");
+		this.setTextureName("ChickenGenes:chickenknife");
         this.setCreativeTab(CreativeTabs.tabMisc);
         this.maxStackSize = 1;
 	}

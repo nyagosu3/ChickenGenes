@@ -19,7 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiScreenChickenLoupe extends GuiScreen {
-    private static final ResourceLocation bookGuiTextures = new ResourceLocation("chickengenes:textures/gui/chickenloupe.png");
+    private static final ResourceLocation bookGuiTextures = new ResourceLocation("ChickenGenes:textures/gui/chickenloupe.png");
     private int bookImageWidth = 248;
     private int bookImageHeight = 167;
     private GuiButton buttonDone;

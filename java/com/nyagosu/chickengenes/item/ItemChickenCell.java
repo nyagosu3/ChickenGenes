@@ -19,7 +19,7 @@ public class ItemChickenCell extends Item {
 	public ItemChickenCell(){
 		this.setHasSubtypes(true);
 		this.setUnlocalizedName("ItemChickenCell");
-		this.setTextureName("chickengenes:chickencell");
+		this.setTextureName("ChickenGenes:chickencell");
 //        this.setCreativeTab(CreativeTabs.tabMisc);
         this.maxStackSize = 1;
 	}

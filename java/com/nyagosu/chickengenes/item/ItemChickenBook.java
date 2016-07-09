@@ -7,7 +7,7 @@ public class ItemChickenBook extends Item {
 	public ItemChickenBook(){
 		this.setHasSubtypes(true);
 		this.setUnlocalizedName("ItemChickenBook");
-		this.setTextureName("chickengenes:chickenbook");
+		this.setTextureName("ChickenGenes:chickenbook");
         this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 }

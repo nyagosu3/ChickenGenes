@@ -7,7 +7,7 @@ public class ItemChickenBell extends Item {
 	public ItemChickenBell(){
 		this.setHasSubtypes(true);
 		this.setUnlocalizedName("ItemChickenBell");
-		this.setTextureName("chickengenes:chickenbell");
+		this.setTextureName("ChickenGenes:chickenbell");
         this.setCreativeTab(CreativeTabs.tabMisc);
         this.maxStackSize = 1;
 	}

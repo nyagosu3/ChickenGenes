@@ -24,7 +24,7 @@ public class ItemChickenDopingSyringe extends Item {
 	public ItemChickenDopingSyringe(){
 		this.setHasSubtypes(true);
 		this.setUnlocalizedName("ItemChickenDopingSyringe");
-		this.setTextureName("chickengenes:chickendopingsyringe");
+		this.setTextureName("ChickenGenes:chickendopingsyringe");
         this.setCreativeTab(CreativeTabs.tabMisc);
         this.maxStackSize = 64;
 	}
