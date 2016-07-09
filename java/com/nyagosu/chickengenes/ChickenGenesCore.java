@@ -43,11 +43,10 @@ public class ChickenGenesCore {
 	@SidedProxy(clientSide="com.nyagosu.chickengenes.proxy.ClientProxy", serverSide="com.nyagosu.chickengenes.proxy.ServerProxy")
 	public static ServerProxy proxy;
 	
-	public static ResourceLocation ChickenGenesTexture = new ResourceLocation("ChickenGenes","textures/entity/genechicken.png");
+	public static ResourceLocation ChickenGenesTexture = new ResourceLocation("chickengenes","textures/entity/genechicken.png");
 	
 	public static final int CHICKENLOUPE_GUI_ID = 0;
 	public static final int GENEPROCESSOR_GUI_ID = 1;
-	
 	
 	public static ItemSpawnEgg itemSpawnEgg;
 	public static ItemChickenBook itemChickenBook;
