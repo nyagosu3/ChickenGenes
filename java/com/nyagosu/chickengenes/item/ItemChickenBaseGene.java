@@ -38,8 +38,7 @@ public class ItemChickenBaseGene extends Item {
 	}
 	
 	@SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean advanced)
-	{
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean advanced){
 		GeneData gene = this.getGeneData(itemStack);
 		if(gene == null)return ;
 		list.add("[ GeneData ]");

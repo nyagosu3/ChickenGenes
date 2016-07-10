@@ -1,10 +1,7 @@
 package com.nyagosu.chickengenes.item;
 
-import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
 import com.nyagosu.chickengenes.entity.GeneData;
-
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.passive.EntityChicken;
@@ -19,8 +16,7 @@ public class ItemChickenSyringeGene extends ItemChickenBaseGene {
         this.setTextureName("ChickenGenes:chickensyringegene");
     }
 	
-	public boolean itemInteractionForEntity(ItemStack itemstack, EntityPlayer p_111207_2_, EntityLivingBase p_111207_3_)
-    {
+	public boolean itemInteractionForEntity(ItemStack itemstack, EntityPlayer p_111207_2_, EntityLivingBase p_111207_3_){
     	if(!p_111207_3_.worldObj.isRemote && p_111207_3_ instanceof EntityChicken){
     		
     		GeneData gene = ((ItemChickenSyringeGene)itemstack.getItem()).getGeneData(itemstack);

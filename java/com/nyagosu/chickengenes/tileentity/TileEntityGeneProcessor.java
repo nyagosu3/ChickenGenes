@@ -6,7 +6,6 @@ import com.nyagosu.chickengenes.entity.GeneData;
 import com.nyagosu.chickengenes.item.ItemChickenCell;
 import com.nyagosu.chickengenes.item.ItemChickenGene;
 import com.nyagosu.chickengenes.util.Randory;
-
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -48,8 +47,7 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
 	public ItemStack[] itemStacks = new ItemStack[4];
 	
 	@Override
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound){
 		super.readFromNBT(par1NBTTagCompound);
 		
 		NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Items",10);
@@ -85,9 +83,6 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
 		par1NBTTagCompound.setTag("Items", nbttaglist);
 	}
 	
-	/*
-	 * パケット系
-	 */
 	@Override
 	public Packet getDescriptionPacket() {
         NBTTagCompound nbtTagCompound = new NBTTagCompound();
@@ -100,32 +95,23 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
         this.readFromNBT(pkt.func_148857_g());
     }
 	
-	
-	
 	@SideOnly(Side.CLIENT)
-	public int getCookProgressScaled(int par1)
-	{
+	public int getCookProgressScaled(int par1){
 		return this.cookTime * par1 / SMELT_TIME;
 	}
 	 
 	@SideOnly(Side.CLIENT)
-	public int getBurnTimeRemainingScaled(int par1)
-	{
-		if (this.currentItemBurnTime == 0)
-		{
+	public int getBurnTimeRemainingScaled(int par1){
+		if (this.currentItemBurnTime == 0){
 			this.currentItemBurnTime = SMELT_TIME;
 		}
- 
 		return this.burnTime * par1 / this.currentItemBurnTime;
 	}
  
-	public boolean isBurning()
-	{
+	public boolean isBurning(){
 		return this.burnTime > 0;
 	}
 	
-	//更新時に呼び出される
-	//かまどの処理
 	public void updateEntity(){
 		boolean flag = this.burnTime > 0;
 		boolean flag1 = false;
@@ -135,7 +121,6 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
 		}
  
 		if (!this.worldObj.isRemote){
-			
 			if (this.burnTime == 0 && this.canGeneProcess()){
 				this.currentItemBurnTime = this.burnTime = getItemBurnTime(this.itemStacks[1]);
 				if (this.burnTime > 0){
@@ -153,7 +138,6 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
 				++this.cookTime;
 				if (this.cookTime == SMELT_TIME){
 					this.cookTime = 0;
-					//this.smeltItem();
 					this.processItem();
 					flag1 = true;
 				}

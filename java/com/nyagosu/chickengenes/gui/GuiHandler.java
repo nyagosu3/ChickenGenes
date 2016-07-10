@@ -3,7 +3,6 @@ package com.nyagosu.chickengenes.gui;
 import com.nyagosu.chickengenes.container.ContainerGeneProcessor;
 import com.nyagosu.chickengenes.container.GuiContainerGeneProcessor;
 import com.nyagosu.chickengenes.tileentity.TileEntityGeneProcessor;
-import com.nyagosu.chickengenes.util.TooCon;
 
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,9 +10,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class GuiHandler implements IGuiHandler {
+	
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		TooCon.log("bb");
 		if (!world.blockExists(x, y, z))
 			return null;
 		
@@ -29,7 +28,6 @@ public class GuiHandler implements IGuiHandler {
 	
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		TooCon.log("cc");
 		if (!world.blockExists(x, y, z))
 			return null;
  

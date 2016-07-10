@@ -1,19 +1,12 @@
 package com.nyagosu.chickengenes.gui;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
 import com.nyagosu.chickengenes.entity.GeneData;
-import com.nyagosu.chickengenes.util.DebugTool;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -23,7 +16,6 @@ public class GuiScreenChickenLoupe extends GuiScreen {
     private int bookImageWidth = 248;
     private int bookImageHeight = 167;
     private GuiButton buttonDone;
-    private static final String __OBFID = "CL_00000744";
     private EntityGeneChicken chicken;
     private GeneData gene;
     

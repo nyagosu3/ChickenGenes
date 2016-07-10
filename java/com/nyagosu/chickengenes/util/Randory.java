@@ -1,7 +1,6 @@
 package com.nyagosu.chickengenes.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Randory {
 	

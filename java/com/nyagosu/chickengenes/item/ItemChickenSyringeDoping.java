@@ -1,24 +1,16 @@
 package com.nyagosu.chickengenes.item;
 
 import java.util.List;
-import java.util.Random;
-
 import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
 import com.nyagosu.chickengenes.entity.GeneData;
-import com.nyagosu.chickengenes.gui.GuiScreenChickenLoupe;
-import com.nyagosu.chickengenes.util.DebugTool;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 
 public class ItemChickenSyringeDoping extends Item {
 	
@@ -29,10 +21,8 @@ public class ItemChickenSyringeDoping extends Item {
         this.maxStackSize = 64;
 	}
 	
-    public boolean itemInteractionForEntity(ItemStack p_111207_1_, EntityPlayer p_111207_2_, EntityLivingBase p_111207_3_)
-    {
-    	if(!p_111207_3_.worldObj.isRemote && p_111207_3_ instanceof EntityGeneChicken)
-    	{
+    public boolean itemInteractionForEntity(ItemStack p_111207_1_, EntityPlayer p_111207_2_, EntityLivingBase p_111207_3_){
+    	if(!p_111207_3_.worldObj.isRemote && p_111207_3_ instanceof EntityGeneChicken){
     		EntityGeneChicken entity = (EntityGeneChicken)p_111207_3_;
     		GeneData gene = entity.getGeneData();
     		

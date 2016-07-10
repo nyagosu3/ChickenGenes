@@ -3,7 +3,6 @@ package com.nyagosu.chickengenes.model;
 import org.lwjgl.opengl.GL11;
 
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
-import com.nyagosu.chickengenes.util.DebugTool;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,8 +13,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
 
 @SideOnly(Side.CLIENT)
-public class ModelGeneChicken extends ModelBase
-{
+public class ModelGeneChicken extends ModelBase {
     public ModelRenderer head;
     public ModelRenderer body;
     public ModelRenderer rightLeg;
@@ -24,11 +22,9 @@ public class ModelGeneChicken extends ModelBase
     public ModelRenderer leftWing;
     public ModelRenderer bill;
     public ModelRenderer chin;
-    
     public ModelRenderer crest;
     
-    public ModelGeneChicken(int type)
-    {
+    public ModelGeneChicken(int type){
     	int chin_x;
     	int chin_y;
     	int crest_x;
@@ -110,17 +106,12 @@ public class ModelGeneChicken extends ModelBase
         this.crest.mirror = true;
     }
     
-    /**
-     * Sets the models various rotation angles then renders the model.
-     */
-    public void render(Entity p_78088_1_, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float p_78088_7_)
-    {
+    public void render(Entity p_78088_1_, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float p_78088_7_){
         this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, p_78088_7_, p_78088_1_);
 
         EntityGeneChicken entity = (EntityGeneChicken)p_78088_1_;
         
-        if (entity.isChild())
-        {
+        if (entity.isChild()){
             float f6 = 2.0F;
             GL11.glPushMatrix();
             GL11.glTranslatef(0.0F, 5.0F * p_78088_7_, 2.0F * p_78088_7_);
@@ -138,9 +129,7 @@ public class ModelGeneChicken extends ModelBase
             this.rightWing.render(p_78088_7_);
             this.leftWing.render(p_78088_7_);
             GL11.glPopMatrix();
-        }
-        else
-        {
+        }else{
             this.head.render(p_78088_7_);
             this.bill.render(p_78088_7_);
             this.chin.render(p_78088_7_);
@@ -153,13 +142,7 @@ public class ModelGeneChicken extends ModelBase
         }
     }
 
-    /**
-     * Sets the model's various rotation angles. For bipeds, par1 and par2 are used for animating the movement of arms
-     * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
-     * "far" arms and legs can swing at most.
-     */
-    public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity p_78087_7_)
-    {
+    public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity p_78087_7_){
         this.head.rotateAngleX = p_78087_5_ / (180F / (float)Math.PI);
         this.head.rotateAngleY = p_78087_4_ / (180F / (float)Math.PI);
         this.bill.rotateAngleX = this.head.rotateAngleX;
@@ -175,8 +158,7 @@ public class ModelGeneChicken extends ModelBase
         this.leftWing.rotateAngleZ = -p_78087_3_;
     }
     
-    public void setLivingAnimations(EntityLivingBase p_78086_1_, float p_78086_2_, float p_78086_3_, float p_78086_4_)
-    {
+    public void setLivingAnimations(EntityLivingBase p_78086_1_, float p_78086_2_, float p_78086_3_, float p_78086_4_){
         EntityGeneChicken chicken = (EntityGeneChicken)p_78086_1_;
         if (chicken.isSitting()){
         	this.head.offsetY = 0.3F;
@@ -188,7 +170,6 @@ public class ModelGeneChicken extends ModelBase
         	this.leftLeg.showModel = false;
         	this.rightWing.offsetY = 0.3F;
             this.leftWing.offsetY = 0.3F;
-        	
         }else{
         	this.head.offsetY = 0.0F;
         	this.bill.offsetY = 0.0F;

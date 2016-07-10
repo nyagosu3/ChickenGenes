@@ -49,20 +49,19 @@ public class ChickenGenesCore {
 	@SidedProxy(clientSide="com.nyagosu.chickengenes.proxy.ClientProxy", serverSide="com.nyagosu.chickengenes.proxy.ServerProxy")
 	public static ServerProxy proxy;
 	
-	public static CreativeTabs tabChickenGenes = new ChickenGenesTab("Chicken Genes");
-	
 	public static ResourceLocation ChickenGenesTexture = new ResourceLocation("chickengenes","textures/entity/genechicken.png");
 	
-	public static final int CHICKENLOUPE_GUI_ID = 0;
-	public static final int GENEPROCESSOR_GUI_ID = 1;
+	public static CreativeTabs tabChickenGenes = new ChickenGenesTab("Chicken Genes");
+	
+	public static final int GENEPROCESSOR_GUI_ID = 0;
 	
 	public static ItemSpawnEgg itemSpawnEgg;
-	public static ItemChickenLoupe itemChickenLoupe;
 	public static ItemChickenBell itemChickenBell;
-	public static ItemSweetSeed itemSweetSeed;
+	public static ItemChickenLoupe itemChickenLoupe;
 	public static ItemChickenKnife itemChickenKnife;
-	
 	public static ItemChickenContainer itemChickenContainer;
+	public static ItemSweetSeed itemSweetSeed;
+	
 	public static ItemChickenEgg itemChickenEgg;
 	public static ItemChickenCell itemChickenCell;
 	
@@ -77,9 +76,9 @@ public class ChickenGenesCore {
 	public static ItemChickenSyringeDoping itemChickenSyringeDoping;
 	public static ItemChickenSyringeMutation itemChickenSyringeMutation;
 	
+	//block
 	public static BlockChickenGeneProcessor blockChickenGeneProcessor;
 	public static BlockChickenGeneProcessor lit_blockChickenGeneProcessor;
-	
 	
 	@Mod.EventHandler
     public void preInit(FMLPostInitializationEvent event) {

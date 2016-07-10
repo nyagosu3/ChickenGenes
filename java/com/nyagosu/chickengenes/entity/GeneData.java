@@ -1,8 +1,6 @@
 package com.nyagosu.chickengenes.entity;
 
 import java.util.Random;
-
-import com.nyagosu.chickengenes.util.DebugTool;
 import com.nyagosu.chickengenes.util.Randory;
 
 public class GeneData {

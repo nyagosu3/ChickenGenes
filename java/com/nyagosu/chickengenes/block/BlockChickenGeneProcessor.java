@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.tileentity.TileEntityGeneProcessor;
-import com.nyagosu.chickengenes.util.TooCon;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -12,7 +11,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,26 +46,17 @@ public class BlockChickenGeneProcessor extends BlockContainer {
 		if (par1World.isRemote){
 			return true;
 		}else{
-			// GUIを開く
-			par5EntityPlayer.openGui(ChickenGenesCore.instance, 10, par1World, par2, par3, par4);
+			par5EntityPlayer.openGui(ChickenGenesCore.instance, ChickenGenesCore.GENEPROCESSOR_GUI_ID, par1World, par2, par3, par4);
 			return true;
 		}
 	}
 	
-	
-	
-	//ブロックが壊れた時の処理
-	//周辺に中に入っていたアイテムをまき散らす
-	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
-    {
-        if (!field_149934_M)
-        {
+	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_){
+        if (!field_149934_M){
             TileEntityGeneProcessor tileentityfurnace = (TileEntityGeneProcessor)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
 
-            if (tileentityfurnace != null)
-            {
-                for (int i1 = 0; i1 < tileentityfurnace.getSizeInventory(); ++i1)
-                {
+            if (tileentityfurnace != null){
+                for (int i1 = 0; i1 < tileentityfurnace.getSizeInventory(); ++i1){
                     ItemStack itemstack = tileentityfurnace.getStackInSlot(i1);
 
                     if (itemstack != null){
@@ -76,20 +65,17 @@ public class BlockChickenGeneProcessor extends BlockContainer {
                         float f1 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
                         float f2 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
 
-                        while (itemstack.stackSize > 0)
-                        {
+                        while (itemstack.stackSize > 0){
                             int j1 = this.field_149933_a.nextInt(21) + 10;
 
-                            if (j1 > itemstack.stackSize)
-                            {
+                            if (j1 > itemstack.stackSize){
                                 j1 = itemstack.stackSize;
                             }
 
                             itemstack.stackSize -= j1;
                             EntityItem entityitem = new EntityItem(p_149749_1_, (double)((float)p_149749_2_ + f), (double)((float)p_149749_3_ + f1), (double)((float)p_149749_4_ + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
-                            if (itemstack.hasTagCompound())
-                            {
+                            if (itemstack.hasTagCompound()){
                                 entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
                             }
 
@@ -101,11 +87,9 @@ public class BlockChickenGeneProcessor extends BlockContainer {
                         }
                     }
                 }
-
                 p_149749_1_.func_147453_f(p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_);
             }
         }
-
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
 	
@@ -115,24 +99,20 @@ public class BlockChickenGeneProcessor extends BlockContainer {
 	}
 	
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_)
-    {
+    public IIcon getIcon(int p_149691_1_, int p_149691_2_){
         return p_149691_1_ == 1 ? this.field_149935_N : (p_149691_1_ == 0 ? this.field_149935_N : (p_149691_1_ != p_149691_2_ ? this.blockIcon : this.field_149936_O));
     }
 
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister p_149651_1_)
-    {
+    public void registerBlockIcons(IIconRegister p_149651_1_){
         this.blockIcon = p_149651_1_.registerIcon("ChickenGenes:geneprocessor_side");
         this.field_149936_O = p_149651_1_.registerIcon(this.field_149932_b ? "ChickenGenes:geneprocessor_front_on" : "ChickenGenes:geneprocessor_front_off");
         this.field_149935_N = p_149651_1_.registerIcon("ChickenGenes:geneprocessor_top");
     }
     
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
-    {
-        if (this.field_149932_b)
-        {
+    public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_){
+        if (this.field_149932_b){
             int l = p_149734_1_.getBlockMetadata(p_149734_2_, p_149734_3_, p_149734_4_);
             float f = (float)p_149734_2_ + 0.5F;
             float f1 = (float)p_149734_3_ + 0.0F + p_149734_5_.nextFloat() * 6.0F / 16.0F;
@@ -140,62 +120,49 @@ public class BlockChickenGeneProcessor extends BlockContainer {
             float f3 = 0.52F;
             float f4 = p_149734_5_.nextFloat() * 0.6F - 0.3F;
 
-            if (l == 4)
-            {
+            if (l == 4){
                 p_149734_1_.spawnParticle("smoke", (double)(f - f3), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
                 p_149734_1_.spawnParticle("flame", (double)(f - f3), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-            }
-            else if (l == 5)
-            {
+            }else if (l == 5){
                 p_149734_1_.spawnParticle("smoke", (double)(f + f3), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
                 p_149734_1_.spawnParticle("flame", (double)(f + f3), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-            }
-            else if (l == 2)
-            {
+            }else if (l == 2){
                 p_149734_1_.spawnParticle("smoke", (double)(f + f4), (double)f1, (double)(f2 - f3), 0.0D, 0.0D, 0.0D);
                 p_149734_1_.spawnParticle("flame", (double)(f + f4), (double)f1, (double)(f2 - f3), 0.0D, 0.0D, 0.0D);
-            }
-            else if (l == 3)
-            {
+            }else if (l == 3){
                 p_149734_1_.spawnParticle("smoke", (double)(f + f4), (double)f1, (double)(f2 + f3), 0.0D, 0.0D, 0.0D);
                 p_149734_1_.spawnParticle("flame", (double)(f + f4), (double)f1, (double)(f2 + f3), 0.0D, 0.0D, 0.0D);
             }
         }
     }
     
-    public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_)
-    {
+    public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_){
         super.onBlockAdded(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
         this.func_149930_e(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
     }
     
-    private void func_149930_e(World p_149930_1_, int p_149930_2_, int p_149930_3_, int p_149930_4_)
-    {
-        if (!p_149930_1_.isRemote)
-        {
+    private void func_149930_e(World p_149930_1_, int p_149930_2_, int p_149930_3_, int p_149930_4_){
+        if (!p_149930_1_.isRemote){
+        	
             Block block = p_149930_1_.getBlock(p_149930_2_, p_149930_3_, p_149930_4_ - 1);
             Block block1 = p_149930_1_.getBlock(p_149930_2_, p_149930_3_, p_149930_4_ + 1);
             Block block2 = p_149930_1_.getBlock(p_149930_2_ - 1, p_149930_3_, p_149930_4_);
             Block block3 = p_149930_1_.getBlock(p_149930_2_ + 1, p_149930_3_, p_149930_4_);
             byte b0 = 3;
 
-            if (block.func_149730_j() && !block1.func_149730_j())
-            {
+            if (block.func_149730_j() && !block1.func_149730_j()){
                 b0 = 3;
             }
 
-            if (block1.func_149730_j() && !block.func_149730_j())
-            {
+            if (block1.func_149730_j() && !block.func_149730_j()){
                 b0 = 2;
             }
 
-            if (block2.func_149730_j() && !block3.func_149730_j())
-            {
+            if (block2.func_149730_j() && !block3.func_149730_j()){
                 b0 = 5;
             }
 
-            if (block3.func_149730_j() && !block2.func_149730_j())
-            {
+            if (block3.func_149730_j() && !block2.func_149730_j()){
                 b0 = 4;
             }
 
@@ -203,62 +170,45 @@ public class BlockChickenGeneProcessor extends BlockContainer {
         }
     }
     
-    /**
-     * Called when the block is placed in the world.
-     */
-    public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
-    {
+    public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_){
         int l = MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 
-        if (l == 0)
-        {
+        if (l == 0){
             p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 2, 2);
         }
 
-        if (l == 1)
-        {
+        if (l == 1){
             p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 5, 2);
         }
 
-        if (l == 2)
-        {
+        if (l == 2){
             p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 3, 2);
         }
 
-        if (l == 3)
-        {
+        if (l == 3){
             p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 4, 2);
         }
 
-        if (p_149689_6_.hasDisplayName())
-        {
+        if (p_149689_6_.hasDisplayName()){
             ((TileEntityGeneProcessor)p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_)).func_145951_a(p_149689_6_.getDisplayName());
         }
     }
     
-    /**
-     * Update which block the furnace is using depending on whether or not it is burning
-     */
-    public static void updateFurnaceBlockState(boolean p_149931_0_, World p_149931_1_, int p_149931_2_, int p_149931_3_, int p_149931_4_)
-    {
+    public static void updateFurnaceBlockState(boolean p_149931_0_, World p_149931_1_, int p_149931_2_, int p_149931_3_, int p_149931_4_){
         int l = p_149931_1_.getBlockMetadata(p_149931_2_, p_149931_3_, p_149931_4_);
         TileEntity tileentity = p_149931_1_.getTileEntity(p_149931_2_, p_149931_3_, p_149931_4_);
         field_149934_M = true;
 
-        if (p_149931_0_)
-        {
+        if (p_149931_0_){
         	p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, ChickenGenesCore.lit_blockChickenGeneProcessor);
-        }
-        else
-        {
+        }else{
             p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, ChickenGenesCore.blockChickenGeneProcessor);
         }
 
         field_149934_M = false;
         p_149931_1_.setBlockMetadataWithNotify(p_149931_2_, p_149931_3_, p_149931_4_, l, 2);
 
-        if (tileentity != null)
-        {
+        if (tileentity != null){
             tileentity.validate();
             p_149931_1_.setTileEntity(p_149931_2_, p_149931_3_, p_149931_4_, tileentity);
         }

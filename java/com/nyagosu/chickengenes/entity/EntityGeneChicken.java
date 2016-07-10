@@ -1,18 +1,12 @@
 package com.nyagosu.chickengenes.entity;
 
 
-import java.net.URLEncoder;
 import java.util.Random;
 
-import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.ai.EntityAIMateCustom;
-import com.nyagosu.chickengenes.item.ItemSweetSeed;
-import com.nyagosu.chickengenes.util.DebugTool;
 
 import net.minecraft.world.World;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIFollowOwner;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -29,10 +23,6 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemStack;
-import net.minecraft.pathfinding.PathEntity;
 
 public class EntityGeneChicken extends EntityGeneChickenRoot{
 	

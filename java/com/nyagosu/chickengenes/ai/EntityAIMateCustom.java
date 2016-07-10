@@ -3,12 +3,8 @@ package com.nyagosu.chickengenes.ai;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-
-import com.nyagosu.chickengenes.util.DebugTool;
-
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityCow;
@@ -26,7 +22,6 @@ public class EntityAIMateCustom extends EntityAIBase {
     int spawnBabyDelay;
     /** The speed the creature moves at during mating behavior. */
     double moveSpeed;
-    private static final String __OBFID = "CL_00001578";
 
     public EntityAIMateCustom(EntityAnimal p_i1619_1_, double p_i1619_2_)
     {

@@ -3,18 +3,13 @@ package com.nyagosu.chickengenes.entity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Random;
 
 import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.item.ItemChickenSyringeGene;
-import com.nyagosu.chickengenes.item.ItemChickenSyringeMutation;
 import com.nyagosu.chickengenes.item.ItemSweetSeed;
-import com.nyagosu.chickengenes.util.DebugTool;
 import com.nyagosu.chickengenes.util.Randory;
-import com.nyagosu.chickengenes.util.TooCon;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockColored;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityList;
@@ -24,12 +19,10 @@ import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityGeneChickenRoot extends EntityTameable {
@@ -191,8 +184,7 @@ public class EntityGeneChickenRoot extends EntityTameable {
             	this.heal(2.0F);
             	float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
                 float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                this.worldObj.spawnParticle("note",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f1,this.motionX,this.motionY,this.motionZ);
-            	
+                this.worldObj.spawnParticle("note",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f2,this.motionX + f1,this.motionY + f1,this.motionZ + f1);
                 if (!p_70085_1_.capabilities.isCreativeMode){
                     --itemstack.stackSize;
                 }
@@ -239,7 +231,7 @@ public class EntityGeneChickenRoot extends EntityTameable {
         	for (int i = 0; i < 7; i++){
         		float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
         		float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-        		this.worldObj.spawnParticle("happyVillager",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f1,this.motionX,this.motionY,this.motionZ);
+        		this.worldObj.spawnParticle("happyVillager",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f2,this.motionX + f1 + f2,this.motionY + f1 + f2,this.motionZ + f1 + f2);
         	}
         	if (!p_70085_1_.capabilities.isCreativeMode){
                 --itemstack.stackSize;
@@ -257,7 +249,7 @@ public class EntityGeneChickenRoot extends EntityTameable {
         		for (int i = 0; i < 7; i++){
             		float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
             		float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-            		this.worldObj.spawnParticle("happyVillager",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f1,this.motionX,this.motionY,this.motionZ);
+            		this.worldObj.spawnParticle("happyVillager",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f2,this.motionX + f1 + f2,this.motionY + f1 + f2,this.motionZ + f1 + f2);
             	}
             	GeneData gene = ((ItemChickenSyringeGene)itemstack.getItem()).getGeneData(itemstack);
         		GeneData new_gene = gene.mix(this.getGeneData());
@@ -282,7 +274,7 @@ public class EntityGeneChickenRoot extends EntityTameable {
         		for (int i = 0; i < 7; i++){
             		float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
             		float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-            		this.worldObj.spawnParticle("mobSpell",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f1,this.motionX,this.motionY,this.motionZ);
+            		this.worldObj.spawnParticle("mobSpell",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f2,this.motionX + f1 + f2,this.motionY + f1 + f2,this.motionZ + f1 + f2);
             	}
             	GeneData gene = new GeneData();
         		GeneData new_gene = gene.mix(this.getGeneData());

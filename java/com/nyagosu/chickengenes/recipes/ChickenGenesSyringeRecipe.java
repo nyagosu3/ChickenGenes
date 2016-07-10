@@ -2,14 +2,8 @@ package com.nyagosu.chickengenes.recipes;
 
 import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.entity.GeneData;
-import com.nyagosu.chickengenes.item.ItemChickenSyringe;
 import com.nyagosu.chickengenes.item.ItemChickenSyringeGene;
-import com.nyagosu.chickengenes.util.TooCon;
-
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,8 +11,8 @@ import net.minecraft.world.World;
 
 public class ChickenGenesSyringeRecipe implements IRecipe {
 	
-	
 	public ChickenGenesSyringeRecipe() {}
+	
 	public boolean matches(InventoryCrafting inventory, World worldIn){
 		if(inventory == null)return false;
 		ItemStack itemstack_s = null;

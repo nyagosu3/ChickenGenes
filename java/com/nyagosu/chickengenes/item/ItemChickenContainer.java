@@ -6,24 +6,18 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
 import com.nyagosu.chickengenes.entity.GeneData;
-import com.nyagosu.chickengenes.util.DebugTool;
-import com.nyagosu.chickengenes.util.TooCon;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Facing;
@@ -92,10 +86,6 @@ public class ItemChickenContainer extends Item {
 	            if (movingobjectposition == null)return null;
 	            if (movingobjectposition.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)return null;
             	
-                int i = movingobjectposition.blockX;
-                int j = movingobjectposition.blockY;
-                int k = movingobjectposition.blockZ;
-                
                 storedAnimal.readEntityFromNBT(itemstack.getTagCompound());
 				entity.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(player.worldObj.rand.nextFloat() * 360.0F), 0.0F);
 				storedAnimal.rotationYawHead = storedAnimal.rotationYaw;
@@ -189,8 +179,8 @@ public class ItemChickenContainer extends Item {
     	
     	list.add(title);
     	
-    	Entity entity = EntityList.createEntityByName(nbt.getString("ChickenData"), player.worldObj);
-    	EntityGeneChicken chicken = (EntityGeneChicken)entity;
+//    	Entity entity = EntityList.createEntityByName(nbt.getString("ChickenData"), player.worldObj);
+//    	EntityGeneChicken chicken = (EntityGeneChicken)entity;
     	
         list.add(this.getToolChipValue("MaxHealth",gene.maxhealth));
         list.add(this.getToolChipValue("Attack",gene.attack));
@@ -201,24 +191,14 @@ public class ItemChickenContainer extends Item {
         list.add(this.getToolChipValue("MoveSpeed",gene.movespeed));
     }
     
-    private String getToolChipName(String code,String name){
-    	String str = code + " | ";
-    	return str + name;
-    }
-    
     private String getToolChipValue(String code,int value){
 		String str = code + " | ";
 		String value_str;
-		if(value == 0)
-		{
+		if(value == 0){
 			value_str = String.valueOf(value);
-		}
-		else if(value > 0)
-		{
+		}else if(value > 0){
 			value_str = ChatFormatting.GREEN + String.valueOf(value);
-		}
-		else
-		{
+		}else{
 			value_str = ChatFormatting.RED + String.valueOf(value);
 		}
 		return str + value_str;
