@@ -6,8 +6,11 @@ import java.util.Collections;
 import java.util.Random;
 
 import com.nyagosu.chickengenes.ChickenGenesCore;
+import com.nyagosu.chickengenes.item.ItemChickenSyringeGene;
+import com.nyagosu.chickengenes.item.ItemChickenSyringeMutation;
 import com.nyagosu.chickengenes.item.ItemSweetSeed;
 import com.nyagosu.chickengenes.util.DebugTool;
+import com.nyagosu.chickengenes.util.Randory;
 import com.nyagosu.chickengenes.util.TooCon;
 
 import net.minecraft.block.Block;
@@ -46,7 +49,10 @@ public class EntityGeneChickenRoot extends EntityTameable {
     
     public static final int DW_CHICKEN_STAMINA = 26;
     public static final String NBT_CHICKEN_STAMINA = "CHICKEN_STAMINA";
-
+    
+    public static final int DW_CHICKEN_IN_GENE_COUNT = 27;
+    public static final String NBT_CHICKEN_IN_GENE_COUNT = "CHICKEN_IN_GENE_COUNT";
+    
 	public EntityGeneChickenRoot(World p_i1682_1_){
     	super(p_i1682_1_);
     }
@@ -72,6 +78,7 @@ public class EntityGeneChickenRoot extends EntityTameable {
         this.dataWatcher.addObject(19, new Byte((byte)0));
         this.dataWatcher.addObject(DW_GENEDATA,"");
         this.dataWatcher.addObject(DW_CHICKEN_STAMINA,0.0F);
+        this.dataWatcher.addObject(DW_CHICKEN_IN_GENE_COUNT,0);
     }
     
     public void setGeneDataInit(GeneData gene){
@@ -84,6 +91,9 @@ public class EntityGeneChickenRoot extends EntityTameable {
     public void changeGeneState(){
     	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.getGeneMaxHealth());
     	this.timeUntilNextEgg = this.getEggTime();
+    	if( this.getHealth() > this.getGeneMaxHealth()){
+    		this.setHealth((int)this.getGeneMaxHealth());
+    	}
     }
     
 	public GeneData getGeneData(){
@@ -113,51 +123,43 @@ public class EntityGeneChickenRoot extends EntityTameable {
     	this.setStamina(stamina);
     }
     
+    public int getInGeneCount(){
+    	return this.dataWatcher.getWatchableObjectInt(DW_CHICKEN_IN_GENE_COUNT);
+    }
     
+    public void setInGeneCount(int value){
+    	this.dataWatcher.updateObject(DW_CHICKEN_IN_GENE_COUNT,value);
+    }
+    
+    public void addInGeneCount(){
+    	this.setInGeneCount(this.getInGeneCount() + 1);
+    }
     
     public boolean interact(EntityPlayer p_70085_1_){
         ItemStack itemstack = p_70085_1_.inventory.getCurrentItem();
         
+        /*
+         * for ChickenBell
+         */
         if (this.isTamed()){
-        	
-//            if (itemstack != null){
-//                if (itemstack.getItem() instanceof ItemFood){
-//                    ItemFood itemfood = (ItemFood)itemstack.getItem();
-//                    if (itemfood.isWolfsFavoriteMeat() && this.dataWatcher.getWatchableObjectFloat(18) < 20.0F){
-//                        if (!p_70085_1_.capabilities.isCreativeMode){
-//                            --itemstack.stackSize;
-//                        }
-//                        this.heal((float)itemfood.func_150905_g(itemstack));
-//                        if (itemstack.stackSize <= 0){
-//                            p_70085_1_.inventory.setInventorySlotContents(p_70085_1_.inventory.currentItem, (ItemStack)null);
-//                        }
-//                        return true;
-//                    }
-//                }
-//            }
-            
         	if(
         			itemstack != null && 
         			this.func_152114_e(p_70085_1_) && 
         			!this.worldObj.isRemote && 
         			itemstack.getItem() == ChickenGenesCore.itemChickenBell
         			){
-        		
         		this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
                 this.setPathToEntity((PathEntity)null);
                 this.setTarget((Entity)null);
                 this.setAttackTarget((EntityLivingBase)null);
-                
         	}
-            
         }else if (
         		itemstack != null && 
 				!this.worldObj.isRemote &&
         		itemstack.getItem() == ChickenGenesCore.itemChickenBell && 
         		!this.isAngry()
         		){
-        	
         	this.setTamed(true);
             this.setPathToEntity((PathEntity)null);
             this.setAttackTarget((EntityLivingBase)null);
@@ -174,42 +176,36 @@ public class EntityGeneChickenRoot extends EntityTameable {
         		itemstack.getItem() instanceof ItemSweetSeed && 
         		!this.isAngry()
         		){
-        	
-        	if (!p_70085_1_.capabilities.isCreativeMode){
-                --itemstack.stackSize;
-            }
         	this.lastSeed = itemstack;
-        	
         }
         
+        /*
+         * Stamina and Health
+         */
         if (
         		itemstack != null && 
         		itemstack.getItem() == Items.wheat_seeds
         		){
-        	
-        	if (!p_70085_1_.capabilities.isCreativeMode){
-                --itemstack.stackSize;
-            }
-        	
-        	if(this.getStamina() < 100.0F){
+        	if(this.getStamina() < 100.0F || this.getHealth() < this.getGeneMaxHealth()){
         		this.addStamina(20.0F);
             	this.heal(2.0F);
-                
-                float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
+            	float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
                 float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                this.worldObj.spawnParticle(
-                		"note",
-                		this.posX + (double)f1,
-                		this.posY + 0.8D,
-                		this.posZ + (double)f1,
-                		this.motionX,this.motionY,this.motionZ);
+                this.worldObj.spawnParticle("note",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f1,this.motionX,this.motionY,this.motionZ);
             	
+                if (!p_70085_1_.capabilities.isCreativeMode){
+                    --itemstack.stackSize;
+                }
             	if (itemstack.stackSize <= 0){
             		p_70085_1_.inventory.setInventorySlotContents(p_70085_1_.inventory.currentItem, (ItemStack)null);
     			}
         	}
         }
         
+        
+        /*
+         * for ChickenContainer
+         */
         if (
         		itemstack != null && 
         		itemstack.getItem() == ChickenGenesCore.itemChickenContainer
@@ -231,15 +227,16 @@ public class EntityGeneChickenRoot extends EntityTameable {
     			itemstack.setTagCompound(nbt);
     			this.setDead();
         	}
-        	
         }
         
+        /*
+         * Doping
+         */
         if (
         		itemstack != null && 
-        		itemstack.getItem() == ChickenGenesCore.itemChickenDopingSyringe
+        		itemstack.getItem() == ChickenGenesCore.itemChickenSyringeDoping
         		){
-        	for (int i = 0; i < 7; i++)
-        	{
+        	for (int i = 0; i < 7; i++){
         		float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
         		float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
         		this.worldObj.spawnParticle("happyVillager",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f1,this.motionX,this.motionY,this.motionZ);
@@ -249,7 +246,65 @@ public class EntityGeneChickenRoot extends EntityTameable {
             }
         }
         
+        /*
+         * insert Gene
+         */
+        if (
+        		itemstack != null && 
+        		itemstack.getItem() == ChickenGenesCore.itemChickenSyringeGene
+        		){
+        	if(this.getInsertGeneResult()){
+        		for (int i = 0; i < 7; i++){
+            		float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
+            		float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
+            		this.worldObj.spawnParticle("happyVillager",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f1,this.motionX,this.motionY,this.motionZ);
+            	}
+            	GeneData gene = ((ItemChickenSyringeGene)itemstack.getItem()).getGeneData(itemstack);
+        		GeneData new_gene = gene.mix(this.getGeneData());
+        		this.setGeneData(new_gene);  	
+            	this.addInGeneCount();
+        	}else{
+        		this.setHealth(0);
+        	}
+        	if (!p_70085_1_.capabilities.isCreativeMode){
+                --itemstack.stackSize;
+            }
+        }
+        
+        /*
+         * insert Mutanted Gene
+         */
+        if (
+        		itemstack != null && 
+        		itemstack.getItem() == ChickenGenesCore.itemChickenSyringeMutation
+        		){
+        	if(this.getInsertGeneResult()){
+        		for (int i = 0; i < 7; i++){
+            		float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
+            		float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
+            		this.worldObj.spawnParticle("mobSpell",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f1,this.motionX,this.motionY,this.motionZ);
+            	}
+            	GeneData gene = new GeneData();
+        		GeneData new_gene = gene.mix(this.getGeneData());
+        		this.setGeneData(new_gene);
+            	this.addInGeneCount();
+        	}else{
+        		this.setHealth(0);
+        	}
+        	if (!p_70085_1_.capabilities.isCreativeMode){
+                --itemstack.stackSize;
+            }
+        }
+        
         return super.interact(p_70085_1_);
+    }
+    
+    public boolean getInsertGeneResult(){
+    	int count = this.getInGeneCount();
+    	Randory rand = new Randory();
+    	rand.addRate(0,100-count);
+		rand.addRate(1,count);
+		return rand.getValue() == 0;
     }
     
     public float getEggStamina(){
@@ -270,6 +325,7 @@ public class EntityGeneChickenRoot extends EntityTameable {
         p_70014_1_.setBoolean("Angry", this.isAngry());
         p_70014_1_.setString(NBT_GENEDATA, this.dataWatcher.getWatchableObjectString(DW_GENEDATA));
         p_70014_1_.setFloat(NBT_CHICKEN_STAMINA, this.dataWatcher.getWatchableObjectFloat(DW_CHICKEN_STAMINA));
+        p_70014_1_.setInteger(NBT_CHICKEN_IN_GENE_COUNT, this.dataWatcher.getWatchableObjectInt(DW_CHICKEN_IN_GENE_COUNT));
     }
     
     public void readEntityFromNBT(NBTTagCompound p_70037_1_){
@@ -277,6 +333,7 @@ public class EntityGeneChickenRoot extends EntityTameable {
         this.setAngry(p_70037_1_.getBoolean("Angry"));
         this.dataWatcher.updateObject(DW_GENEDATA, p_70037_1_.getString(NBT_GENEDATA));
         this.dataWatcher.updateObject(DW_CHICKEN_STAMINA, p_70037_1_.getFloat(NBT_CHICKEN_STAMINA));
+        this.dataWatcher.updateObject(DW_CHICKEN_IN_GENE_COUNT, p_70037_1_.getInteger(NBT_CHICKEN_IN_GENE_COUNT));
     }
     
 	public boolean isUniteSuccessGene(int c){

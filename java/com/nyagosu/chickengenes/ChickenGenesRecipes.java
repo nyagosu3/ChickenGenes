@@ -1,5 +1,7 @@
 package com.nyagosu.chickengenes;
 
+import com.nyagosu.chickengenes.recipes.ChickenGenesSyringeRecipe;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -12,6 +14,10 @@ public class ChickenGenesRecipes {
 		ItemStack itemSweetSees2 = new ItemStack(ChickenGenesCore.itemSweetSeed,1,1);
 		ItemStack itemSweetSees3 = new ItemStack(ChickenGenesCore.itemSweetSeed,1,2);
 		ItemStack itemSweetSees4 = new ItemStack(ChickenGenesCore.itemSweetSeed,1,3);
+		
+		ItemStack itemChickenSyringe = new ItemStack(ChickenGenesCore.itemChickenSyringe,1);
+		ItemStack itemChickenSyringeMutation = new ItemStack(ChickenGenesCore.itemChickenSyringeMutation,1);
+		ItemStack itemChickenGeneMutation = new ItemStack(ChickenGenesCore.itemChickenGeneMutation,1);
 		
 		GameRegistry.addSmelting(wheatSeeds,itemSweetSees1,0.0f);
 		
@@ -41,5 +47,14 @@ public class ChickenGenesRecipes {
     				"eee",
     				'e',itemSweetSees3
 	                } );
+		
+		GameRegistry.addShapelessRecipe(
+				itemChickenSyringeMutation,
+					itemChickenSyringe,
+					itemChickenGeneMutation
+			);
+		
+		GameRegistry.addRecipe(new ChickenGenesSyringeRecipe());
+		
 	}
 }

@@ -2,6 +2,8 @@ package com.nyagosu.chickengenes.item;
 
 import java.util.List;
 
+import com.nyagosu.chickengenes.ChickenGenesCore;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -16,11 +18,11 @@ public class ItemSweetSeed extends Item {
 	
 	public ItemSweetSeed(){
 		this.setHasSubtypes(true);
-		this.setUnlocalizedName("ItemSweetSeed");
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
+		this.setUnlocalizedName("ItemSweetSeed");
 		this.setTextureName("ChickenGenes:sweetseed");
-        this.setCreativeTab(CreativeTabs.tabMisc);
+		this.setCreativeTab(ChickenGenesCore.tabChickenGenes);
 	}
 	
 	@Override

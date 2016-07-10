@@ -39,7 +39,7 @@ public class ItemChickenContainer extends Item {
 	public ItemChickenContainer(){
 		this.setUnlocalizedName("ItemChickenContainer");
 		this.setTextureName("ChickenGenes:chickencontainer");
-        this.setCreativeTab(CreativeTabs.tabMisc);
+		this.setCreativeTab(ChickenGenesCore.tabChickenGenes);
         this.maxStackSize = 1;
 	}
 	
@@ -61,7 +61,11 @@ public class ItemChickenContainer extends Item {
 	public IIcon getIconIndex(ItemStack itemstack){
 		NBTTagCompound nbt = itemstack.getTagCompound();
 		if (nbt == null){
-			return this.iicon[0];
+			if(itemstack.getItemDamage() == 0){
+				return this.iicon[0];
+			}else{
+				return this.iicon[1];
+			}
 		}
 		if (nbt.hasKey("ChickenContainerState")){
 			return this.iicon[nbt.getInteger("ChickenContainerState")];
@@ -176,7 +180,9 @@ public class ItemChickenContainer extends Item {
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean advanced){
     	NBTTagCompound nbt = itemStack.getTagCompound();
     	if(nbt == null)return ;
-    	GeneData gene = new GeneData(nbt.getString("GeneData"));
+    	String str = nbt.getString("GeneData");
+    	if(str.length() == 0)return ;
+    	GeneData gene = new GeneData(str);
     	
     	String title = "[ GeneData ]";
     	if(nbt.hasKey("ChickenName"))title += " Name : " + nbt.getString("ChickenName");
@@ -185,10 +191,6 @@ public class ItemChickenContainer extends Item {
     	
     	Entity entity = EntityList.createEntityByName(nbt.getString("ChickenData"), player.worldObj);
     	EntityGeneChicken chicken = (EntityGeneChicken)entity;
-    	
-    	TooCon.log(itemStack.getDisplayName());
-    	
-    	
     	
         list.add(this.getToolChipValue("MaxHealth",gene.maxhealth));
         list.add(this.getToolChipValue("Attack",gene.attack));

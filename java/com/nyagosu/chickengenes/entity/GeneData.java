@@ -148,4 +148,9 @@ public class GeneData {
 				);
 	}
 	
+	public void randomSexValue(){
+		Random r = new Random();
+		this.sex = r.nextInt(2);
+	}
+	
 }

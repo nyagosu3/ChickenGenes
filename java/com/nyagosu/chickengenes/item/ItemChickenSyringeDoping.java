@@ -3,6 +3,7 @@ package com.nyagosu.chickengenes.item;
 import java.util.List;
 import java.util.Random;
 
+import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
 import com.nyagosu.chickengenes.entity.GeneData;
 import com.nyagosu.chickengenes.gui.GuiScreenChickenLoupe;
@@ -19,13 +20,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
-public class ItemChickenDopingSyringe extends Item {
+public class ItemChickenSyringeDoping extends Item {
 	
-	public ItemChickenDopingSyringe(){
-		this.setHasSubtypes(true);
-		this.setUnlocalizedName("ItemChickenDopingSyringe");
-		this.setTextureName("ChickenGenes:chickendopingsyringe");
-        this.setCreativeTab(CreativeTabs.tabMisc);
+	public ItemChickenSyringeDoping(){
+		this.setUnlocalizedName("ItemChickenSyringeDoping");
+		this.setTextureName("ChickenGenes:chickensyringedoping");
+		this.setCreativeTab(ChickenGenesCore.tabChickenGenes);
         this.maxStackSize = 64;
 	}
 	

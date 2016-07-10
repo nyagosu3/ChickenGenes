@@ -23,7 +23,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BlockGeneProcessor extends BlockContainer {
+public class BlockChickenGeneProcessor extends BlockContainer {
 	
 	private final Random field_149933_a = new Random();
 	private final boolean field_149932_b;
@@ -34,11 +34,11 @@ public class BlockGeneProcessor extends BlockContainer {
     @SideOnly(Side.CLIENT)
     private IIcon field_149936_O;
 	
-	public BlockGeneProcessor(boolean param) {
+	public BlockChickenGeneProcessor(boolean param) {
 		super(Material.rock);
-		setCreativeTab(CreativeTabs.tabBlock);
-		setBlockName("MyFurnace");
-		isBlockContainer = true;
+		this.setCreativeTab(ChickenGenesCore.tabChickenGenes);
+		this.setBlockName("ChickenGeneProcessor");
+		this.isBlockContainer = true;
 		this.field_149932_b = param;
 	}
 	
@@ -247,11 +247,11 @@ public class BlockGeneProcessor extends BlockContainer {
 
         if (p_149931_0_)
         {
-        	p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, ChickenGenesCore.lit_blockGeneProcessor);
+        	p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, ChickenGenesCore.lit_blockChickenGeneProcessor);
         }
         else
         {
-            p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, ChickenGenesCore.blockGeneProcessor);
+            p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, ChickenGenesCore.blockChickenGeneProcessor);
         }
 
         field_149934_M = false;

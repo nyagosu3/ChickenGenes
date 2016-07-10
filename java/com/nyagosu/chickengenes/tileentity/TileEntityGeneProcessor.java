@@ -1,9 +1,11 @@
 package com.nyagosu.chickengenes.tileentity;
 
 import com.nyagosu.chickengenes.ChickenGenesCore;
-import com.nyagosu.chickengenes.block.BlockGeneProcessor;
+import com.nyagosu.chickengenes.block.BlockChickenGeneProcessor;
 import com.nyagosu.chickengenes.entity.GeneData;
 import com.nyagosu.chickengenes.item.ItemChickenCell;
+import com.nyagosu.chickengenes.item.ItemChickenGene;
+import com.nyagosu.chickengenes.util.Randory;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -20,7 +22,6 @@ import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -29,21 +30,22 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityGeneProcessor extends TileEntity implements ISidedInventory {
-	//燃焼時間
+	
+	public static String INV_NAME = "Chicken Gene Processor";
+	
 	public int burnTime;
 	public int currentItemBurnTime;
 	
-	//調理時間
 	public int cookTime;
 	public static int SMELT_TIME = 100;
 	
 	private static final int[] slots_top = new int[] {0};
-	private static final int[] slots_bottom = new int[] {2, 1};
+	private static final int[] slots_bottom = new int[] {1, 2 , 3};
 	private static final int[] slots_sides = new int[] {1};
 	
 	private String field_145958_o;
 	
-	public ItemStack[] itemStacks = new ItemStack[3];
+	public ItemStack[] itemStacks = new ItemStack[4];
 	
 	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
@@ -53,7 +55,6 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
 		NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Items",10);
 		this.itemStacks = new ItemStack[this.getSizeInventory()];
 		
-		//各種情報の復元
 		for (int i = 0; i < nbttaglist.tagCount(); ++i){
 			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
 			byte b0 = nbttagcompound1.getByte("Slot");
@@ -70,7 +71,6 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound){
 		super.writeToNBT(par1NBTTagCompound);
 		
-		//各種情報の保存
 		par1NBTTagCompound.setShort("BurnTime", (short)this.burnTime);
 		par1NBTTagCompound.setShort("CookTime", (short)this.cookTime);
 		NBTTagList nbttaglist = new NBTTagList();
@@ -163,7 +163,7 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
  
 			if (flag != this.burnTime > 0){
 				flag1 = true;
-				BlockGeneProcessor.updateFurnaceBlockState(this.burnTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+				BlockChickenGeneProcessor.updateFurnaceBlockState(this.burnTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
 		}
  
@@ -176,15 +176,13 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
         this.field_145958_o = p_145951_1_;
     }
 	
-	/*
-	 * 処理できるアイテムかどうか
-	 */
 	private boolean canGeneProcess(){
 		if (this.itemStacks[0] == null){
 			return false;
 		}else{
 			if(
-					!(this.itemStacks[0].getItem() instanceof ItemChickenCell)
+					!(this.itemStacks[0].getItem() instanceof ItemChickenCell) && 
+					!(this.itemStacks[0].getItem() instanceof ItemChickenGene)
 					){
 				return false;
 			}
@@ -193,103 +191,94 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
 		}
 	}
 	
-	private boolean canSmelt(){
-		if (this.itemStacks[0] == null){
-			return false;
-		}else{
-			ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(this.itemStacks[0]);
-			if (itemstack == null) return false;
-			if (this.itemStacks[2] == null) return true;
-			if (!this.itemStacks[2].isItemEqual(itemstack)) return false;
-			int result = this.itemStacks[2].stackSize + itemstack.stackSize;
-			return (result <= this.getInventoryStackLimit() && result <= itemstack.getMaxStackSize());
-		}
-	}
-	
-	/*
-	 * メイン処理
-	 */
 	public void processItem(){
 		
 		if(!this.canGeneProcess())return;
 		ItemStack from_itemstack = this.itemStacks[0];
-		NBTTagCompound from_nbt = from_itemstack.getTagCompound();
 		
-		String gene_data_string = from_nbt.getString("GeneData");
-		ItemStack itemstack = new ItemStack(ChickenGenesCore.itemChickenCell,1);
-		ItemChickenCell cell = (ItemChickenCell)itemstack.getItem();
-		GeneData gene = new GeneData(gene_data_string);
-		gene.maxhealth += 1;
-		cell.setGeneData(itemstack,gene);
+		if(this.itemStacks[0].getItem() instanceof ItemChickenCell) {
+			this.processTypeCell(from_itemstack);
+		}else if(this.itemStacks[0].getItem() instanceof ItemChickenGene){
+			this.processTypeGene(from_itemstack);
+		}
 		
-		if (this.itemStacks[2] == null){
-			this.itemStacks[2] = itemstack.copy();
-		}else if (this.itemStacks[2].isItemEqual(itemstack)){
-			this.itemStacks[2].stackSize += itemstack.stackSize;
-		}
-
-		--this.itemStacks[0].stackSize;
-
-		if (this.itemStacks[0].stackSize <= 0){
-			this.itemStacks[0] = null;
-		}
 	}
 	
-	public void smeltItem(){
-		if (this.canGeneProcess()){
-			
-			ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(this.itemStacks[0]);
+	public void processTypeGene(ItemStack from_itemstack){
+		
+		Randory rand = new Randory();
+		rand.addRate(0,50);
+		rand.addRate(1,50);
+		ItemStack itemstack = null;
+		
+		if(rand.getValue() == 1){
+			//Success
+			itemstack = new ItemStack(ChickenGenesCore.itemChickenGeneMutation,1);
 			
 			if (this.itemStacks[2] == null){
 				this.itemStacks[2] = itemstack.copy();
 			}else if (this.itemStacks[2].isItemEqual(itemstack)){
 				this.itemStacks[2].stackSize += itemstack.stackSize;
 			}
- 
-			--this.itemStacks[0].stackSize;
- 
-			if (this.itemStacks[0].stackSize <= 0){
-				this.itemStacks[0] = null;
+			
+		}else{
+			//Failure
+			itemstack = new ItemStack(ChickenGenesCore.itemChickenGeneBroken,1);
+			
+			if (this.itemStacks[3] == null){
+				this.itemStacks[3] = itemstack.copy();
+			}else if (this.itemStacks[3].isItemEqual(itemstack)){
+				this.itemStacks[3].stackSize += itemstack.stackSize;
 			}
+			
+		}
+		
+		--this.itemStacks[0].stackSize;
+		if (this.itemStacks[0].stackSize <= 0){
+			this.itemStacks[0] = null;
 		}
 	}
 	
-	/*
-	 * 燃料の燃焼時間の取得
-	 */
-    public static int getItemBurnTime(ItemStack p_145952_0_)
-    {
-        if (p_145952_0_ == null)
-        {
+	public void processTypeCell(ItemStack from_itemstack){
+		
+		NBTTagCompound from_nbt = from_itemstack.getTagCompound();
+		String gene_data_string = from_nbt.getString("GeneData");
+		
+		ItemStack itemstack = new ItemStack(ChickenGenesCore.itemChickenGene,1);
+		ItemChickenGene gene = (ItemChickenGene)itemstack.getItem();
+		GeneData gene_data = new GeneData(gene_data_string);
+		gene.setGeneData(itemstack,gene_data);
+		
+		if (this.itemStacks[2] == null){
+			this.itemStacks[2] = itemstack.copy();
+		}else if (this.itemStacks[2].isItemEqual(itemstack)){
+			this.itemStacks[2].stackSize += itemstack.stackSize;
+		}
+		--this.itemStacks[0].stackSize;
+		if (this.itemStacks[0].stackSize <= 0){
+			this.itemStacks[0] = null;
+		}
+	}
+	
+    public static int getItemBurnTime(ItemStack p_145952_0_){
+        if (p_145952_0_ == null){
             return 0;
-        }
-        else
-        {
+        }else{
         	int moddedBurnTime = net.minecraftforge.event.ForgeEventFactory.getFuelBurnTime(p_145952_0_);
         	if (moddedBurnTime >= 0) return moddedBurnTime;
-        	
             Item item = p_145952_0_.getItem();
-
-            if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air)
-            {
+            if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air){
                 Block block = Block.getBlockFromItem(item);
-
-                if (block == Blocks.wooden_slab)
-                {
+                if (block == Blocks.wooden_slab){
                     return 150;
                 }
-
-                if (block.getMaterial() == Material.wood)
-                {
+                if (block.getMaterial() == Material.wood){
                     return 300;
                 }
-
-                if (block == Blocks.coal_block)
-                {
+                if (block == Blocks.coal_block){
                     return 16000;
                 }
             }
-
             if (item instanceof ItemTool && ((ItemTool)item).getToolMaterialName().equals("WOOD")) return 200;
             if (item instanceof ItemSword && ((ItemSword)item).getToolMaterialName().equals("WOOD")) return 200;
             if (item instanceof ItemHoe && ((ItemHoe)item).getToolMaterialName().equals("WOOD")) return 200;
@@ -302,9 +291,6 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
         }
     }
     
-    /*
-     * 燃料として使えるアイテムかを調べる
-     */
   	public static boolean isItemFuel(ItemStack par0ItemStack)
   	{
   		return getItemBurnTime(par0ItemStack) > 0;
@@ -351,7 +337,6 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
 		}
 	}
   	
-  	// インベントリ内のスロットにアイテムを入れる
  	@Override
  	public void setInventorySlotContents(int par1, ItemStack par2ItemStack) {
  		this.itemStacks[par1] = par2ItemStack;
@@ -359,24 +344,20 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
  			par2ItemStack.stackSize = this.getInventoryStackLimit();
  		}
  	}
-  
- 	// インベントリの名前
+ 	
  	public String getInvName() {
- 		return "Sample";
+ 		return INV_NAME;
  	}
-  
- 	// 多言語対応かどうか
+ 	
  	public boolean isInvNameLocalized() {
  		return false;
  	}
   
- 	// インベントリ内のスタック限界値
  	@Override
  	public int getInventoryStackLimit() {
  		return 64;
  	}
  	
- 	// par1EntityPlayerがTileEntityを使えるかどうか
  	@Override
  	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer) {
  		return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
@@ -387,19 +368,16 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
  		return par1 == 2 ? false : (par1 == 1 ? this.isItemFuel(par2ItemStack) : true);
  	}
   
- 	//ホッパーにアイテムの受け渡しをする際の優先度
  	@Override
  	public int[] getAccessibleSlotsFromSide(int par1) {
  		return par1 == 0 ? slots_bottom : (par1 == 1 ? slots_top : slots_sides);
  	}
  	
- 	//ホッパーからアイテムを入れられるかどうか
  	@Override
  	public boolean canInsertItem(int par1, ItemStack par2ItemStack, int par3) {
  		return this.isItemValidForSlot(par1, par2ItemStack);
  	}
   
- 	//隣接するホッパーにアイテムを送れるかどうか
  	@Override
     public boolean canExtractItem(int p_102008_1_, ItemStack p_102008_2_, int p_102008_3_){
         return p_102008_3_ != 0 || p_102008_1_ != 1 || p_102008_2_.getItem() == Items.bucket;

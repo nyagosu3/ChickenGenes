@@ -2,6 +2,8 @@ package com.nyagosu.chickengenes.item;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
+import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
 import com.nyagosu.chickengenes.util.DebugTool;
 
@@ -40,6 +42,7 @@ public class ItemSpawnEgg extends ItemMonsterPlacer {
         this.secondaryColor = par2;
         this.setUnlocalizedName("sample:spawn_egg");
         this.setTextureName("spawn_egg");
+        this.setCreativeTab(ChickenGenesCore.tabChickenGenes);
     }
     
     @SideOnly(Side.CLIENT)

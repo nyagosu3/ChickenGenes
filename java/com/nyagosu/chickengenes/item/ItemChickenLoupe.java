@@ -1,5 +1,6 @@
 package com.nyagosu.chickengenes.item;
 
+import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
 import com.nyagosu.chickengenes.gui.GuiScreenChickenLoupe;
 
@@ -15,7 +16,7 @@ public class ItemChickenLoupe extends Item{
 		this.setHasSubtypes(true);
 		this.setUnlocalizedName("ItemChickenLoupe");
 		this.setTextureName("ChickenGenes:chickenloupe");
-        this.setCreativeTab(CreativeTabs.tabMisc);
+		this.setCreativeTab(ChickenGenesCore.tabChickenGenes);
         this.maxStackSize = 1;
 	}
 	
