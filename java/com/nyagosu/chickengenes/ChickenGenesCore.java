@@ -4,7 +4,6 @@ import com.nyagosu.chickengenes.block.BlockChickenGeneProcessor;
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
 import com.nyagosu.chickengenes.gui.GuiHandler;
 import com.nyagosu.chickengenes.item.ItemChickenBell;
-import com.nyagosu.chickengenes.item.ItemChickenBook;
 import com.nyagosu.chickengenes.item.ItemChickenCell;
 import com.nyagosu.chickengenes.item.ItemChickenContainer;
 import com.nyagosu.chickengenes.item.ItemChickenSyringeDoping;
@@ -58,7 +57,6 @@ public class ChickenGenesCore {
 	public static final int GENEPROCESSOR_GUI_ID = 1;
 	
 	public static ItemSpawnEgg itemSpawnEgg;
-	public static ItemChickenBook itemChickenBook;
 	public static ItemChickenLoupe itemChickenLoupe;
 	public static ItemChickenBell itemChickenBell;
 	public static ItemSweetSeed itemSweetSeed;
@@ -101,9 +99,6 @@ public class ChickenGenesCore {
 		
 		itemSpawnEgg = new ItemSpawnEgg(0x00FF0000,0x00FF0000);
 		GameRegistry.registerItem(itemSpawnEgg, "itemSpawnEgg");
-		
-		itemChickenBook = new ItemChickenBook();
-		GameRegistry.registerItem(itemChickenBook, "itemChickenBook");
 		
 		itemChickenLoupe = new ItemChickenLoupe();
 		GameRegistry.registerItem(itemChickenLoupe, "itemChickenLoupe");
