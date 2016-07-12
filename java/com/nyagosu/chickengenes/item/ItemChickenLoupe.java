@@ -12,7 +12,6 @@ import net.minecraft.item.ItemStack;
 
 public class ItemChickenLoupe extends Item{
 	public ItemChickenLoupe(){
-		this.setHasSubtypes(true);
 		this.setUnlocalizedName("ItemChickenLoupe");
 		this.setTextureName("ChickenGenes:chickenloupe");
 		this.setCreativeTab(ChickenGenesCore.tabChickenGenes);

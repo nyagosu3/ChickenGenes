@@ -24,6 +24,17 @@ public class GuiScreenChickenLoupe extends GuiScreen {
     private int value_offset_x;
     private int value_offset_base_y;
     private int value_line_height;
+    
+    private int left_offset_x;
+    private int left_offset_y;
+    private int relative_separate_offset_x;
+    private int relative_value_offset_x;
+    private int line_height;
+    
+    private int base_x;
+    private int array_pos_offset_x[] = new int[2];
+    private int array_pos_offset_y[] = new int[2];
+    private static int BASE_FONT_COLOR = 0x333333;
 	
 	public GuiScreenChickenLoupe(EntityPlayer p_i1080_1_,EntityGeneChicken chicken){
 		this.chicken = chicken;
@@ -35,16 +46,21 @@ public class GuiScreenChickenLoupe extends GuiScreen {
     	this.buttonList.clear();
         Keyboard.enableRepeatEvents(true);
         offset_x = (this.width - this.bookImageWidth) / 2;
-        separate_offset_x = offset_x + 114;
-        value_offset_x = offset_x + 120;
-        value_offset_base_y = 32;
-        value_line_height = 12;
+        separate_offset_x = offset_x + 84;
+        value_offset_x = offset_x + 90;
+        value_offset_base_y = 40;
+        
+        base_x = (this.width - this.bookImageWidth) / 2;
+        array_pos_offset_x[0] = base_x + 20;
+        array_pos_offset_x[1] = base_x + 136;
+        array_pos_offset_y[0] = 49;
+        array_pos_offset_y[1] = 49;
+        value_line_height = 17;
         
         this.buttonList.add(this.buttonDone = new GuiButton(0, this.width / 2 - 100, 4 + this.bookImageHeight, 200, 20, I18n.format("gui.done", new Object[0])));
     }
     
-    public void onGuiClosed()
-    {
+    public void onGuiClosed(){
         Keyboard.enableRepeatEvents(false);
     }
     
@@ -62,50 +78,44 @@ public class GuiScreenChickenLoupe extends GuiScreen {
         
         String str_title = "Chicken GeneData";
         int ss = this.fontRendererObj.getStringWidth(str_title);
-        this.fontRendererObj.drawString(str_title,(this.width / 2 - ss / 2 ),12,0);
+        this.fontRendererObj.drawString(str_title,(this.width / 2 - ss / 2 ),20,0x333333);
         
         String sex_str = gene.sex == 0 ? "ZZ" : "ZW";
-        this.drawDataValue("Sex", sex_str, 0);
-        
+        put("Sex",sex_str,0,0);
         String mate_flag_str = gene.mate_flag == 0 ? "Still" : "Done";
-        this.drawDataValue("Mate", mate_flag_str, 1);
-        
-        this.drawDataValue("MaxHealth",gene.maxhealth,2);
-        this.drawDataValue("Attack", gene.attack,3);
-        this.drawDataValue("Defense", gene.defense,4);
-        this.drawDataValue("EggSpeed", gene.eggspeed,5);
-        this.drawDataValue("Efficiency", gene.efficiency,6);
-        this.drawDataValue("GrowSpeed", gene.growspeed,7);
-        this.drawDataValue("MoveSpeed", gene.movespeed,8);
-        this.drawDataValue("Stamina", this.chicken.getStamina(),9);
-        this.drawDataValue("Time", this.chicken.timeUntilNextEgg,10);
+        put("Mate",mate_flag_str,0,1);
+        put("MaxHealth", gene.maxhealth, 0, 2);
+        put("Attack", gene.attack, 0, 3);
+        put("Defense", gene.defense, 0, 4);
+        put("EggSpeed", gene.eggspeed, 0, 5);
+        put("Efficiency", gene.efficiency, 0, 6);
+        put("GrowSpeed", gene.growspeed, 1, 0);
+        put("MoveSpeed", gene.movespeed, 1, 1);
+        put("Stamina", String.format("%.2f",this.chicken.getStamina()) + "%", 1, 2);
+        put("NextEgg", this.chicken.timeUntilNextEgg, 1, 3);
+        put("GrowingAge", this.chicken.getGrowingAge(), 1, 4);
         
         super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
     }
     
-    private void drawDataValue(String name, String value, int line_num){
-    	int y = value_offset_base_y + value_line_height * line_num;
-    	this.fontRendererObj.drawString(name,offset_x + 14,y,0);
-        this.fontRendererObj.drawString("|",separate_offset_x,y,0);
-        this.fontRendererObj.drawString(value,value_offset_x,y,0);
-    }
-    
-    private void drawDataValue(String name, int value, int line_num){
-    	int color_code = (value == 0)?0x000000:(value > 0)?0x00FF00:0xFF0000;
+    private void put(String name, int value, int no, int line_num){
+    	int color = (value == 0)?BASE_FONT_COLOR:(value > 0)?0x00FF00:0xFF0000;
     	String value_string = ((value > 0)?"+":"") + String.valueOf(value);
-    	int y = value_offset_base_y + value_line_height * line_num;
-    	this.fontRendererObj.drawString(name,offset_x + 14,y,0);
-        this.fontRendererObj.drawString("|",separate_offset_x,y,0);
-        this.fontRendererObj.drawString(value_string,value_offset_x,y,color_code);
+    	int s = this.fontRendererObj.getStringWidth(value_string);
+    	int y = array_pos_offset_y[no] + value_line_height * line_num;
+    	this.fontRendererObj.drawString(name,array_pos_offset_x[no],y,BASE_FONT_COLOR);
+    	this.fontRendererObj.drawString(value_string,array_pos_offset_x[no] + 94 - s,y,color);
     }
     
-    private void drawDataValue(String name, float value, int line_num){
-    	//int color_code = (value == 0)?0x000000:(value > 0)?0x00FF00:0xFF0000;
-    	String value_string = ((value > 0)?"+":"") + String.valueOf(value) + "%";
-    	int y = value_offset_base_y + value_line_height * line_num;
-    	this.fontRendererObj.drawString(name,offset_x + 14,y,0);
-        this.fontRendererObj.drawString("|",separate_offset_x,y,0);
-        this.fontRendererObj.drawString(value_string,value_offset_x,y,0);
+    private void put(String name, String value, int no , int line_num){
+    	put(name,value,no,line_num,BASE_FONT_COLOR);
+    }
+    
+    private void put(String name, String value, int no , int line_num ,int color){
+    	int s = this.fontRendererObj.getStringWidth(value);
+    	int y = array_pos_offset_y[no] + value_line_height * line_num;
+    	this.fontRendererObj.drawString(name,array_pos_offset_x[no],y,BASE_FONT_COLOR);
+    	this.fontRendererObj.drawString(value,array_pos_offset_x[no] + 94 - s,y,color);
     }
     
     protected void keyTyped(char p_73869_1_, int p_73869_2_){

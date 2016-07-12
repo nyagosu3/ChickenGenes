@@ -107,6 +107,17 @@ public class EntityGeneChicken extends EntityGeneChickenRoot{
         
         this.field_70886_e += this.field_70889_i * 2.0F;
         
+        if (!this.worldObj.isRemote && isChild()){
+        	if(this.rand.nextInt(3) == 1){
+        		GeneData gene = this.getGeneData();
+        		if(gene.growspeed != 0){
+        			int age = this.getGrowingAge() + gene.growspeed;
+        			if(age < 0)age = 0;
+        			this.setGrowingAge(age);
+        		}
+        	}
+        }
+        
         if (
         		!this.worldObj.isRemote && 
         		!this.isChild() &&
@@ -120,12 +131,7 @@ public class EntityGeneChicken extends EntityGeneChickenRoot{
         	}else{
         		--this.timeUntilNextEgg;
         	}
-        }
-        
-//        if(!this.worldObj.isRemote){
-//        	DebugTool.print(String.valueOf(this.timeUntilNextEgg));
-//        }
-        	
+        }	
     }
     
     public boolean canMateWith(EntityAnimal p_70878_1_){

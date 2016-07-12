@@ -12,7 +12,7 @@ import net.minecraft.util.MathHelper;
 public class ItemChickenSyringeGene extends ItemChickenBaseGene {
 	public ItemChickenSyringeGene(){
 		super();
-        this.setUnlocalizedName("Chicken Syringe Gene");
+        this.setUnlocalizedName("ItemChickenSyringeGene");
         this.setTextureName("ChickenGenes:chickensyringegene");
     }
 	

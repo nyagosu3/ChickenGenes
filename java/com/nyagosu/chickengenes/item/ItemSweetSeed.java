@@ -17,12 +17,13 @@ public class ItemSweetSeed extends Item {
 	private IIcon[] iicon = new IIcon[16];
 	
 	public ItemSweetSeed(){
+		this.setUnlocalizedName("ItemSweetSeed");
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
-		this.setUnlocalizedName("ItemSweetSeed");
 		this.setTextureName("ChickenGenes:sweetseed");
 		this.setCreativeTab(ChickenGenesCore.tabChickenGenes);
+		this.maxStackSize = 64;
 	}
 	
 	@Override

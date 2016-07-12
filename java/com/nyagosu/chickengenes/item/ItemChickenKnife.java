@@ -11,7 +11,6 @@ import net.minecraft.item.ItemStack;
 public class ItemChickenKnife extends Item {
 	
 	public ItemChickenKnife(){
-		this.setHasSubtypes(true);
 		this.setUnlocalizedName("ItemChickenKnife");
 		this.setTextureName("ChickenGenes:chickenknife");
 		this.setCreativeTab(ChickenGenesCore.tabChickenGenes);

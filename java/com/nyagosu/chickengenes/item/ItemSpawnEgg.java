@@ -34,12 +34,13 @@ public class ItemSpawnEgg extends ItemMonsterPlacer {
     };
     
     public ItemSpawnEgg(int par1, int par2){
+    	this.setUnlocalizedName("ItemSpawnEgg");
         this.setHasSubtypes(true);
         this.primaryColor = par1;
         this.secondaryColor = par2;
-        this.setUnlocalizedName("sample:spawn_egg");
         this.setTextureName("spawn_egg");
         this.setCreativeTab(ChickenGenesCore.tabChickenGenes);
+        this.maxStackSize = 64;
     }
     
     @SideOnly(Side.CLIENT)

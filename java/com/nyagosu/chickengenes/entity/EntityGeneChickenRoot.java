@@ -28,6 +28,7 @@ import net.minecraft.world.World;
 public class EntityGeneChickenRoot extends EntityTameable {
 	
 	public double base_max_health = 4.0D;
+	public double base_movement_speed = 0.25D;
 	
 	public float field_70886_e;
     public float destPos;
@@ -58,7 +59,7 @@ public class EntityGeneChickenRoot extends EntityTameable {
     protected void applyEntityAttributes(){
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.base_max_health);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(this.base_movement_speed);
     }
     
     public boolean isAIEnabled(){
@@ -81,12 +82,12 @@ public class EntityGeneChickenRoot extends EntityTameable {
     	this.timeUntilNextEgg = this.getEggTime();
     }
 	
-    public void changeGeneState(){
+    public void changeGeneState(GeneData gene){
     	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.getGeneMaxHealth());
     	this.timeUntilNextEgg = this.getEggTime();
-    	if( this.getHealth() > this.getGeneMaxHealth()){
+    	if( this.getHealth() > this.getGeneMaxHealth())
     		this.setHealth((int)this.getGeneMaxHealth());
-    	}
+    	this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(this.base_movement_speed + (double)gene.movespeed * 0.001D);
     }
     
 	public GeneData getGeneData(){
@@ -95,7 +96,7 @@ public class EntityGeneChickenRoot extends EntityTameable {
     
     public void setGeneData(GeneData gene){
     	this.dataWatcher.updateObject(DW_GENEDATA,gene.getDataString());
-    	this.changeGeneState();
+    	this.changeGeneState(gene);
     }
     
     protected double getGeneMaxHealth(){

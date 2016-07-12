@@ -25,18 +25,16 @@ public class ItemChickenSyringeDoping extends Item {
     	if(!p_111207_3_.worldObj.isRemote && p_111207_3_ instanceof EntityGeneChicken){
     		EntityGeneChicken entity = (EntityGeneChicken)p_111207_3_;
     		GeneData gene = entity.getGeneData();
-    		
     		switch(p_111207_1_.getItemDamage()){
     		case 0:gene.maxhealth += 1;		break;
     		case 1:gene.attack += 1;		break;
     		case 2:gene.defense += 1;		break;
-    		case 3:gene.eggspeed += 1;		break;
-    		case 4:gene.efficiency += 1;	break;
+    		case 3:gene.eggspeed += 100;		break;
+    		case 4:gene.efficiency += 100;	break;
     		case 5:gene.growspeed += 1;		break;
     		case 6:gene.movespeed += 1;		break;
     		};
     		entity.setGeneData(gene);
-    		
     	}
     	return false;
     }
