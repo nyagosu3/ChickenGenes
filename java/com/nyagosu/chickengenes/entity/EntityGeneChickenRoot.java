@@ -3,6 +3,7 @@ package com.nyagosu.chickengenes.entity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.item.ItemChickenSyringeGene;
@@ -371,13 +372,25 @@ public class EntityGeneChickenRoot extends EntityTameable {
             if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow)){
                 p_70097_2_ = (p_70097_2_ + 1.0F) / 2.0F;
             }
+            GeneData gene = this.getGeneData();
+            if(gene.defense != 0){
+            	p_70097_2_ = (float) (p_70097_2_ - (gene.defense * 0.025));
+            	
+            	if(p_70097_2_ < 0){
+            		Random rand = new Random();
+            		int r = rand.nextInt(2);
+            		if(r == 1)p_70097_2_ = 1.0F;
+            	}
+            }
             return super.attackEntityFrom(p_70097_1_, p_70097_2_);
         }
     }
-	
+    
 	public boolean attackEntityAsMob(Entity p_70652_1_){
-        int i = this.isTamed() ? 4 : 2;
-        return p_70652_1_.attackEntityFrom(DamageSource.causeMobDamage(this), (float)i);
+        float i = 2.0F;
+		GeneData gene = this.getGeneData();
+		i = (float) (i + gene.attack * 0.1);
+		return p_70652_1_.attackEntityFrom(DamageSource.causeMobDamage(this), (float)i);
     }
     
     public void setAngry(boolean p_70916_1_){
