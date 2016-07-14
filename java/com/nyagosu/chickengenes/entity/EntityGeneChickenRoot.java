@@ -277,7 +277,8 @@ public class EntityGeneChickenRoot extends EntityTameable {
             		this.worldObj.spawnParticle("mobSpell",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f2,this.motionX + f1 + f2,this.motionY + f1 + f2,this.motionZ + f1 + f2);
             	}
             	GeneData gene = new GeneData();
-        		GeneData new_gene = gene.mix(this.getGeneData());
+            	GeneData own_gene = this.getGeneData();
+        		GeneData new_gene = own_gene.addGene(gene);
         		this.setGeneData(new_gene);
             	this.addInGeneCount();
         	}else{
