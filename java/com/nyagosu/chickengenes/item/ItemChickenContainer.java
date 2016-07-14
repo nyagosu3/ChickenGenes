@@ -91,6 +91,7 @@ public class ItemChickenContainer extends Item {
 				storedAnimal.rotationYawHead = storedAnimal.rotationYaw;
 				storedAnimal.renderYawOffset = storedAnimal.rotationYaw;
 				storedAnimal.onSpawnWithEgg((IEntityLivingData)null);
+				storedAnimal.timeUntilNextEgg = storedAnimal.getEggTime();
 				if(!player.worldObj.isRemote){
 					if(world.spawnEntityInWorld(entity)){
 						itemstack.getTagCompound().removeTag("ChickenData");
@@ -174,14 +175,14 @@ public class ItemChickenContainer extends Item {
     	if(str.length() == 0)return ;
     	GeneData gene = new GeneData(str);
     	
-    	String title = "[ GeneData ]";
+    	String title = "[ Chicken Data ]";
     	if(nbt.hasKey("ChickenName"))title += " Name : " + nbt.getString("ChickenName");
     	
     	list.add(title);
     	
 //    	Entity entity = EntityList.createEntityByName(nbt.getString("ChickenData"), player.worldObj);
 //    	EntityGeneChicken chicken = (EntityGeneChicken)entity;
-    	
+    	list.add(this.getToolChipValue("Sex",(gene.sex == 0)?"ZZ":"ZW"));
         list.add(this.getToolChipValue("MaxHealth",gene.maxhealth));
         list.add(this.getToolChipValue("Attack",gene.attack));
         list.add(this.getToolChipValue("Defense",gene.defense));
@@ -190,6 +191,10 @@ public class ItemChickenContainer extends Item {
         list.add(this.getToolChipValue("GrowSpeed",gene.growspeed));
         list.add(this.getToolChipValue("MoveSpeed",gene.movespeed));
     }
+    
+    private String getToolChipValue(String code,String value){
+		return code + " | " + value;
+	}
     
     private String getToolChipValue(String code,int value){
 		String str = code + " | ";

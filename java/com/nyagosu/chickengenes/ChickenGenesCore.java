@@ -21,6 +21,7 @@ import com.nyagosu.chickengenes.item.ItemSweetSeed;
 import com.nyagosu.chickengenes.proxy.ServerProxy;
 import com.nyagosu.chickengenes.tileentity.TileEntityGeneProcessor;
 
+import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -32,6 +33,8 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.BiomeDictionary;
 
@@ -57,8 +60,6 @@ public class ChickenGenesCore {
 	
 	public static final int GENEPROCESSOR_GUI_ID = 0;
 	
-	public static String[] spawnBiomes;
-	
 	//item
 	public static ItemChickenBell itemChickenBell;
 	public static ItemChickenLoupe itemChickenLoupe;
@@ -83,6 +84,11 @@ public class ChickenGenesCore {
 	//block
 	public static BlockChickenGeneProcessor blockChickenGeneProcessor;
 	public static BlockChickenGeneProcessor lit_blockChickenGeneProcessor;
+	
+	//setting
+	public static final int EggBurnTime = 60;				//3sec
+	public static final int GeneProcessorBurnTime = 6000;	//5min
+	
 	
 	@Mod.EventHandler
     public void preInit(FMLPostInitializationEvent event) {
@@ -153,8 +159,7 @@ public class ChickenGenesCore {
 	@EventHandler
     public void postInit(FMLPostInitializationEvent event) {
 		
-		
-		spawnBiomes = new String[]{
+		String[] spawnBiomes = new String[]{
 				"FOREST",
 				"PLAINS",
 				"MOUNTAIN",
@@ -180,7 +185,18 @@ public class ChickenGenesCore {
 		}
 		
 		proxy.registerRenderThings();
+		
 		ChickenGenesRecipes.regist();
+		
+		GameRegistry.registerFuelHandler(new IFuelHandler(){
+			@Override
+			public int getBurnTime(ItemStack fuel){
+				if(fuel.getItem().equals(Items.egg)){
+					return ChickenGenesCore.EggBurnTime;
+				}
+				return 0;
+			}
+		});
     }
 	
 }
