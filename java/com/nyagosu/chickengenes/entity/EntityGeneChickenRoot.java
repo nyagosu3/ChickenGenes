@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
-
 import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.item.ItemChickenSyringeGene;
 import com.nyagosu.chickengenes.item.ItemSweetSeed;
 import com.nyagosu.chickengenes.util.Randory;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -30,7 +28,6 @@ public class EntityGeneChickenRoot extends EntityTameable {
 	
 	public double base_max_health = 4.0D;
 	public double base_movement_speed = 0.25D;
-	
 	public float field_70886_e;
     public float destPos;
     public float field_70884_g;
@@ -224,7 +221,7 @@ public class EntityGeneChickenRoot extends EntityTameable {
         }
         
         /*
-         * Doping
+         * for Drug
          */
         if (
         		itemstack != null && 
@@ -241,21 +238,22 @@ public class EntityGeneChickenRoot extends EntityTameable {
         }
         
         /*
-         * insert Gene
+         * add Gene
          */
         if (
         		itemstack != null && 
         		itemstack.getItem() == ChickenGenesCore.itemChickenSyringeGene
         		){
         	if(this.getInsertGeneResult()){
-        		for (int i = 0; i < 7; i++){
+        		for (int i = 0; i < 4; i++){
             		float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
             		float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
             		this.worldObj.spawnParticle("happyVillager",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f2,this.motionX + f1 + f2,this.motionY + f1 + f2,this.motionZ + f1 + f2);
             	}
-            	GeneData gene = ((ItemChickenSyringeGene)itemstack.getItem()).getGeneData(itemstack);
-        		GeneData new_gene = gene.mix(this.getGeneData());
-        		this.setGeneData(new_gene);  	
+            	GeneData add_gene = ((ItemChickenSyringeGene)itemstack.getItem()).getGeneData(itemstack);
+            	GeneData own_gene = this.getGeneData();
+        		GeneData new_gene = own_gene.addGene(add_gene);
+        		this.setGeneData(new_gene);
             	this.addInGeneCount();
         	}else{
         		this.setHealth(0);
@@ -338,7 +336,12 @@ public class EntityGeneChickenRoot extends EntityTameable {
     }
     
     public int getUniteSuccessRate(int p,int m){
-    	int[] rates = {4,6,8,10};
+    	int[] rates = {
+    			4,
+    			6,
+    			8,
+    			10
+    			};
     	return (rates[p] + rates[m])/2;
     }
     
@@ -403,7 +406,7 @@ public class EntityGeneChickenRoot extends EntityTameable {
     }
     
     public boolean isAngry(){
-        return (this.dataWatcher.getWatchableObjectByte(16) & 2) != 0;
+    	return (this.dataWatcher.getWatchableObjectByte(16) & 2) != 0;
     }
     
     protected void fall(float p_70069_1_) {}

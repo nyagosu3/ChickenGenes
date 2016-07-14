@@ -6,14 +6,15 @@ import com.nyagosu.chickengenes.util.Randory;
 public class GeneData {
 	
 	public int sex 			= 0;
+	public int generation   = 0;
 	public int mate_flag	= 0;
-	public int maxhealth 	= 0;//1
-	public int attack 		= 0;//2
-	public int defense 		= 0;//3
-	public int eggspeed 	= 0;//4
-	public int efficiency 	= 0;//5
-	public int growspeed 	= 0;//6
-	public int movespeed 	= 0;//7
+	public int maxhealth 	= 0;
+	public int attack 		= 0;
+	public int defense 		= 0;
+	public int eggspeed 	= 0;
+	public int efficiency 	= 0;
+	public int growspeed 	= 0;
+	public int movespeed 	= 0;
 	
 	public GeneData(){
 		this.setRandomValue();
@@ -24,6 +25,7 @@ public class GeneData {
 		this.sex = r.nextInt(2);
 		
 		this.mate_flag = 0;
+		this.generation = 0;
 		
 		//plus
 		Randory rand = new Randory();
@@ -66,6 +68,7 @@ public class GeneData {
 	
 	public GeneData(
 			int sex,
+			int generation,
 			int mate_flag,
 			int maxhealth,
 			int attack,
@@ -76,6 +79,7 @@ public class GeneData {
 			int movespeed
 			){
 		this.sex = sex;
+		this.generation = generation;
 		this.mate_flag = mate_flag;
 		this.maxhealth = maxhealth;
 		this.attack = attack;
@@ -88,16 +92,17 @@ public class GeneData {
 	
 	public GeneData(String gene_data_string){
 		String[] datas = gene_data_string.split(",");
-		if(datas.length == 9){
+		if(datas.length == 10){
 			this.sex = Integer.parseInt(datas[0]);
-			this.mate_flag = Integer.parseInt(datas[1]);
-			this.maxhealth = Integer.parseInt(datas[2]);
-			this.attack = Integer.parseInt(datas[3]);
-			this.defense = Integer.parseInt(datas[4]);
-			this.eggspeed = Integer.parseInt(datas[5]);
-			this.efficiency = Integer.parseInt(datas[6]);
-			this.growspeed = Integer.parseInt(datas[7]);
-			this.movespeed = Integer.parseInt(datas[8]);
+			this.generation = Integer.parseInt(datas[1]);
+			this.mate_flag = Integer.parseInt(datas[2]);
+			this.maxhealth = Integer.parseInt(datas[3]);
+			this.attack = Integer.parseInt(datas[4]);
+			this.defense = Integer.parseInt(datas[5]);
+			this.eggspeed = Integer.parseInt(datas[6]);
+			this.efficiency = Integer.parseInt(datas[7]);
+			this.growspeed = Integer.parseInt(datas[8]);
+			this.movespeed = Integer.parseInt(datas[9]);
 		}else{
 			this.setRandomValue();
 		}
@@ -106,6 +111,7 @@ public class GeneData {
 	public String getDataString(){
 		String data_string = "";
 		data_string += String.valueOf(this.sex) + ",";
+		data_string += String.valueOf(this.generation) + ",";
 		data_string += String.valueOf(this.mate_flag) + ",";
 		data_string += String.valueOf(this.maxhealth) + ",";
 		data_string += String.valueOf(this.attack) + ",";
@@ -120,6 +126,7 @@ public class GeneData {
 	public String getDataString4Debug(){
 		String str = "";
 		str += "sex:" + String.valueOf(this.sex);
+		str += "generation:" + String.valueOf(this.generation);
 		str += " mate_flag:" + String.valueOf(this.mate_flag);
 		str += " maxhealth:" + String.valueOf(this.maxhealth);
 		str += " attack:" + String.valueOf(this.attack);
@@ -135,7 +142,24 @@ public class GeneData {
 		Random r = new Random();
 		return new GeneData(
 					r.nextInt(2),
+					Math.max(this.generation, gene.generation) + 1,
 					0,
+					this.maxhealth + gene.maxhealth,
+					this.attack + gene.attack,
+					this.defense + gene.defense,
+					this.eggspeed + gene.eggspeed,
+					this.efficiency + gene.efficiency,
+					this.growspeed + gene.growspeed,
+					this.movespeed + gene.movespeed
+				);
+	}
+	
+	public GeneData addGene(GeneData gene){
+		Random r = new Random();
+		return new GeneData(
+					this.sex,
+					this.generation,
+					this.mate_flag,
 					this.maxhealth + gene.maxhealth,
 					this.attack + gene.attack,
 					this.defense + gene.defense,

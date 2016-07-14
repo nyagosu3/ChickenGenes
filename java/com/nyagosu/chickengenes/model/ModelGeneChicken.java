@@ -1,9 +1,7 @@
 package com.nyagosu.chickengenes.model;
 
 import org.lwjgl.opengl.GL11;
-
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBase;

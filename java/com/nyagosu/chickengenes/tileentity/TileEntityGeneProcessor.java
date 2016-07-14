@@ -36,7 +36,7 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
 	public int currentItemBurnTime;
 	
 	public int cookTime;
-	public static int SMELT_TIME = 100;
+	public static int SMELT_TIME = 6000;//5min
 	
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {1, 2 , 3};

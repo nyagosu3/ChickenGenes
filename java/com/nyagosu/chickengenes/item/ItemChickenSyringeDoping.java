@@ -79,62 +79,11 @@ public class ItemChickenSyringeDoping extends Item {
     	}
     	return false;
     }
-
-    public String getItemStackDisplayName(ItemStack par1ItemStack){
-    	String str = "";
-    	switch(par1ItemStack.getItemDamage()){
-    	case 0:		str = "MaxHealth UP + 1";		break;
-    	case 1:		str = "MaxHealth UP + 10";		break;
-    	case 2:		str = "MaxHealth UP + 100";		break;
-    	case 3:		str = "MaxHealth DOWN - 1";		break;
-    	case 4:		str = "MaxHealth DOWN - 10";	break;
-    	case 5:		str = "MaxHealth DOWN - 100";	break;
-
-    	case 10:	str = "Attack UP + 1";			break;
-    	case 11:	str = "Attack UP + 10";			break;
-    	case 12:	str = "Attack UP + 100";		break;
-    	case 13:	str = "Attack DOWN - 1";		break;
-    	case 14:	str = "Attack DOWN - 10";		break;
-    	case 15:	str = "Attack DOWN - 100";		break;
-    	
-    	case 20:	str = "Defense UP + 1";			break;
-    	case 21:	str = "Defense UP + 10";		break;
-    	case 22:	str = "Defense UP + 100";		break;
-    	case 23:	str = "Defense DOWN - 1";		break;
-    	case 24:	str = "Defense DOWN - 10";		break;
-    	case 25:	str = "Defense DOWN - 100";		break;
-    	
-    	case 30:	str = "EggSpeed UP + 1";		break;
-    	case 31:	str = "EggSpeed UP + 10";		break;
-    	case 32:	str = "EggSpeed UP + 100";		break;
-    	case 33:	str = "EggSpeed DOWN - 1";		break;
-    	case 34:	str = "EggSpeed DOWN - 10";		break;
-    	case 35:	str = "EggSpeed DOWN - 100";	break;
-    	
-    	case 40:	str = "Efficiency UP + 1";		break;
-    	case 41:	str = "Efficiency UP + 10";		break;
-    	case 42:	str = "Efficiency UP + 100";	break;
-    	case 43:	str = "Efficiency DOWN - 1";	break;
-    	case 44:	str = "Efficiency DOWN - 10";	break;
-    	case 45:	str = "Efficiency DOWN - 100";	break;
-    	
-    	case 50:	str = "GrowSpeed UP + 1";		break;
-    	case 51:	str = "GrowSpeed UP + 10";		break;
-    	case 52:	str = "GrowSpeed UP + 100";		break;
-    	case 53:	str = "GrowSpeed DOWN - 1";		break;
-    	case 54:	str = "GrowSpeed DOWN - 10";	break;
-    	case 55:	str = "GrowSpeed DOWN - 100";	break;
-    	
-    	case 60:	str = "MoveSpeed UP + 1";		break;
-    	case 61:	str = "MoveSpeed UP + 10";		break;
-    	case 62:	str = "MoveSpeed UP + 100";		break;
-    	case 63:	str = "MoveSpeed DOWN - 1";		break;
-    	case 64:	str = "MoveSpeed DOWN - 10";	break;
-    	case 65:	str = "MoveSpeed DOWN - 100";	break;
-    		
-    	};
-        return str;
-    }
+    
+    @Override
+	public String getUnlocalizedName(ItemStack itemStack) {
+		return super.getUnlocalizedName() + "." + itemStack.getItemDamage();
+	}
     
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item par1, CreativeTabs par2, List par3){
@@ -144,36 +93,42 @@ public class ItemChickenSyringeDoping extends Item {
     	par3.add(new ItemStack(par1, 1, 3));
     	par3.add(new ItemStack(par1, 1, 4));
     	par3.add(new ItemStack(par1, 1, 5));
+    	
     	par3.add(new ItemStack(par1, 1, 10));
     	par3.add(new ItemStack(par1, 1, 11));
     	par3.add(new ItemStack(par1, 1, 12));
     	par3.add(new ItemStack(par1, 1, 13));
     	par3.add(new ItemStack(par1, 1, 14));
     	par3.add(new ItemStack(par1, 1, 15));
+    	
     	par3.add(new ItemStack(par1, 1, 20));
     	par3.add(new ItemStack(par1, 1, 21));
     	par3.add(new ItemStack(par1, 1, 22));
     	par3.add(new ItemStack(par1, 1, 23));
     	par3.add(new ItemStack(par1, 1, 24));
     	par3.add(new ItemStack(par1, 1, 25));
+    	
     	par3.add(new ItemStack(par1, 1, 30));
     	par3.add(new ItemStack(par1, 1, 31));
     	par3.add(new ItemStack(par1, 1, 32));
     	par3.add(new ItemStack(par1, 1, 33));
     	par3.add(new ItemStack(par1, 1, 34));
     	par3.add(new ItemStack(par1, 1, 35));
+    	
     	par3.add(new ItemStack(par1, 1, 40));
     	par3.add(new ItemStack(par1, 1, 41));
     	par3.add(new ItemStack(par1, 1, 42));
     	par3.add(new ItemStack(par1, 1, 43));
     	par3.add(new ItemStack(par1, 1, 44));
     	par3.add(new ItemStack(par1, 1, 45));
+    	
     	par3.add(new ItemStack(par1, 1, 50));
     	par3.add(new ItemStack(par1, 1, 51));
     	par3.add(new ItemStack(par1, 1, 52));
     	par3.add(new ItemStack(par1, 1, 53));
     	par3.add(new ItemStack(par1, 1, 54));
     	par3.add(new ItemStack(par1, 1, 55));
+    	
     	par3.add(new ItemStack(par1, 1, 60));
     	par3.add(new ItemStack(par1, 1, 61));
     	par3.add(new ItemStack(par1, 1, 62));

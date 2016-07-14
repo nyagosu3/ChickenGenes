@@ -1,9 +1,7 @@
 package com.nyagosu.chickengenes.item;
 
 import java.util.List;
-
 import com.nyagosu.chickengenes.ChickenGenesCore;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;

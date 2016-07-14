@@ -20,13 +20,10 @@ public class ChickenGenesTab extends CreativeTabs {
 	}
 	
 	@SideOnly(Side.CLIENT)
-    public ItemStack getIconItemStack()
-    {
-        if (this.field_151245_t == null)
-        {
+    public ItemStack getIconItemStack(){
+        if (this.field_151245_t == null){
             this.field_151245_t = new ItemStack(this.getTabIconItem(), 1, 1);
         }
-
         return this.field_151245_t;
     }
 }

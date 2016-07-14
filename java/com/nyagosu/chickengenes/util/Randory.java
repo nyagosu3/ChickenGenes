@@ -7,9 +7,7 @@ public class Randory {
 	public ArrayList<int[]> rates = new ArrayList<int[]>();
 	public ArrayList<Integer> values = new ArrayList<Integer>();
 	
-	public Randory(){
-		
-	}
+	public Randory(){}
 	
 	public void addRate(int val,int count){
 		int[] i = {val,val,count};
@@ -26,7 +24,6 @@ public class Randory {
 			int min = rate[0];
 			int max = rate[1];
 			int cnt = rate[2];
-			
 			if(min == max){
 				for (int i = 0; i < cnt; i++)
 					this.values.add(min);

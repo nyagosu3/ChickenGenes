@@ -31,7 +31,9 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.BiomeDictionary;
 
 @Mod(
 		modid = "ChickenGenes",
@@ -55,15 +57,17 @@ public class ChickenGenesCore {
 	
 	public static final int GENEPROCESSOR_GUI_ID = 0;
 	
-	public static ItemSpawnEgg itemSpawnEgg;
+	public static String[] spawnBiomes;
+	
+	//item
 	public static ItemChickenBell itemChickenBell;
 	public static ItemChickenLoupe itemChickenLoupe;
 	public static ItemChickenKnife itemChickenKnife;
 	public static ItemChickenContainer itemChickenContainer;
 	public static ItemSweetSeed itemSweetSeed;
-	
-	public static ItemChickenEgg itemChickenEgg;
 	public static ItemChickenCell itemChickenCell;
+	public static ItemSpawnEgg itemSpawnEgg;
+	public static ItemChickenEgg itemChickenEgg;
 	
 	//gene
 	public static ItemChickenGene itemChickenGene;
@@ -148,6 +152,33 @@ public class ChickenGenesCore {
 	
 	@EventHandler
     public void postInit(FMLPostInitializationEvent event) {
+		
+		
+		spawnBiomes = new String[]{
+				"FOREST",
+				"PLAINS",
+				"MOUNTAIN",
+				"HILLS",
+				"SWAMP",
+				"WATER",
+				"DESERT",
+				"FROZEN",
+				"JUNGLE",
+				"WASTELAND",
+				"BEACH",
+//				"NETHER",
+//				"END",
+				"MUSHROOM",
+				"MAGICAL"
+		};
+		
+		for (String ls : spawnBiomes) {
+			BiomeDictionary.Type ltype = BiomeDictionary.Type.valueOf(ls);
+			if (ltype != null) {
+				EntityRegistry.addSpawn(EntityGeneChicken.class, 20, 0, 3, EnumCreatureType.creature, BiomeDictionary.getBiomesForType(ltype));
+			}
+		}
+		
 		proxy.registerRenderThings();
 		ChickenGenesRecipes.regist();
     }

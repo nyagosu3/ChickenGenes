@@ -1,10 +1,6 @@
 package com.nyagosu.chickengenes.entity;
 
-
-import java.util.Random;
-
 import com.nyagosu.chickengenes.ai.EntityAIMateCustom;
-
 import net.minecraft.world.World;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -19,6 +15,7 @@ import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
@@ -56,7 +53,7 @@ public class EntityGeneChicken extends EntityGeneChickenRoot{
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
 		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
 		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntitySheep.class, 200, false));
+//		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntitySheep.class, 200, false));
     }
     
     public EntityGeneChicken createChild(EntityAgeable p_90011_1_){
@@ -70,13 +67,16 @@ public class EntityGeneChicken extends EntityGeneChickenRoot{
     	GeneData p_gene = p.getGeneData();
     	GeneData m_gene = this.getGeneData();
     	
-    	int c = getUniteSuccessRate(p_seed,m_seed);
-    	if(this.isUniteSuccessGene(c)){
+    	if(this.isUniteSuccessGene(this.getUniteSuccessRate(p_seed,m_seed))){
+    		//success
     		new_gene = m_gene.mix(p_gene);
+    		for(int i = 0;i < 3;i++)
+    			this.worldObj.spawnEntityInWorld(new EntityXPOrb(this.worldObj, this.posX, this.posY, this.posZ, this.rand.nextInt(2) + 1));
     	}else{
-    		Random r = new Random();
-    		new_gene = (r.nextInt(2) == 0)?m_gene:p_gene;
+    		new_gene = (this.rand.nextInt(2) == 0)?m_gene:p_gene;
     	}
+    	
+    	new_gene.generation = Math.max(m_gene.generation, p_gene.generation) + 1;
     	
     	p_gene.mate_flag = 1;
     	m_gene.mate_flag = 1;
@@ -108,14 +108,12 @@ public class EntityGeneChicken extends EntityGeneChickenRoot{
         this.field_70886_e += this.field_70889_i * 2.0F;
         
         if (!this.worldObj.isRemote && isChild()){
-        	if(this.rand.nextInt(3) == 1){
-        		GeneData gene = this.getGeneData();
-        		if(gene.growspeed != 0){
-        			int age = this.getGrowingAge() + gene.growspeed;
-        			if(age < 0)age = 0;
-        			this.setGrowingAge(age);
-        		}
-        	}
+        	GeneData gene = this.getGeneData();
+    		if(gene.growspeed != 0 && this.rand.nextInt(3) == 1){
+    			int age = this.getGrowingAge() + gene.growspeed;
+    			if(age > 0)age = 0;
+    			this.setGrowingAge(age);
+    		}
         }
         
         if (
@@ -147,9 +145,9 @@ public class EntityGeneChicken extends EntityGeneChickenRoot{
     
     public String getChickenDataString(){
     	String str = "";
-    	str += String.valueOf(this.getHealth()) + "|";		//health
-    	str += String.valueOf(this.timeUntilNextEgg) + "|";	//timeUntilNextEgg
-    	str += String.valueOf(this.getGeneData().getDataString()) + "";	//gene
+    	str += String.valueOf(this.getHealth()) + "|";
+    	str += String.valueOf(this.timeUntilNextEgg) + "|";
+    	str += String.valueOf(this.getGeneData().getDataString()) + "";
     	return str;
     }
     
