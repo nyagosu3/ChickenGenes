@@ -86,9 +86,46 @@ public class ChickenGenesCore {
 	public static BlockChickenGeneProcessor lit_blockChickenGeneProcessor;
 	
 	//setting
-	public static final int EggBurnTime = 60;				//3sec
-	public static final int GeneProcessorBurnTime = 6000;	//5min
-	
+	/*
+	 * Eggの燃焼時間
+	 */
+	public static final int 	EggBurnTime 			= 60; //3sec
+	/*
+	 * GeneProcessorが処理完了に必要tick
+	 */
+	public static final int 	GeneProcessorBurnTime = 6000;	//5min
+	/*
+	 * GeneData.EggSpeed補正に使用する係数。
+	 */
+	public static final int 	GeneEggSpeedFactorValue = 20;
+	/*
+	 * GeneData.Attack補正に使用する係数。
+	 */
+	public static final float 	GeneAttackFactorValue = 0.1F;
+	/*
+	 * GeneData.Defense補正に使用する係数。
+	 */
+	public static final float 	GeneDefenseFactorValue = 0.025F;
+	/*
+	 * GeneData.Defense補正の結果、ダメージが0を下回る場合、最低値であるダメージ1を与える割合
+	 */
+	public static final float	GeneDefenseAdjustRate = 0.5F;
+	/*
+	 * GeneData.GrowSpeed補正に使用する係数。
+	 */
+	public static final float	GeneGrowSpeedFactorValue = 1.0F;
+	/*
+	 * GeneData.GrowSpeed補正が行われる割合。
+	 */
+	public static final float	GeneGrowSpeedAdjustRate = 0.5F;
+	/*
+	 * GeneData.Efficiency補正に使用する係数。
+	 */
+	public static final float	GeneEfficiencyFactorValue = 0.05F;
+	/*
+	 * GeneData.MoveSpeed補正に使用する係数。
+	 */
+	public static final double	GeneMoveSpeedFactorValue = 0.001D;
 	
 	@Mod.EventHandler
     public void preInit(FMLPostInitializationEvent event) {

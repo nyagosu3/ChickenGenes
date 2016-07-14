@@ -96,6 +96,40 @@ public class EntityGeneChicken extends EntityTameable {
 //		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntitySheep.class, 200, false));
     }
     
+    protected void applyEntityAttributes(){
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.base_max_health);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(this.base_movement_speed);
+    }
+    
+    public boolean isAIEnabled(){
+        return true;
+    }
+    
+    protected void entityInit(){
+        super.entityInit();
+        this.dataWatcher.addObject(18, new Float(this.getHealth()));
+        this.dataWatcher.addObject(19, new Byte((byte)0));
+        this.dataWatcher.addObject(DW_GENEDATA,"");
+        this.dataWatcher.addObject(DW_CHICKEN_STAMINA,0.0F);
+        this.dataWatcher.addObject(DW_CHICKEN_IN_GENE_COUNT,0);
+    }
+    
+    public void setGeneDataInit(GeneData gene){
+    	this.setGeneData(gene);
+    	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.getGeneMaxHealth());
+    	this.setHealth((float)this.getGeneMaxHealth());
+    	this.timeUntilNextEgg = this.getEggTime();
+    }
+	
+    public void changeGeneState(GeneData gene){
+    	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.getGeneMaxHealth());
+    	this.timeUntilNextEgg = this.getEggTime();
+    	if( this.getHealth() > this.getGeneMaxHealth())
+    		this.setHealth((int)this.getGeneMaxHealth());
+    	this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(this.base_movement_speed + (double)gene.movespeed * ChickenGenesCore.GeneMoveSpeedFactorValue);
+    }
+    
     public EntityGeneChicken createChild(EntityAgeable p_90011_1_){
     	
     	EntityGeneChicken p = (EntityGeneChicken)p_90011_1_;
@@ -149,8 +183,9 @@ public class EntityGeneChicken extends EntityTameable {
         
         if (!this.worldObj.isRemote && isChild()){
         	GeneData gene = this.getGeneData();
-    		if(gene.growspeed != 0 && this.rand.nextInt(3) == 1){
-    			int age = this.getGrowingAge() + gene.growspeed;
+        	
+    		if(gene.growspeed != 0 && Math.random() < ChickenGenesCore.GeneGrowSpeedAdjustRate){
+    			int age = (int) (this.getGrowingAge() + gene.growspeed * ChickenGenesCore.GeneGrowSpeedFactorValue);
     			if(age > 0)age = 0;
     			this.setGrowingAge(age);
     		}
@@ -196,40 +231,6 @@ public class EntityGeneChicken extends EntityTameable {
     	this.setHealth(Float.valueOf(values[0]));
     	this.timeUntilNextEgg = Integer.parseInt(values[1]);
     	this.setGeneData(new GeneData(values[2]));
-    }
-    
-    protected void applyEntityAttributes(){
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.base_max_health);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(this.base_movement_speed);
-    }
-    
-    public boolean isAIEnabled(){
-        return true;
-    }
-    
-    protected void entityInit(){
-        super.entityInit();
-        this.dataWatcher.addObject(18, new Float(this.getHealth()));
-        this.dataWatcher.addObject(19, new Byte((byte)0));
-        this.dataWatcher.addObject(DW_GENEDATA,"");
-        this.dataWatcher.addObject(DW_CHICKEN_STAMINA,0.0F);
-        this.dataWatcher.addObject(DW_CHICKEN_IN_GENE_COUNT,0);
-    }
-    
-    public void setGeneDataInit(GeneData gene){
-    	this.setGeneData(gene);
-    	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.getGeneMaxHealth());
-    	this.setHealth((float)this.getGeneMaxHealth());
-    	this.timeUntilNextEgg = this.getEggTime();
-    }
-	
-    public void changeGeneState(GeneData gene){
-    	this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.getGeneMaxHealth());
-    	this.timeUntilNextEgg = this.getEggTime();
-    	if( this.getHealth() > this.getGeneMaxHealth())
-    		this.setHealth((int)this.getGeneMaxHealth());
-    	this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(this.base_movement_speed + (double)gene.movespeed * 0.001D);
     }
     
 	public GeneData getGeneData(){
@@ -446,13 +447,13 @@ public class EntityGeneChicken extends EntityTameable {
     
     public float getEggStamina(){
     	float base = 5.0F;
-    	float v = base - (float) (this.getGeneData().efficiency * 0.05);
+    	float v = base - (float) (this.getGeneData().efficiency * ChickenGenesCore.GeneEfficiencyFactorValue);
     	if(v < 0.01F)v = 0.01F;
     	return v * -1;
     }
     
     public int getEggTime(){
-    	int time = this.rand.nextInt(6000) + 6000 - this.getGeneData().eggspeed * 20;
+    	int time = this.rand.nextInt(6000) + 6000 - this.getGeneData().eggspeed * ChickenGenesCore.GeneEggSpeedFactorValue;
     	if(time < 20)time = 20;
     	return time;
     }
@@ -483,10 +484,10 @@ public class EntityGeneChicken extends EntityTameable {
     
     public int getUniteSuccessRate(int p,int m){
     	int[] rates = {
-    			4,
-    			6,
-    			8,
-    			10
+    			4,//sweet seed level 1
+    			6,//sweet seed level 2
+    			8,//sweet seed level 3
+    			10//sweet seed level 4
     			};
     	return (rates[p] + rates[m])/2;
     }
@@ -523,12 +524,12 @@ public class EntityGeneChicken extends EntityTameable {
             }
             GeneData gene = this.getGeneData();
             if(gene.defense != 0){
-            	p_70097_2_ = (float) (p_70097_2_ - (gene.defense * 0.025));
-            	
+            	p_70097_2_ = (float) (p_70097_2_ - (gene.defense * ChickenGenesCore.GeneDefenseFactorValue));
             	if(p_70097_2_ < 0){
             		Random rand = new Random();
-            		int r = rand.nextInt(2);
-            		if(r == 1)p_70097_2_ = 1.0F;
+            		if(Math.random() < ChickenGenesCore.GeneDefenseAdjustRate){
+            			p_70097_2_ = 1.0F;
+            		}
             	}
             }
             return super.attackEntityFrom(p_70097_1_, p_70097_2_);
@@ -538,7 +539,7 @@ public class EntityGeneChicken extends EntityTameable {
 	public boolean attackEntityAsMob(Entity p_70652_1_){
         float i = 2.0F;
 		GeneData gene = this.getGeneData();
-		i = (float) (i + gene.attack * 0.1);
+		i = (float) (i + gene.attack * ChickenGenesCore.GeneAttackFactorValue);
 		return p_70652_1_.attackEntityFrom(DamageSource.causeMobDamage(this), (float)i);
     }
     

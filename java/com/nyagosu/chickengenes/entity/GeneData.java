@@ -29,10 +29,14 @@ public class GeneData {
 		
 		//plus
 		Randory rand = new Randory();
-		rand.addRate(1,65);
+		rand.addRate(1,45);
 		rand.addRate(2,20);
-		rand.addRate(3,10);
-		rand.addRate(4,5);
+		rand.addRate(3,15);
+		rand.addRate(4,10);
+		rand.addRate(5,5);
+		rand.addRate(6,3);
+		rand.addRate(7,2);
+		
 		int plus_factor_num = rand.getValue();
 		for(int i = 0;i<plus_factor_num;i++){
 			switch(r.nextInt(7)){
@@ -51,6 +55,9 @@ public class GeneData {
 		rand.addRate(0, 70);
 		rand.addRate(1, 20);
 		rand.addRate(2, 10);
+		rand.addRate(3, 5);
+		rand.addRate(4, 3);
+		rand.addRate(5, 2);
 		int minus_factor_num = rand.getValue();
 		for(int ii = 0;ii<minus_factor_num;ii++){
 			switch(r.nextInt(7)){
