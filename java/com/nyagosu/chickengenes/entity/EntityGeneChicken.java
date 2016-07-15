@@ -401,6 +401,7 @@ public class EntityGeneChicken extends EntityTameable {
             		this.worldObj.spawnParticle("happyVillager",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f2,this.motionX + f1 + f2,this.motionY + f1 + f2,this.motionZ + f1 + f2);
             	}
             	GeneData add_gene = ((ItemChickenSyringeGene)itemstack.getItem()).getGeneData(itemstack);
+            	if(add_gene == null)add_gene = new GeneData();
             	GeneData own_gene = this.getGeneData();
         		GeneData new_gene = own_gene.addGene(add_gene);
         		this.setGeneData(new_gene);

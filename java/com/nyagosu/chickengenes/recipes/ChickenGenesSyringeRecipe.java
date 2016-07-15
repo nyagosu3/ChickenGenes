@@ -41,10 +41,10 @@ public class ChickenGenesSyringeRecipe implements IRecipe {
 		}
 		
 		if(itemstack_s == null || itemstack_g == null)return null;
-		
+		String gene_data_string = "";
 		NBTTagCompound nbt = itemstack_g.getTagCompound();
-    	String gene_data_string = nbt.getString("GeneData");
-    	
+		if(nbt == null)gene_data_string = new GeneData().getDataString();
+		
     	ItemStack new_itemstack = getRecipeOutput().copy();
     	ItemChickenSyringeGene item = (ItemChickenSyringeGene) new_itemstack.getItem();
     	item.setGeneData(new_itemstack, new GeneData(gene_data_string));
