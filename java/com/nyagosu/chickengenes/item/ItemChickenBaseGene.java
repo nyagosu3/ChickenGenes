@@ -32,8 +32,14 @@ public class ItemChickenBaseGene extends Item {
 	public GeneData getGeneData(ItemStack itemstack){
 		NBTTagCompound nbt = itemstack.getTagCompound();
 		if(nbt == null)return null;
-		String gene_data_string = nbt.getString("GeneData");
-		GeneData gene = new GeneData(gene_data_string);
+		GeneData gene = null;
+		String gene_data = nbt.getString("GeneData");
+		if(gene_data != null){
+			String gene_data_string = nbt.getString("GeneData");
+			gene = new GeneData(gene_data_string);
+		}else{
+			gene = new GeneData();
+		}
 		return gene;
 	}
 	

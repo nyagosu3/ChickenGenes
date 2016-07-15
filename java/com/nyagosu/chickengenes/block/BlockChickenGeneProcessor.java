@@ -14,11 +14,17 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockChickenGeneProcessor extends BlockContainer {
@@ -36,9 +42,49 @@ public class BlockChickenGeneProcessor extends BlockContainer {
 		super(Material.rock);
 		if(!param)this.setCreativeTab(ChickenGenesCore.tabChickenGenes);
 		this.setBlockName("ChickenGeneProcessor");
-		this.isBlockContainer = true;
-		this.field_149932_b = false;
+		this.field_149932_b = param;
 	}
+	
+	public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_){
+        super.onBlockAdded(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
+        this.func_149930_e(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
+    }
+	
+	public void func_149930_e(World p_149930_1_, int p_149930_2_, int p_149930_3_, int p_149930_4_){
+        if (!p_149930_1_.isRemote){
+            Block block = p_149930_1_.getBlock(p_149930_2_, p_149930_3_, p_149930_4_ - 1);
+            Block block1 = p_149930_1_.getBlock(p_149930_2_, p_149930_3_, p_149930_4_ + 1);
+            Block block2 = p_149930_1_.getBlock(p_149930_2_ - 1, p_149930_3_, p_149930_4_);
+            Block block3 = p_149930_1_.getBlock(p_149930_2_ + 1, p_149930_3_, p_149930_4_);
+            byte b0 = 3;
+            if (block.func_149730_j() && !block1.func_149730_j()){
+                b0 = 3;
+            }
+            if (block1.func_149730_j() && !block.func_149730_j()){
+                b0 = 2;
+            }
+            if (block2.func_149730_j() && !block3.func_149730_j()){
+                b0 = 5;
+            }
+            if (block3.func_149730_j() && !block2.func_149730_j()){
+                b0 = 4;
+            }
+            p_149930_1_.setBlockMetadataWithNotify(p_149930_2_, p_149930_3_, p_149930_4_, b0, 2);
+        }
+    }
+	
+	@SideOnly(Side.CLIENT)
+    public IIcon getIcon(int p_149691_1_, int p_149691_2_){
+		if(p_149691_1_ == 3 && p_149691_2_ == 0)return field_149936_O;
+        return p_149691_1_ == 1 ? this.field_149935_N : (p_149691_1_ == 0 ? this.field_149935_N : (p_149691_1_ != p_149691_2_ ? this.blockIcon : this.field_149936_O));
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister p_149651_1_){
+        this.blockIcon = p_149651_1_.registerIcon("ChickenGenes:geneprocessor_side");
+        this.field_149936_O = p_149651_1_.registerIcon(this.field_149932_b ? "ChickenGenes:geneprocessor_front_on" : "ChickenGenes:geneprocessor_front_off");
+        this.field_149935_N = p_149651_1_.registerIcon("ChickenGenes:geneprocessor_top");
+    }
 	
 	@Override
 	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9){
@@ -49,6 +95,52 @@ public class BlockChickenGeneProcessor extends BlockContainer {
 			return true;
 		}
 	}
+	
+    public static void updateFurnaceBlockState(boolean p_149931_0_, World p_149931_1_, int p_149931_2_, int p_149931_3_, int p_149931_4_){
+        int l = p_149931_1_.getBlockMetadata(p_149931_2_, p_149931_3_, p_149931_4_);
+        TileEntity tileentity = p_149931_1_.getTileEntity(p_149931_2_, p_149931_3_, p_149931_4_);
+        field_149934_M = true;
+        if (p_149931_0_){
+            p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, ChickenGenesCore.lit_blockChickenGeneProcessor);
+        }else{
+            p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, ChickenGenesCore.blockChickenGeneProcessor);
+        }
+        field_149934_M = false;
+        p_149931_1_.setBlockMetadataWithNotify(p_149931_2_, p_149931_3_, p_149931_4_, l, 2);
+        if (tileentity != null){
+            tileentity.validate();
+            p_149931_1_.setTileEntity(p_149931_2_, p_149931_3_, p_149931_4_, tileentity);
+        }
+    }
+    
+    @Override
+	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+		return new TileEntityGeneProcessor();
+	}
+    
+    public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_){
+        int l = MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+
+        if (l == 0){
+            p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 2, 2);
+        }
+
+        if (l == 1){
+            p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 5, 2);
+        }
+
+        if (l == 2){
+            p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 3, 2);
+        }
+
+        if (l == 3){
+            p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 4, 2);
+        }
+
+        if (p_149689_6_.hasDisplayName()){
+            ((TileEntityGeneProcessor)p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_)).func_145951_a(p_149689_6_.getDisplayName());
+        }
+    }
 	
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_){
         if (!field_149934_M){
@@ -92,100 +184,16 @@ public class BlockChickenGeneProcessor extends BlockContainer {
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
 	
-	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityGeneProcessor();
-	}
+	public boolean hasComparatorInputOverride(){
+        return true;
+    }
+	
+	public int getComparatorInputOverride(World p_149736_1_, int p_149736_2_, int p_149736_3_, int p_149736_4_, int p_149736_5_){
+        return Container.calcRedstoneFromInventory((IInventory)p_149736_1_.getTileEntity(p_149736_2_, p_149736_3_, p_149736_4_));
+    }
 	
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_){
-    	return p_149691_1_ == 1 ? this.field_149935_N : (p_149691_1_ == 0 ? this.field_149935_N : (p_149691_1_ != p_149691_2_ ? this.blockIcon : this.field_149936_O));
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister p_149651_1_){
-        this.blockIcon = p_149651_1_.registerIcon("ChickenGenes:geneprocessor_side");
-        this.field_149936_O = p_149651_1_.registerIcon(this.field_149932_b ? "ChickenGenes:geneprocessor_front_on" : "ChickenGenes:geneprocessor_front_off");
-        this.field_149935_N = p_149651_1_.registerIcon("ChickenGenes:geneprocessor_top");
-    }
-    
-    public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_){
-        super.onBlockAdded(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
-        //this.func_149930_e(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
-    }
-    
-    private void func_149930_e(World p_149930_1_, int p_149930_2_, int p_149930_3_, int p_149930_4_){
-        if (!p_149930_1_.isRemote){
-        	
-            Block block = p_149930_1_.getBlock(p_149930_2_, p_149930_3_, p_149930_4_ - 1);
-            Block block1 = p_149930_1_.getBlock(p_149930_2_, p_149930_3_, p_149930_4_ + 1);
-            Block block2 = p_149930_1_.getBlock(p_149930_2_ - 1, p_149930_3_, p_149930_4_);
-            Block block3 = p_149930_1_.getBlock(p_149930_2_ + 1, p_149930_3_, p_149930_4_);
-            byte b0 = 3;
-
-            if (block.func_149730_j() && !block1.func_149730_j()){
-                b0 = 3;
-            }
-
-            if (block1.func_149730_j() && !block.func_149730_j()){
-                b0 = 2;
-            }
-
-            if (block2.func_149730_j() && !block3.func_149730_j()){
-                b0 = 5;
-            }
-
-            if (block3.func_149730_j() && !block2.func_149730_j()){
-                b0 = 4;
-            }
-
-            p_149930_1_.setBlockMetadataWithNotify(p_149930_2_, p_149930_3_, p_149930_4_, b0, 2);
-        }
-    }
-    
-    public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_){
-        int l = MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-        
-        if (l == 0){
-            p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 2, 2);
-        }
-
-        if (l == 1){
-            p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 5, 2);
-        }
-
-        if (l == 2){
-            p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 3, 2);
-        }
-
-        if (l == 3){
-            p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 4, 2);
-        }
-
-        if (p_149689_6_.hasDisplayName()){
-            ((TileEntityGeneProcessor)p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_)).func_145951_a(p_149689_6_.getDisplayName());
-        }
-    }
-    
-    public static void updateFurnaceBlockState(boolean p_149931_0_, World p_149931_1_, int p_149931_2_, int p_149931_3_, int p_149931_4_){
-        int l = p_149931_1_.getBlockMetadata(p_149931_2_, p_149931_3_, p_149931_4_);
-        TileEntity tileentity = p_149931_1_.getTileEntity(p_149931_2_, p_149931_3_, p_149931_4_);
-        field_149934_M = true;
-
-        if (p_149931_0_){
-        	p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, ChickenGenesCore.lit_blockChickenGeneProcessor);
-        }else{
-            p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, ChickenGenesCore.blockChickenGeneProcessor);
-        }
-
-        field_149934_M = false;
-        p_149931_1_.setBlockMetadataWithNotify(p_149931_2_, p_149931_3_, p_149931_4_, l, 2);
-
-        if (tileentity != null){
-            tileentity.validate();
-            p_149931_1_.setTileEntity(p_149931_2_, p_149931_3_, p_149931_4_, tileentity);
-        }
-    }
-    
-    
+    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_){
+        return Item.getItemFromBlock(Blocks.furnace);
+    }   
 }

@@ -98,8 +98,6 @@ public class ContainerGeneProcessor extends Container {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 			
-			TooCon.log(String.valueOf(par2));
-			
 			if (par2 == 0 || par2 == 1 || par2 == 2 || par2 == 3){
 				if (!this.mergeItemStack(itemstack1, 4, 39, true)){
 					return null;

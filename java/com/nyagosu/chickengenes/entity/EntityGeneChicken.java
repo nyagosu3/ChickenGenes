@@ -194,7 +194,7 @@ public class EntityGeneChicken extends EntityTameable {
         if (
         		!this.worldObj.isRemote && 
         		!this.isChild() &&
-        		this.getStamina() >= 30.0F
+        		this.getStamina() >= ChickenGenesCore.NeedSpawnEggStamina
         		){
         	if(this.timeUntilNextEgg -1 <= 0){
         		this.playSound("mob.chicken.plop", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
@@ -300,7 +300,6 @@ public class EntityGeneChicken extends EntityTameable {
         	this.setTamed(true);
             this.setPathToEntity((PathEntity)null);
             this.setAttackTarget((EntityLivingBase)null);
-            this.setHealth(20.0F);
             this.func_152115_b(p_70085_1_.getUniqueID().toString());
             this.playTameEffect(true);
             this.worldObj.setEntityState(this, (byte)7);
@@ -324,8 +323,8 @@ public class EntityGeneChicken extends EntityTameable {
         		itemstack.getItem() == Items.wheat_seeds
         		){
         	if(this.getStamina() < 100.0F || this.getHealth() < this.getGeneMaxHealth()){
-        		this.addStamina(20.0F);
-            	this.heal(2.0F);
+        		this.addStamina(ChickenGenesCore.AddStaminaValueBySeed);
+            	this.heal(ChickenGenesCore.AddHealthValueBySeed);
             	float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
                 float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
                 this.worldObj.spawnParticle("note",this.posX + (double)f1,this.posY + 0.8D,this.posZ + (double)f2,this.motionX + f1,this.motionY + f1,this.motionZ + f1);
@@ -439,10 +438,9 @@ public class EntityGeneChicken extends EntityTameable {
     
     public boolean getInsertGeneResult(){
     	int count = this.getInGeneCount();
-    	Randory rand = new Randory();
-    	rand.addRate(0,100-count);
-		rand.addRate(1,count);
-		return rand.getValue() == 0;
+    	if(count == 0)return true;
+    	float val = (float) (count*0.01);
+    	return (Math.random() > val);
     }
     
     public float getEggStamina(){
@@ -475,19 +473,16 @@ public class EntityGeneChicken extends EntityTameable {
         this.timeUntilNextEgg = this.getEggTime();
     }
     
-	public boolean isUniteSuccessGene(int c){
-    	ArrayList<Integer> rates = new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,0,0,0));
-    	for(int i = 0;i < c;i++)rates.set(i,1);
-    	Collections.shuffle(rates);
-    	return (rates.get((int) (Math.random()*rates.size()))) == 1;
+	public boolean isUniteSuccessGene(float rate){
+		return Math.random() < rate;
     }
     
-    public int getUniteSuccessRate(int p,int m){
-    	int[] rates = {
-    			4,//sweet seed level 1
-    			6,//sweet seed level 2
-    			8,//sweet seed level 3
-    			10//sweet seed level 4
+    public float getUniteSuccessRate(int p,int m){
+    	float[] rates = {
+    			0.4F,	//sweet seed level 1
+    			0.6F,	//sweet seed level 2
+    			0.8F,	//sweet seed level 3
+    			1.0F	//sweet seed level 4
     			};
     	return (rates[p] + rates[m])/2;
     }

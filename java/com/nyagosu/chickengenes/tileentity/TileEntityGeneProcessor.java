@@ -144,7 +144,6 @@ public class TileEntityGeneProcessor extends TileEntity implements ISidedInvento
 			}else{
 				this.cookTime = 0;
 			}
- 
 			if (flag != this.burnTime > 0){
 				flag1 = true;
 				BlockChickenGeneProcessor.updateFurnaceBlockState(this.burnTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);

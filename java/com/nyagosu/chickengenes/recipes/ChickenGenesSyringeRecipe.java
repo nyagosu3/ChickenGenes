@@ -20,7 +20,6 @@ public class ChickenGenesSyringeRecipe implements IRecipe {
 		for (int slot = 0; slot < inventory.getSizeInventory(); slot++) {
 			ItemStack currentStack = inventory.getStackInSlot(slot);
 			if(currentStack != null){
-				System.out.println(currentStack.getItem().toString());
 				if(currentStack.getItem() == ChickenGenesCore.itemChickenSyringe)itemstack_s = currentStack;
 				if(currentStack.getItem() == ChickenGenesCore.itemChickenGene)itemstack_g = currentStack;
 			}

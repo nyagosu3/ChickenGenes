@@ -126,6 +126,18 @@ public class ChickenGenesCore {
 	 * GeneData.MoveSpeed補正に使用する係数。
 	 */
 	public static final double	GeneMoveSpeedFactorValue = 0.001D;
+	/*
+	 * 種によるスタミナ回復値
+	 */
+	public static final float	AddStaminaValueBySeed = 20.0F;
+	/*
+	 * 種による体力回復値
+	 */
+	public static final float	AddHealthValueBySeed = 2.0F;
+	/*
+	 * 産卵に必要な最低スタミナ値
+	 */
+	public static final float	NeedSpawnEggStamina = 30.0F;
 	
 	@Mod.EventHandler
     public void preInit(FMLPostInitializationEvent event) {
@@ -133,7 +145,9 @@ public class ChickenGenesCore {
 		EntityRegistry.registerModEntity(EntityGeneChicken.class, "GeneChicken",1, this, 64, 2, true);
 		
 		blockChickenGeneProcessor = new BlockChickenGeneProcessor(false);
+		
 		lit_blockChickenGeneProcessor = new BlockChickenGeneProcessor(true);
+		
 		
 		GameRegistry.registerBlock(blockChickenGeneProcessor, "blockChickenGeneProcessor");
 		GameRegistry.registerBlock(lit_blockChickenGeneProcessor, "lit_blockChickenGeneProcessor");
