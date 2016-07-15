@@ -138,16 +138,21 @@ public class ChickenGenesCore {
 	 * 産卵に必要な最低スタミナ値
 	 */
 	public static final float	NeedSpawnEggStamina = 30.0F;
-	
+	/*
+	 * Entity growspeedの上限値
+	 */
+	public static final int		EntityGeneChickenGrowSpeedMax = 50000;
+	/*
+	 * Entity timeUntilNextEggの上限値
+	 */
+	public static final int		EntityGeneChickenTimeUntilNextEggMax = 50000;
 	@Mod.EventHandler
     public void preInit(FMLPostInitializationEvent event) {
 		
 		EntityRegistry.registerModEntity(EntityGeneChicken.class, "GeneChicken",1, this, 64, 2, true);
 		
 		blockChickenGeneProcessor = new BlockChickenGeneProcessor(false);
-		
 		lit_blockChickenGeneProcessor = new BlockChickenGeneProcessor(true);
-		
 		
 		GameRegistry.registerBlock(blockChickenGeneProcessor, "blockChickenGeneProcessor");
 		GameRegistry.registerBlock(lit_blockChickenGeneProcessor, "lit_blockChickenGeneProcessor");

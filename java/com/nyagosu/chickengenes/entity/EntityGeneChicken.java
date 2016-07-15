@@ -207,6 +207,12 @@ public class EntityGeneChicken extends EntityTameable {
         }	
     }
     
+    public void setGrowingAge(int p_70873_1_){
+    	if(p_70873_1_ > ChickenGenesCore.EntityGeneChickenGrowSpeedMax)p_70873_1_ = ChickenGenesCore.EntityGeneChickenGrowSpeedMax;
+        this.dataWatcher.updateObject(12, Integer.valueOf(p_70873_1_));
+        this.setScaleForAge(this.isChild());
+    }
+    
     public boolean canMateWith(EntityAnimal p_70878_1_){
         if(p_70878_1_ == this ? false : (p_70878_1_.getClass() != this.getClass() ? false : this.isInLove() && p_70878_1_.isInLove())){
         	GeneData my_gene = this.getGeneData();
@@ -453,6 +459,7 @@ public class EntityGeneChicken extends EntityTameable {
     public int getEggTime(){
     	int time = this.rand.nextInt(6000) + 6000 - this.getGeneData().eggspeed * ChickenGenesCore.GeneEggSpeedFactorValue;
     	if(time < 20)time = 20;
+    	if(time > ChickenGenesCore.EntityGeneChickenTimeUntilNextEggMax)time = ChickenGenesCore.EntityGeneChickenTimeUntilNextEggMax;
     	return time;
     }
     
