@@ -1,10 +1,8 @@
 package com.nyagosu.chickengenes.block;
 
 import java.util.Random;
-
 import com.nyagosu.chickengenes.ChickenGenesCore;
 import com.nyagosu.chickengenes.tileentity.TileEntityGeneProcessor;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -21,10 +19,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockChickenGeneProcessor extends BlockContainer {
@@ -42,6 +38,7 @@ public class BlockChickenGeneProcessor extends BlockContainer {
 		super(Material.rock);
 		if(!param)this.setCreativeTab(ChickenGenesCore.tabChickenGenes);
 		this.setBlockName("ChickenGeneProcessor");
+		this.setHardness(3.5F);
 		this.field_149932_b = param;
 	}
 	
