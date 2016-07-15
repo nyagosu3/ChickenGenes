@@ -41,7 +41,7 @@ import net.minecraftforge.common.BiomeDictionary;
 @Mod(
 		modid = "ChickenGenes",
 		name = "ChickenGenes",
-		version = "0.9.1",
+		version = "0.9.2",
 		dependencies = "required-after:Forge@[10.13.4.1614,)",
 		useMetadata = true
 	)
