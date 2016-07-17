@@ -282,14 +282,14 @@ public class EntityGeneChicken extends EntityTameable {
         ItemStack itemstack = p_70085_1_.inventory.getCurrentItem();
         
         /*
-         * for ChickenBell
+         * for ChickenWhistle
          */
         if (this.isTamed()){
         	if(
         			itemstack != null && 
         			this.func_152114_e(p_70085_1_) && 
         			!this.worldObj.isRemote && 
-        			itemstack.getItem() == ChickenGenesCore.itemChickenBell
+        			itemstack.getItem() == ChickenGenesCore.itemChickenWhistle
         			){
         		this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
@@ -300,7 +300,7 @@ public class EntityGeneChicken extends EntityTameable {
         }else if (
         		itemstack != null && 
 				!this.worldObj.isRemote &&
-        		itemstack.getItem() == ChickenGenesCore.itemChickenBell && 
+        		itemstack.getItem() == ChickenGenesCore.itemChickenWhistle && 
         		!this.isAngry()
         		){
         	this.setTamed(true);

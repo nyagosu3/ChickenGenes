@@ -15,8 +15,8 @@ public class ChickenGenesRecipes {
 		ItemStack itemChickenKnife = new ItemStack(ChickenGenesCore.itemChickenKnife);
 		ItemStack itemDiamond = new ItemStack(Items.diamond);
 		
-		ItemStack itemChickenBell = new ItemStack(ChickenGenesCore.itemChickenBell);
-		ItemStack itemGoldNugget = new ItemStack(Items.gold_nugget);
+		ItemStack itemChickenWhistle = new ItemStack(ChickenGenesCore.itemChickenWhistle);
+		ItemStack itemWoodenButton = new ItemStack(Blocks.wooden_button);
 		
 		ItemStack itemChickenLoupe = new ItemStack(ChickenGenesCore.itemChickenLoupe);
 		ItemStack itemBrick = new ItemStack(Items.brick);
@@ -169,13 +169,13 @@ public class ChickenGenesRecipes {
 	                });
 		
 		GameRegistry.addRecipe(
-				itemChickenBell,
+				itemChickenWhistle,
 				new Object[] {
-	            		" g ",
-	    				"g g",
-	    				"gig",
-	    				'g',itemGoldNugget,
-	    				'i',itemIronIngot
+	            		"bs ",
+	    				"sbs",
+	    				" sb",
+	    				'b',itemWoodenButton,
+	    				's',itemStick
 	                });
 		
 		GameRegistry.addRecipe(
