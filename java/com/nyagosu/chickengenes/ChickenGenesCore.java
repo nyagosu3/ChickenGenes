@@ -89,11 +89,11 @@ public class ChickenGenesCore {
 	/*
 	 * Eggの燃焼時間
 	 */
-	public static final int 	EggBurnTime 			= 60; //3sec
+	public static final int 	EggBurnTime = 50;
 	/*
 	 * GeneProcessorが処理完了に必要tick
 	 */
-	public static final int 	GeneProcessorBurnTime = 6000;	//5min
+	public static final int 	GeneProcessorBurnTime = 6400;
 	/*
 	 * GeneData.EggSpeed補正に使用する係数。
 	 */
