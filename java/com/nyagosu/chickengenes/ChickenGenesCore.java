@@ -236,7 +236,7 @@ public class ChickenGenesCore {
 		for (String ls : spawnBiomes) {
 			BiomeDictionary.Type ltype = BiomeDictionary.Type.valueOf(ls);
 			if (ltype != null) {
-				EntityRegistry.addSpawn(EntityGeneChicken.class, 20, 0, 3, EnumCreatureType.creature, BiomeDictionary.getBiomesForType(ltype));
+				EntityRegistry.addSpawn(EntityGeneChicken.class, 80, 1, 4, EnumCreatureType.creature, BiomeDictionary.getBiomesForType(ltype));
 			}
 		}
 		
