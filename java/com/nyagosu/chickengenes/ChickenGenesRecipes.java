@@ -53,8 +53,10 @@ public class ChickenGenesRecipes {
 		ItemStack itemDrugMoveSpeedPlus1	= new ItemStack(ChickenGenesCore.itemChickenSyringeDoping,1,60);
 		ItemStack itemDrugMoveSpeedMinus1	= new ItemStack(ChickenGenesCore.itemChickenSyringeDoping,1,63);
 		
-		ItemStack blockGeneProcessor			= new ItemStack(ChickenGenesCore.blockChickenGeneProcessor);
-		ItemStack blockFurnace					= new ItemStack(Blocks.furnace);
+		ItemStack blockGeneProcessor		= new ItemStack(ChickenGenesCore.blockChickenGeneProcessor);
+		ItemStack blockFurnace				= new ItemStack(Blocks.furnace);
+		
+		ItemStack itemBrokenGene			= new ItemStack(ChickenGenesCore.itemChickenGeneBroken,1);
 		
 		GameRegistry.addRecipe(
 				blockGeneProcessor,
@@ -244,5 +246,25 @@ public class ChickenGenesRecipes {
 			);
 		
 		GameRegistry.addRecipe(new ChickenGenesSyringeRecipe());
+		
+		GameRegistry.addRecipe(
+				new ItemStack(ChickenGenesCore.itemChickenEgg,64),
+	            new Object[] {
+            		"eee",
+    				"ege",
+    				"eee",
+    				'e',new ItemStack(ChickenGenesCore.itemChickenEgg),
+    				'g',itemBrokenGene
+	                } );
+		
+		GameRegistry.registerFuelHandler(new IFuelHandler(){
+			@Override
+			public int getBurnTime(ItemStack fuel){
+				if(fuel.getItem().equals(ChickenGenesCore.itemChickenEgg))return ChickenGenesCore.EggBurnTime;
+				return 0;
+			}
+		});
+		
+		
 	}
 }

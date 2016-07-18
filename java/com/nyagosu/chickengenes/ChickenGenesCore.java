@@ -244,15 +244,7 @@ public class ChickenGenesCore {
 		
 		ChickenGenesRecipes.regist();
 		
-		GameRegistry.registerFuelHandler(new IFuelHandler(){
-			@Override
-			public int getBurnTime(ItemStack fuel){
-				if(fuel.getItem().equals(ChickenGenesCore.itemChickenEgg)){
-					return ChickenGenesCore.EggBurnTime;
-				}
-				return 0;
-			}
-		});
+		
     }
 	
 }
