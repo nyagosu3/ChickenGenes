@@ -192,10 +192,9 @@ public class ChickenGenesRecipes {
 		GameRegistry.addRecipe(
 				itemChickenContainer,
 				new Object[] {
-	            		"isi",
+	            		"sss",
 	    				"s s",
-	    				"isi",
-	    				'i',itemIronIngot,
+	    				"sss",
 	    				's',itemStick
 	                });
 		
