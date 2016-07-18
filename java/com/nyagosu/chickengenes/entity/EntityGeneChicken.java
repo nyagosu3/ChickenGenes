@@ -198,7 +198,7 @@ public class EntityGeneChicken extends EntityTameable {
         		){
         	if(this.timeUntilNextEgg -1 <= 0){
         		this.playSound("mob.chicken.plop", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-                this.entityDropItem(new ItemStack(Items.egg,1),0.0F);
+                this.entityDropItem(new ItemStack(ChickenGenesCore.itemChickenEgg,1),0.0F);
                 this.timeUntilNextEgg = this.getEggTime();
                 this.addStamina(this.getEggStamina());
         	}else{
