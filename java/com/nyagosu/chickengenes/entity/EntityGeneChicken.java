@@ -37,6 +37,7 @@ import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
@@ -576,7 +577,10 @@ public class EntityGeneChicken extends EntityTameable {
     protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_){
         this.playSound("mob.chicken.step", 0.15F, 1.0F);
     }
-
+    
+    protected Item getDropItem(){
+        return Items.chicken;
+    }
 
 //  public void updateRiderPosition()
 //  {
@@ -591,11 +595,6 @@ public class EntityGeneChicken extends EntityTameable {
 //      {
 //          ((EntityLivingBase)this.riddenByEntity).renderYawOffset = this.renderYawOffset;
 //      }
-//  }
-//  
-//  protected Item getDropItem()
-//  {
-//      return Items.feather;
 //  }
 //  
 //  protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)

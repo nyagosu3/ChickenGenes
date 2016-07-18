@@ -161,11 +161,11 @@ public class ChickenGenesRecipes {
 		GameRegistry.addRecipe(
 				itemChickenKnife,
 				new Object[] {
-	            		"d  ",
-	    				" i ",
-	    				"  i",
-	    				'd',itemDiamond,
-	    				'i',itemIronIngot
+	            		" i ",
+	    				" b ",
+	    				" b ",
+	    				'i',itemIronIngot,
+	    				'b',itemBrick
 	                });
 		
 		GameRegistry.addRecipe(
