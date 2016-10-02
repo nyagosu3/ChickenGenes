@@ -146,7 +146,7 @@ public class ChickenGenesCore {
 	/*
 	 * Entity timeUntilNextEggの上限値
 	 */
-	public static final int		EntityGeneChickenTimeUntilNextEggMax = 50000;
+	public static final int		EntityGeneChickenTimeUntilNextEggMax = 40000;
 	@Mod.EventHandler
     public void preInit(FMLPostInitializationEvent event) {
 		
