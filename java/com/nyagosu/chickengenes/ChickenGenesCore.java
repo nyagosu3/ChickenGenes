@@ -110,7 +110,7 @@ public class ChickenGenesCore {
 	/*
 	 * GeneData.Defense補正の結果、ダメージが0を下回る場合、最低値であるダメージ1を与える割合
 	 */
-	public static final float	GeneDefenseAdjustRate = 0.5F;
+	public static final float	GeneDefenseAdjustRate = 0.3F;
 	/*
 	 * GeneData.GrowSpeed補正に使用する係数。
 	 */
@@ -134,7 +134,7 @@ public class ChickenGenesCore {
 	/*
 	 * 種による体力回復値
 	 */
-	public static final float	AddHealthValueBySeed = 4.0F;
+	public static final float	AddHealthValueBySeed = 3.0F;
 	/*
 	 * 産卵に必要な最低スタミナ値
 	 */
