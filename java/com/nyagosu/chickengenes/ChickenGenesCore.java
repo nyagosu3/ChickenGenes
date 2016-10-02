@@ -85,6 +85,7 @@ public class ChickenGenesCore {
 	public static BlockChickenGeneProcessor blockChickenGeneProcessor;
 	public static BlockChickenGeneProcessor lit_blockChickenGeneProcessor;
 	
+	//feature_test
 	//setting
 	/*
 	 * Eggの燃焼時間
