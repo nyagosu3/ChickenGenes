@@ -21,7 +21,6 @@ import com.nyagosu.chickengenes.item.ItemSweetSeed;
 import com.nyagosu.chickengenes.proxy.ServerProxy;
 import com.nyagosu.chickengenes.tileentity.TileEntityGeneProcessor;
 
-import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -33,8 +32,6 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.BiomeDictionary;
 
