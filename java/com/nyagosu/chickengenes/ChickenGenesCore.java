@@ -134,7 +134,7 @@ public class ChickenGenesCore {
 	/*
 	 * 種による体力回復値
 	 */
-	public static final float	AddHealthValueBySeed = 2.0F;
+	public static final float	AddHealthValueBySeed = 4.0F;
 	/*
 	 * 産卵に必要な最低スタミナ値
 	 */
