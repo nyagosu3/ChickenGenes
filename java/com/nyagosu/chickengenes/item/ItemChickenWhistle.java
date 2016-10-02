@@ -3,10 +3,10 @@ package com.nyagosu.chickengenes.item;
 import com.nyagosu.chickengenes.ChickenGenesCore;
 import net.minecraft.item.Item;
 
-public class ItemChickenBell extends Item {
-	public ItemChickenBell(){
-		this.setUnlocalizedName("ItemChickenBell");
-		this.setTextureName("ChickenGenes:chickenbell");
+public class ItemChickenWhistle extends Item {
+	public ItemChickenWhistle(){
+		this.setUnlocalizedName("ItemChickenWhistle");
+		this.setTextureName("ChickenGenes:chickenwhistle");
         this.setCreativeTab(ChickenGenesCore.tabChickenGenes);
         this.maxStackSize = 1;
 	}

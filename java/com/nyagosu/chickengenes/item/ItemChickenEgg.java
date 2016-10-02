@@ -5,7 +5,7 @@ import net.minecraft.item.Item;
 
 public class ItemChickenEgg extends Item {
 	public ItemChickenEgg(){
-		this.setUnlocalizedName("ItemChickenContainer");
+		this.setUnlocalizedName("ItemChickenEgg");
         this.setCreativeTab(ChickenGenesCore.tabChickenGenes);
         this.setTextureName("ChickenGenes:chickenegg");
         this.maxStackSize = 64;

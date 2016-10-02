@@ -3,7 +3,7 @@ package com.nyagosu.chickengenes;
 import com.nyagosu.chickengenes.block.BlockChickenGeneProcessor;
 import com.nyagosu.chickengenes.entity.EntityGeneChicken;
 import com.nyagosu.chickengenes.gui.GuiHandler;
-import com.nyagosu.chickengenes.item.ItemChickenBell;
+import com.nyagosu.chickengenes.item.ItemChickenWhistle;
 import com.nyagosu.chickengenes.item.ItemChickenCell;
 import com.nyagosu.chickengenes.item.ItemChickenContainer;
 import com.nyagosu.chickengenes.item.ItemChickenSyringeDoping;
@@ -41,7 +41,7 @@ import net.minecraftforge.common.BiomeDictionary;
 @Mod(
 		modid = "ChickenGenes",
 		name = "ChickenGenes",
-		version = "0.9.2",
+		version = "0.9.3",
 		dependencies = "required-after:Forge@[10.13.4.1614,)",
 		useMetadata = true
 	)
@@ -61,7 +61,7 @@ public class ChickenGenesCore {
 	public static final int GENEPROCESSOR_GUI_ID = 0;
 	
 	//item
-	public static ItemChickenBell itemChickenBell;
+	public static ItemChickenWhistle itemChickenWhistle;
 	public static ItemChickenLoupe itemChickenLoupe;
 	public static ItemChickenKnife itemChickenKnife;
 	public static ItemChickenContainer itemChickenContainer;
@@ -89,11 +89,11 @@ public class ChickenGenesCore {
 	/*
 	 * Eggの燃焼時間
 	 */
-	public static final int 	EggBurnTime 			= 60; //3sec
+	public static final int 	EggBurnTime = 50;
 	/*
 	 * GeneProcessorが処理完了に必要tick
 	 */
-	public static final int 	GeneProcessorBurnTime = 6000;	//5min
+	public static final int 	GeneProcessorBurnTime = 6400;
 	/*
 	 * GeneData.EggSpeed補正に使用する係数。
 	 */
@@ -168,8 +168,8 @@ public class ChickenGenesCore {
 		itemChickenLoupe = new ItemChickenLoupe();
 		GameRegistry.registerItem(itemChickenLoupe, "itemChickenLoupe");
 		
-		itemChickenBell = new ItemChickenBell();
-		GameRegistry.registerItem(itemChickenBell, "itemChickenBell");
+		itemChickenWhistle = new ItemChickenWhistle();
+		GameRegistry.registerItem(itemChickenWhistle, "itemChickenWhistle");
 		
 		itemSweetSeed = new ItemSweetSeed();
 		GameRegistry.registerItem(itemSweetSeed, "itemSweetSeed");
@@ -236,7 +236,7 @@ public class ChickenGenesCore {
 		for (String ls : spawnBiomes) {
 			BiomeDictionary.Type ltype = BiomeDictionary.Type.valueOf(ls);
 			if (ltype != null) {
-				EntityRegistry.addSpawn(EntityGeneChicken.class, 20, 0, 3, EnumCreatureType.creature, BiomeDictionary.getBiomesForType(ltype));
+				EntityRegistry.addSpawn(EntityGeneChicken.class, 80, 1, 4, EnumCreatureType.creature, BiomeDictionary.getBiomesForType(ltype));
 			}
 		}
 		
@@ -244,15 +244,7 @@ public class ChickenGenesCore {
 		
 		ChickenGenesRecipes.regist();
 		
-		GameRegistry.registerFuelHandler(new IFuelHandler(){
-			@Override
-			public int getBurnTime(ItemStack fuel){
-				if(fuel.getItem().equals(Items.egg)){
-					return ChickenGenesCore.EggBurnTime;
-				}
-				return 0;
-			}
-		});
+		
     }
 	
 }

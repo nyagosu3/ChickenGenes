@@ -15,8 +15,8 @@ public class ChickenGenesRecipes {
 		ItemStack itemChickenKnife = new ItemStack(ChickenGenesCore.itemChickenKnife);
 		ItemStack itemDiamond = new ItemStack(Items.diamond);
 		
-		ItemStack itemChickenBell = new ItemStack(ChickenGenesCore.itemChickenBell);
-		ItemStack itemGoldNugget = new ItemStack(Items.gold_nugget);
+		ItemStack itemChickenWhistle = new ItemStack(ChickenGenesCore.itemChickenWhistle);
+		ItemStack itemWoodenButton = new ItemStack(Blocks.wooden_button);
 		
 		ItemStack itemChickenLoupe = new ItemStack(ChickenGenesCore.itemChickenLoupe);
 		ItemStack itemBrick = new ItemStack(Items.brick);
@@ -53,8 +53,10 @@ public class ChickenGenesRecipes {
 		ItemStack itemDrugMoveSpeedPlus1	= new ItemStack(ChickenGenesCore.itemChickenSyringeDoping,1,60);
 		ItemStack itemDrugMoveSpeedMinus1	= new ItemStack(ChickenGenesCore.itemChickenSyringeDoping,1,63);
 		
-		ItemStack blockGeneProcessor			= new ItemStack(ChickenGenesCore.blockChickenGeneProcessor);
-		ItemStack blockFurnace					= new ItemStack(Blocks.furnace);
+		ItemStack blockGeneProcessor		= new ItemStack(ChickenGenesCore.blockChickenGeneProcessor);
+		ItemStack blockFurnace				= new ItemStack(Blocks.furnace);
+		
+		ItemStack itemBrokenGene			= new ItemStack(ChickenGenesCore.itemChickenGeneBroken,1);
 		
 		GameRegistry.addRecipe(
 				blockGeneProcessor,
@@ -161,21 +163,21 @@ public class ChickenGenesRecipes {
 		GameRegistry.addRecipe(
 				itemChickenKnife,
 				new Object[] {
-	            		"d  ",
-	    				" i ",
-	    				"  i",
-	    				'd',itemDiamond,
-	    				'i',itemIronIngot
+	            		" i ",
+	    				" b ",
+	    				" b ",
+	    				'i',itemIronIngot,
+	    				'b',itemBrick
 	                });
 		
 		GameRegistry.addRecipe(
-				itemChickenBell,
+				itemChickenWhistle,
 				new Object[] {
-	            		" g ",
-	    				"g g",
-	    				"gig",
-	    				'g',itemGoldNugget,
-	    				'i',itemIronIngot
+	            		"bs ",
+	    				"sbs",
+	    				" sb",
+	    				'b',itemWoodenButton,
+	    				's',itemStick
 	                });
 		
 		GameRegistry.addRecipe(
@@ -192,10 +194,9 @@ public class ChickenGenesRecipes {
 		GameRegistry.addRecipe(
 				itemChickenContainer,
 				new Object[] {
-	            		"isi",
+	            		"sss",
 	    				"s s",
-	    				"isi",
-	    				'i',itemIronIngot,
+	    				"sss",
 	    				's',itemStick
 	                });
 		
@@ -245,5 +246,25 @@ public class ChickenGenesRecipes {
 			);
 		
 		GameRegistry.addRecipe(new ChickenGenesSyringeRecipe());
+		
+		GameRegistry.addRecipe(
+				new ItemStack(ChickenGenesCore.itemChickenEgg,64),
+	            new Object[] {
+            		"eee",
+    				"ege",
+    				"eee",
+    				'e',new ItemStack(ChickenGenesCore.itemChickenEgg),
+    				'g',itemBrokenGene
+	                } );
+		
+		GameRegistry.registerFuelHandler(new IFuelHandler(){
+			@Override
+			public int getBurnTime(ItemStack fuel){
+				if(fuel.getItem().equals(ChickenGenesCore.itemChickenEgg))return ChickenGenesCore.EggBurnTime;
+				return 0;
+			}
+		});
+		
+		
 	}
 }
